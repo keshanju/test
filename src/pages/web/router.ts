@@ -5,17 +5,21 @@ Vue.use(Router);
 
 const constantRouterMap = [
   {
-    path: "/web/login",
+    path: "/login",
+    component: () => import("./views/login/list.vue")
+  },
+  {
+    path: "/index",
     component: () => import("./views/login/list.vue")
   },
   {
     path: "/",
     component: () => import("./views/index/layout.vue"),
-    redirect: "/web/login",
+    // redirect: "/login",
     children:
       [
         {
-          path: "/web/ad/list",
+          path: "/ad/list",
           component: () => import("./views/ad/list.vue")
         },
       ]

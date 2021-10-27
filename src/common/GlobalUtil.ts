@@ -12,7 +12,7 @@ export class GlobalUtil {
   public static get Url(): string {
     if (SITE_DEBUG) {
       if (process.env.NODE_ENV !== "production") {
-        return "http://localhost:3000";
+        return "";
       }
     }
     return SITE_API_URL;

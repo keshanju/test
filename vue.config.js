@@ -58,7 +58,18 @@ module.exports = {
   pages,
   productionSourceMap: false,
   devServer: {
-    index: "index.html"
+    index: "index.html",
+    proxy: {
+      //配置跨域
+      '/api_web': {
+        target: "http://192.168.3.15:10707",
+        // ws:true,
+        changOrigin: true,
+        pathRewrite: {
+          '^/api_web': ''
+        }
+      },
+    }
   },
   filenameHashing: debug,
   runtimeCompiler: true,

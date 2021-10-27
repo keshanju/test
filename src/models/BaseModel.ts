@@ -18,8 +18,8 @@ export interface BaseResult {
  * @template T
  */
 export interface BaseModel<T> {
-    code?: number;
-    msg?: string;
+    status?: number;
+    message?: string;
     data?: T
 }
 
