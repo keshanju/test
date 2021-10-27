@@ -23,7 +23,6 @@ const constantRouterMap = [
 ];
 
 let routes: any = constantRouterMap;
-
 let rr = new Router({
   routes
 });
