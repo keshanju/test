@@ -1,0 +1,595 @@
+//  标签样式重置
+html,
+body {
+    width: 100%;
+    height: 100%;
+    -webkit-font-smoothing: antialiased; //苹果电脑字体优化，针对MacOS
+    -webkit-text-size-adjust: 100%;  //防止IOS系统方向改变(特别是手持设备)后字体大小的调整，不禁用用户缩放。
+    -ms-text-size-adjust: 100%;
+    font: 12px/1.5 "Microsoft YaHei", "Hiragino Sans GB", arial, simsun, sans-serif;
+    overflow-x: hidden;
+}
+
+/**
+    H5新标签默认处理/
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+    display: block;
+}
+
+audio,
+canvas,
+video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+audio:not([controls]) {
+    display: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+    max-width: none;
+}
+
+//  项目封装组件样式，命名使用BEM命名规范，例如： .block-modifier_element，块中含块的话就依次嵌套，循环递进命名
+
+@main_width: 1280px; // 首页以及其他页面（除去用户中心内容宽度）
+@user_width: 1200px; // 用户中心内容宽度
+
+//  页面主内容区基本设置
+.content_wrap {
+    margin: 0 auto;
+    width: 1200px;
+    min-width: 1200px;
+    overflow: hidden;
+}
+
+//  圆角边框
+.box_radius {
+    background: #333;
+    border-radius: 5px;
+}
+
+.input_radius {
+    background: #fff;
+    border-radius: 5px;
+}
+
+//  位置函数，通过设定参数来动态改变元素间的距离
+.margin_fn(@t:0,@r:0,@b:0,@l:0) {
+    margin: @arguments;
+}
+
+.padding_fn(@t:0,@r:0,@b:0,@l:0) {
+    padding: @arguments;
+}
+
+//  分割虚线
+.dot_line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #525252;
+    margin: 15px auto;
+}
+
+//  分割实线
+.solid_line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid #333;
+    margin: 10px auto;
+}
+
+//  段落文字缩进
+.text_indent {
+    text-indent: 2em;
+}
+
+//  文字对齐
+.text_left {
+    text-align: left;
+}
+
+.text_right {
+    text-align: right;
+}
+
+.text_center {
+    text-align: center;
+}
+
+//  一排显示两行
+.line_limit_two {
+    overflow: hidden;
+    height: 48px;
+    line-height: 24px;
+    overflow: hidden;
+}
+
+//  公共按钮样式(主题颜色)
+.public_btn {
+    padding: 5px 25px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    border: 1px solid red;
+    border-radius: 5px;
+    background: black;
+    cursor: pointer;
+}
+
+.public_btn:hover {
+    background: #eee;
+}
+
+//  弹出层按钮样式(主题颜色)
+.dialog_btn {
+    &:extend(.public_btn);
+    padding: 5px 40px;
+}
+
+//  透明底button
+.transparent_btn {
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+//  圆角按钮
+.round_btn {
+    background: #FFD33E;
+    border-radius: 100px;
+    font-size: 12px;
+    color: #423E31;
+    padding: 2px 8px;
+}
+
+// 图片处理
+.img_filter {
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    border: none;
+}
+
+//  元素呈现圆形状
+.ele_circle {
+    border-radius: 50%;
+}
+
+// 文字溢出隐藏
+.ellipsis {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 元素隐藏
+.hide {
+    display: none;
+}
+
+.visible {
+    visibility: visible;
+}
+
+// 元素显示
+.show {
+    display: block;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+//  hover手型
+.cursor {
+    cursor: pointer;
+}
+
+.no_cursor {
+    cursor: none;
+}
+
+.default_cursor {
+    cursor: default;
+}
+
+//  绝对定位
+.pos_relative {
+    position: relative;
+}
+
+//遮罩层
+.shadow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+[v-cloak] {
+    display: none !important;
+}
+
+/**
+   针对IE布局应用的公用类
+*/
+.f_left {
+    float: left;
+}
+
+.f_right {
+    float: right;
+}
+
+//  清除浮动
+.clear_fix {
+    clear: both;
+}
+
+.clear_fix:after {
+    content: '';
+    height: 0;
+    display: block;
+    clear: both;
+}
+
+//  溢出高度部分让元素不显示
+.overflow {
+    overflow: hidden;
+}
+
+/**
+    自定义动画库
+ */
+
+//  动画
+@-webkit-keyframes spin {
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+
+@keyframes spin {
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+
+@-webkit-keyframes up_down {
+    0% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    50% {
+        -webkit-transform: translate3d(0, 8px, 0);
+        transform: translate3d(0, 8px, 0);
+    }
+    100% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+}
+
+@keyframes up_down {
+    0% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    50% {
+        -webkit-transform: translate3d(0, 8px, 0);
+        transform: translate3d(0, 8px, 0);
+    }
+    100% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+}
+
+//  start距离位置调整样式，t代表top，b代表bottom， l代表left，r代表right， h代表横向水平Horizon， v代表vertical，按需要添加对应的类，类的命名参照如下例子
+//  margin 5px
+.mar_t5 {
+    margin-top: 5px;
+}
+
+.mar_b5 {
+    margin-bottom: 5px;
+}
+
+.mar_l5 {
+    margin-left: 5px;
+}
+
+.mar_r5 {
+    margin-right: 5px;
+}
+
+//  margin 10px
+.mar_t10 {
+    margin-top: 10px;
+}
+
+.mar_b10 {
+    margin-bottom: 10px;
+}
+
+.mar_l10 {
+    margin-left: 10px;
+}
+
+.mar_r10 {
+    margin-right: 10px;
+}
+
+//  margin 15px
+.mar_t15 {
+    margin-top: 15px;
+}
+
+.mar_b15 {
+    margin-bottom: 15px;
+}
+
+.mar_l15 {
+    margin-left: 15px;
+}
+
+.mar_r15 {
+    margin-right: 15px;
+}
+
+//  margin 20px
+.mar_t20 {
+    margin-top: 20px;
+}
+
+.mar_b20 {
+    margin-bottom: 20px;
+}
+
+.mar_l20 {
+    margin-left: 20px;
+}
+
+.mar_r20 {
+    margin-right: 20px;
+}
+
+//  margin 25px
+.mar_t25 {
+    margin-top: 25px;
+}
+
+.mar_b25 {
+    margin-bottom: 25px;
+}
+
+.mar_l25 {
+    margin-left: 25px;
+}
+
+.mar_r25 {
+    margin-right: 25px;
+}
+
+//  margin 30px
+.mar_t30 {
+    margin-top: 30px;
+}
+
+.mar_b30 {
+    margin-bottom: 30px;
+}
+
+.mar_l30 {
+    margin-left: 30px;
+}
+
+.mar_r30 {
+    margin-right: 30px;
+}
+
+//  margin 35px
+.mar_t35 {
+    margin-top: 35px;
+}
+
+.mar_b35 {
+    margin-bottom: 35px;
+}
+
+.mar_l35 {
+    margin-left: 35px;
+}
+
+.mar_r35 {
+    margin-right: 35px;
+}
+
+//  margin 40px
+.mar_t40 {
+    margin-top: 40px;
+}
+
+.mar_b40 {
+    margin-bottom: 40px;
+}
+
+.mar_l40 {
+    margin-left: 40px;
+}
+
+.mar_r40 {
+    margin-right: 40px;
+}
+
+//  margin 45px
+.mar_t45 {
+    margin-top: 45px;
+}
+
+.mar_b45 {
+    margin-bottom: 45px;
+}
+
+.mar_l45 {
+    margin-left: 45px;
+}
+
+.mar_r45 {
+    margin-right: 45px;
+}
+
+//  margin 50px
+.mar_t50 {
+    margin-top: 50px;
+}
+
+.mar_b50 {
+    margin-bottom: 50px;
+}
+
+.mar_l50 {
+    margin-left: 50px;
+}
+
+.mar_r50 {
+    margin-right: 50px;
+}
+
+//  padding 5px
+.pad_t5 {
+    padding-top: 5px;
+}
+
+.pad_b5 {
+    padding-bottom: 5px;
+}
+
+.pad_l5 {
+    padding-left: 5px;
+}
+
+.pad_r5 {
+    padding-right: 5px;
+}
+
+//  padding 10px
+.pad_t10 {
+    padding-top: 10px;
+}
+
+.pad_b10 {
+    padding-bottom: 10px;
+}
+
+.pad_l10 {
+    padding-left: 10px;
+}
+
+.pad_r10 {
+    padding-right: 10px;
+}
+
+//  padding 15px
+.pad_t15 {
+    padding-top: 15px;
+}
+
+.pad_b15 {
+    padding-bottom: 15px;
+}
+
+.pad_l15 {
+    padding-left: 15px;
+}
+
+.pad_r15 {
+    padding-right: 15px;
+}
+
+//  padding 20px
+.pad_t20 {
+    padding-top: 20px;
+}
+
+.pad_b20 {
+    padding-bottom: 20px;
+}
+
+.pad_l20 {
+    padding-left: 20px;
+}
+
+.pad_r20 {
+    padding-right: 20px;
+}
+
+
+.pad_v10 {
+    padding: 0 10px;
+}
+
+.pad_h10 {
+    padding: 10px 0;
+}
+
+.pad_v15 {
+    padding: 15px 0;
+}
+
+.pad_h15 {
+    padding: 0 15px;
+}
+
+.pad_v20 {
+    padding: 20px 0;
+}
+
+.pad_h20 {
+    padding: 0 20px;
+}
+
+.pad_v50 {
+    padding: 50px 0;
+}
+//  end距离位置调整样式
+
+//  去除浏览器input=number 时候上下箭头
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button{ -webkit-appearance: none !important;}//谷歌
+input[type="number"]{-moz-appearance:textfield;}//火狐

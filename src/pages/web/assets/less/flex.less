@@ -1,0 +1,322 @@
+@import "base.less";
+
+//  横向
+.flex_row {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.row_reverse {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+}
+
+//  纵向
+.flex_column {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.column_reverse {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;
+}
+
+//  换行，第一行在上方
+.flex_is_wrap {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+//  不换行
+.flex_no_wrap {
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+}
+
+//  换行，第一行在下方
+.flex_reverse_wrap {
+    -ms-flex-wrap: wrap-reverse;
+    flex-wrap: wrap-reverse;
+}
+
+/**
+    主轴变，交叉轴 center
+ */
+
+//  横向，主轴 flex-start，交叉轴 center(水平居左垂直居中)
+.flex_start_center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+//  横向，主轴 center，交叉轴 center(水平居中垂直居中)
+.flex_center_center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+//  横向，主轴 flex-end，交叉轴 center(水平靠右垂直居中)
+.flex_end_center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+//  横向，主轴 space-between，交叉轴 center(水平两端对齐，垂直居中)
+.flex_sbe_center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+//  横向，主轴 space-around，交叉轴 center(水平等均分对齐，垂直居中)
+.flex_sar_center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+/**
+    主轴变，交叉轴 start
+ */
+
+//  横向，主轴 flex-start，交叉轴 flex-start(水平靠左，垂直靠上)
+.flex_start_start {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+//  横向，主轴 center，交叉轴 flex-start(水平居中，垂直靠上)
+.flex_center_start {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+//  横向，主轴 flex-end，交叉轴 flex-start(水平靠右，垂直靠上)
+.flex_end_start {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+//  横向，主轴 space-between，交叉轴 flex-start(水平两端对齐，垂直靠上)
+.flex_sbe_start {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+//  横向，主轴 space-around，交叉轴 flex-start(水平等均分对齐，垂直靠上)
+.flex_sar_start {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+
+/**
+    主轴变，交叉轴 flex-end
+ */
+
+//  横向，主轴 flex-start，交叉轴 flex-end(水平靠左，垂直靠下)
+.flex_start_end {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+//  横向，主轴 center，交叉轴 flex-end(水平居中，垂直靠下)
+.flex_center_end {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+//  横向，主轴 flex-end，交叉轴 flex-end(水平靠右，垂直靠下)
+.flex_end_end {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+//  横向，主轴 space-between，交叉轴 flex-start(水平两端对齐，垂直靠下)
+.flex_sbe_end {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+//  横向，主轴 space-around，交叉轴 flex-start(水平等均分对齐，垂直靠上)
+.flex_sar_end {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+/**
+    主轴变，交叉轴 baseline
+ */
+
+//  横向，主轴 flex-start，交叉轴 baseline(水平靠左，垂直基线对齐)
+.flex_start_baseline {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+//  横向，主轴 center，交叉轴 flex-end(水平居中，垂直基线对齐)
+.flex_center_baseline {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+//  横向，主轴 flex-end，交叉轴 flex-end(水平靠右，垂直基线对齐)
+.flex_end_baseline {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+//  横向，主轴 space-between，交叉轴 flex-start(水平两端对齐，垂直基线对齐)
+.flex_sbe_baseline {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+//  横向，主轴 space-around，交叉轴 flex-start(水平等均分对齐，垂直基线对齐)
+.flex_sar_baseline {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
