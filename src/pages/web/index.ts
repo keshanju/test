@@ -3,12 +3,14 @@ import App from './App.vue';
 import router from './router';
 import vuex from 'vuex';
 import store from './store';
+import * as socketApi from './socket'
+Vue.prototype.$socketApi = socketApi
 
 Vue.config.productionTip = false;
 
-import Element from 'element-ui';
+// import Element from 'element-ui';
+import Element from './components/element-ui/index'
 import 'element-ui/lib/theme-chalk/index.css';
-//Vue.use(Element);
 Vue.use(Element, { size: 'mini' });
 Vue.use(vuex);
 

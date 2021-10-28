@@ -3,9 +3,11 @@ import my_photo from "../../components/my_photo.vue";
 import my_file_list from "../../components/my_file_list.vue";
 import my_nav from '../../components/my_nav.vue';
 import BaseVue from '../../commons/BaseAdminVue';
+import { MarketsApi } from '../../apis/MarketApi'
+import { MarketsWsApi } from '../../apis/MarketWsApi'
 import { ProductOrderApi } from '../../apis/ProductApi';
 import { ProductOrderModel } from '@/models/ProductModel';
-
+import Ws from '@/utils/WebsocketUtil.js'
 @Component({
   components: {
     my_photo,
@@ -71,10 +73,83 @@ import { ProductOrderModel } from '@/models/ProductModel';
 
 })
 export default class Layout extends BaseVue {
-  public product_order_list: ProductOrderModel[] = [];//订单列表
-  created() {
-    this.getorderlist();
+  public product_order_list: ProductOrderModel[] = [];
+  public activeName:string = 'top'
+  public tableTopData: Array<object> = []
+  public symbol:any = []
+
+  mounted() {
+    this.initWidget()
+    this.initWs()
+    this.getMarketList();
+    // this.getMarketWsData();
   }
+
+  public handleClick() {
+
+  }
+
+  initWs () {
+
+  }
+  
+  public async getMarketList() {
+    let backData = await new MarketsApi().getList()
+    if (backData.status === 200) {
+      this.tableTopData = backData.data
+    } else {
+      console.log(backData)
+    }
+  }
+
+  public getMarketWsData() {
+    const options = { "op": "subscribe","args": ["ticker:" + this.symbol] }
+    let backData = new MarketsWsApi().getList(options)
+    console.log(backData)
+    // if (backData.status === 200) {
+    //   this.tableTopData = backData.data
+    // } else {
+    //   console.log(backData)
+    // }
+  }
+
+  public initWidget() {
+    const script = document.createElement('script');
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-tickers.js'
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      "symbols": [
+        {
+          "proName": "BTCUSDT",
+          "title": "BTC/USDT"
+        },
+        {
+          "proName": "ETHUSDT",
+          "title": "ETH/USDT"
+        },
+        {
+          "proName": "ADAUSDT",
+          "title": "ADA/USDT"
+        },
+        {
+          "proName": "DOGEUSDT",
+          "title": "DOGE/USDT"
+        },
+        {
+          "proName": "FILUSDT",
+          "title": "FIL/USDT"
+        },
+      ],
+      "colorTheme": "dark",
+      "isTransparent": false,
+      "showSymbolLogo": true,
+      "locale": "zh_CN",
+      "height": 144
+    })
+    document.getElementById("myContainer").appendChild(script);
+  }
+
+
   /**
    * 获取订单列表
    */
@@ -84,4 +159,6 @@ export default class Layout extends BaseVue {
       this.product_order_list = data.data.list;
     }
   }
+
+
 }

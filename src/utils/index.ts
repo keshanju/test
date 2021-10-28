@@ -13,7 +13,7 @@ export default class Util {
   /**
    * 获取dommain，格式示例：.bohe.com
    */
-    public static getDomain() {
+  public static getDomain() {
     const hostname = window.location.hostname;
     const hostList = hostname.split('.');
     let domain = '';
@@ -136,4 +136,9 @@ export default class Util {
     document.cookie = cookieVal
   }
 
+  public static delay(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
 }

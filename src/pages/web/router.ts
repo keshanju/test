@@ -9,8 +9,8 @@ const constantRouterMap = [
     component: () => import("./views/login/list.vue")
   },
   {
-    path: "/index",
-    component: () => import("./views/login/list.vue")
+    path: "/test",
+    component: () => import("./views/test/index.vue")
   },
   {
     path: "/",
@@ -18,6 +18,10 @@ const constantRouterMap = [
     // redirect: "/login",
     children:
       [
+        {
+          path: "/",
+          component: () => import("./views/index/list.vue")
+        },
         {
           path: "/ad/list",
           component: () => import("./views/ad/list.vue")
