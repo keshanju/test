@@ -5,7 +5,7 @@
         <img src="../assets/img/logo1.png" alt="" class="mar_r5">
         <img src="../assets/img/logo_txt.png" alt="">
       </div>
-      <div style="width: 80%" class="h_nav_box flex_start_center">
+      <div style="width: 75%" class="h_nav_box flex_start_center">
         <div class="h_nav_cell">
           币币交易
         </div>
@@ -19,7 +19,7 @@
           量化专区
         </div>
       </div>
-      <div style="width: 10%" class="h_nav_other flex_sar_center">
+      <div style="width: 15%" class="h_nav_other flex_sar_center">
         <div class="h_nav_login">
           <a class="h_login_font mar_r15">登录</a>
           <el-button size="medium" type="primary">注册</el-button>

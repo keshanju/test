@@ -45,7 +45,7 @@ import {
   Col,
   Upload,
   Progress,
-  Spinner,
+  // Spinner,
   Badge,
   Card,
   Rate,
@@ -71,7 +71,7 @@ import {
   Calendar,
   Backtop,
   PageHeader,
-  CascaderPanel,
+  // CascaderPanel,
   Loading,
   MessageBox,
   Message,
@@ -133,7 +133,7 @@ const element = {
     Vue.use(Col);
     Vue.use(Upload);
     Vue.use(Progress);
-    Vue.use(Spinner);
+    // Vue.use(Spinner);
     Vue.use(Badge);
     Vue.use(Card);
     Vue.use(Rate);
@@ -155,7 +155,7 @@ const element = {
     Vue.use(Calendar);
     Vue.use(Backtop);
     Vue.use(PageHeader);
-    Vue.use(CascaderPanel);
+    // Vue.use(CascaderPanel);
 
     Vue.use(Loading.directive);
 

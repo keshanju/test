@@ -1,7 +1,7 @@
 var websock = null;
 let rec; //断线重连后，延迟5秒重新创建WebSocket连接  rec用来存储延迟请求的代码
 let isConnect = false; //连接标识 避免重复连接
-let checkMsg = "heartbeat"; //心跳发送/返回的信息 服务器和客户端收到的信息内容如果如下 就识别为心跳信息 不要做业务处理
+let checkMsg = "ping"; //心跳发送/返回的信息 服务器和客户端收到的信息内容如果如下 就识别为心跳信息 不要做业务处理
 
 var globalCallback = function() {};
 
@@ -28,14 +28,16 @@ let reConnect = () => {
 };
 //设置关闭连接
 let closeWebSocket = () => {
-  webSocket.close();
+  console.log('close socket')
+  heartCheck.timeoutObj = null
+  websock.close();
 };
 //心跳设置
 var heartCheck = {
-  timeout: 2000, //每段时间发送一次心跳包 这里设置为20s
+  timeout: 3000, //每段时间发送一次心跳包 这里设置为20s
   timeoutObj: null, //延时发送消息对象（启动心跳新建这个对象，收到消息后重置对象）
   start: function() {
-    this.timeoutObj = setTimeout(function() {
+    this.timeoutObj = setInterval(function() {
       if (isConnect) websock.send(checkMsg);
     }, this.timeout);
   },
@@ -48,8 +50,8 @@ var heartCheck = {
 // 初始化websocket
 function initWebSocket() {
   // ws地址 -->这里是你的请求路径
-  var ws = "ws://192.168.3.15:8443/spot";
-  websock = new WebSocket(ws);
+  // var ws = "ws://192.168.3.15:8443/spot";
+  // websock = new WebSocket(ws);
   websock.onmessage = function(e) {
     websocketonmessage(e);
   };
@@ -79,12 +81,12 @@ function sendSock(agentData, callback) {
     // 若是 正在开启状态，则等待1s后重新调用
     setTimeout(function() {
       sendSock(agentData, callback);
-    }, 1000);
+    }, 5000);
   } else {
     // 若未开启 ，则等待1s后重新调用
     setTimeout(function() {
       sendSock(agentData, callback);
-    }, 1000);
+    }, 5000);
   }
 }
 
@@ -93,15 +95,14 @@ function getSock(callback) {
 }
 // 数据接收
 function websocketonmessage(e) {
-//   console.log(e.data);
+  // console.log(e)
   let O_o = JSON.parse(decodeUnicode(e.data));
   if (!O_o) {
     heartCheck.reset();
   } else {
-    if (O_o.msg == "open success") {
-      sessionStorage.setItem("wid", O_o.wid);
+    if (O_o.message == "connected") {
+      // sessionStorage.setItem("wid", O_o.wid);
     } else {
-    //   console.log(O_o);
       globalCallback(O_o);
     }
   }
@@ -134,9 +135,10 @@ function websocketclose(e) {
 // 创建 websocket 连接
 function websocketOpen(e) {
   console.log("连接成功");
+  isConnect = true
 }
 
-initWebSocket();
+// initWebSocket();
 
 // 将方法暴露出去
 export { sendSock, getSock, createWebSocket, closeWebSocket };

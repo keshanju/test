@@ -4,10 +4,8 @@ import my_file_list from "../../components/my_file_list.vue";
 import my_nav from '../../components/my_nav.vue';
 import BaseVue from '../../commons/BaseAdminVue';
 import { MarketsApi } from '../../apis/MarketApi'
-import { MarketsWsApi } from '../../apis/MarketWsApi'
 import { ProductOrderApi } from '../../apis/ProductApi';
 import { ProductOrderModel } from '@/models/ProductModel';
-import Ws from '@/utils/WebsocketUtil.js'
 @Component({
   components: {
     my_photo,
@@ -77,40 +75,48 @@ export default class Layout extends BaseVue {
   public activeName:string = 'top'
   public tableTopData: Array<object> = []
   public symbol:any = []
+  public tikerArr:[] = []
+  public $socketApi: any;
+
+  created() {
+    this.$socketApi.createWebSocket()
+  }
 
   mounted() {
     this.initWidget()
-    this.initWs()
     this.getMarketList();
-    // this.getMarketWsData();
   }
-
-  public handleClick() {
-
-  }
-
-  initWs () {
-
+  
+  beforeDestroy() {
+    this.$socketApi.closeWebSocket()
   }
   
   public async getMarketList() {
     let backData = await new MarketsApi().getList()
     if (backData.status === 200) {
-      this.tableTopData = backData.data
+      backData.data.map(item => {
+        this.symbol.push(`ticker:${item.sellCoinName}${item.buyCoinName}`)
+      })
+      this.getMarketWsData();
     } else {
       console.log(backData)
     }
   }
 
+  public handleRowClick(row, column, enent) {
+    alert('测试跳转')
+  }
+
   public getMarketWsData() {
-    const options = { "op": "subscribe","args": ["ticker:" + this.symbol] }
-    let backData = new MarketsWsApi().getList(options)
-    console.log(backData)
-    // if (backData.status === 200) {
-    //   this.tableTopData = backData.data
-    // } else {
-    //   console.log(backData)
-    // }
+    const tickerOptions = { 
+      "op": "subscribe",
+      "args": this.symbol
+    }
+    this.$socketApi.sendSock(tickerOptions, this.getResult);
+  }
+
+  getResult(res) {
+    this.tableTopData.push(res.data)
   }
 
   public initWidget() {
@@ -144,7 +150,8 @@ export default class Layout extends BaseVue {
       "isTransparent": false,
       "showSymbolLogo": true,
       "locale": "zh_CN",
-      "height": 144
+      "height": "170px",
+      "style:": "height: 170px"
     })
     document.getElementById("myContainer").appendChild(script);
   }

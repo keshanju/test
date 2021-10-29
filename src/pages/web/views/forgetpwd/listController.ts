@@ -5,12 +5,12 @@ import { CommonAdminUtil } from "../../commons/CommonAdminUtil";
 import { ToolsApi } from "../../apis/ToolsApi";
 
 import { VerCodeModel } from "@/models/ToolsModel";
-import Header from '../../components/Header.vue';
+import my_nav from '../../components/my_nav.vue';
 import BaseVue from '../../commons/BaseAdminVue';
 
 @Component({
   components: {
-    Header
+    my_nav
   }
 })
 export default class Layout extends BaseVue {

@@ -9,6 +9,14 @@ const constantRouterMap = [
     component: () => import("./views/login/list.vue")
   },
   {
+    path: "/register",
+    component: () => import("./views/register/list.vue")
+  },
+  {
+    path: "/forgetpwd",
+    component: () => import("./views/forgetpwd/list.vue")
+  },
+  {
     path: "/test",
     component: () => import("./views/test/index.vue")
   },
