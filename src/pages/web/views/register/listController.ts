@@ -18,9 +18,9 @@ import BaseVue from '../../commons/BaseAdminVue';
 })
 export default class Layout extends BaseVue {
   public loginType: string = 'phone'
-  public regForm:any = {
-    mobileArea: '86',
-    mobile: '',
+  public regForm = {
+    nationalCode: '',
+    phoneNumber: '',
     email: '',
     pwd: '',
     confirmPwd: '',
@@ -28,7 +28,7 @@ export default class Layout extends BaseVue {
     inviteCode: '',
     checked: false,
   }
-  public areaOptions:any = areaCode
+  public areaOptions = areaCode
   public btnText:string = '验证码'
   public disabled:boolean = false
 
@@ -61,31 +61,34 @@ export default class Layout extends BaseVue {
     }
   };
 
-  public rules:object =  {
-    mobile: [
-      { required: true,message: '请输入电话号码',trigger: 'blur' },
-      { min: 5,max: 13,message: '长度在 5 到 1 个字符',trigger: 'blur' }
+  public regRules:object =  {
+    nationalCode: [
+      { required: true, message: '请选择国别区号', trigger: 'blur' },
+    ],
+    phoneNumber: [
+      { required: true, message: '请输入电话号码', trigger: 'blur' },
+    ],
+    email: [
+      { required: true, message: '请输入电子邮件', trigger: 'blur' },
     ],
     pwd: [
-      { validator: this.validatePass,trigger: 'blur' },
-      { min: 8,max: 16,message: '长度在 8 到 16 个字符',trigger: 'blur' }
+      { validator: this.validatePass, trigger: 'blur' },
 
     ],
     confirmPwd: [
-      { validator: this.validatePass2,trigger: 'blur' },
-      { min: 8,max: 16,message: '长度在 8 到 16 个字符',trigger: 'blur' }
+      { validator: this.validatePass2, trigger: 'blur' },
     ],
     captcha: [
-      { required: true,message: '请输入验证码',trigger: 'blur' },
-      { min: 4,max: 8,message: '长度在 4 到 8 个字符',trigger: 'blur' }
+      { required: true, message: '请输入验证码', trigger: 'blur' },
     ],
     checked: [
-      { validator: this.validateChecked,trigger: 'change' },
+      { validator: this.validateChecked, trigger: 'change' },
     ],
   }
 
-  changeRegType (type) {
-    this.loginType = type
+  changeRegType (type: string) {
+    this.loginType = type;
+    (this.$refs["regForm"] as any).resetFields()
   }
 
   /**
@@ -94,5 +97,13 @@ export default class Layout extends BaseVue {
   public async getVerCode() {
     let d = await new ToolsApi().vercode();
     // this.vercode = d.data;
+  }
+
+  public submitRegForm() {
+    (this.$refs["regForm"] as any).validate((valid, message) => {
+      if (valid) {
+        message.success('成功')
+      }
+    })
   }
 }

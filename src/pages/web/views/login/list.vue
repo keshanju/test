@@ -22,7 +22,7 @@
               <div class="mar_r5">没有账号?</div>
               <el-link :underline="false" type="primary" href="#/register">注册</el-link>
             </div>
-            <el-link type="primary">忘记密码</el-link>
+            <el-link type="primary" href="#/forgetpwd">忘记密码</el-link>
           </div>
         </div>
       </div>

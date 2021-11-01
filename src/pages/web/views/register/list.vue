@@ -12,42 +12,48 @@
             </div>
             <div class="flex_start_center">
               <div class="mar_r5">已有账号?</div>
-              <el-link :underline="false" type="primary">登录</el-link>
+              <el-link :underline="false" type="primary" href="#/login">登录</el-link>
             </div>
           </div>
-          <el-form class="mar_t20" :model="regForm" :rules="rules" ref="regForm" label-width="0">
-            <el-form-item label="" prop="mobile" v-if="loginType === 'phone'">
-              <el-input placeholder="请输入电话号码" maxlength="13" v-model="regForm.mobile" class="input-with-select">
-                <el-select v-model="regForm.mobileArea" slot="prepend" placeholder="请选择">
-                  <el-option v-for="item in areaOptions" :key="item.id" :label="item.nationalCode" :value="item.nationalCode">{{item.countryName+item.nationalCode}}</el-option>
+          <el-form class="mar_t20" :model="regForm" :rules="regRules" ref="regForm">
+            <el-form-item prop="phoneNumber" v-show="loginType === 'phone'">
+              <el-input placeholder="请输入电话号码" v-model="regForm.phoneNumber">
+                <el-select v-model="regForm.nationalCode" slot="prepend" placeholder="请选择">
+                  <el-option class="flex_sbe_center" v-for="(item, index) in areaOptions" :key="index" :value="item.nationalCode">
+                    <div>{{item.countryName}}</div>
+                    <div>{{'+'+item.nationalCode}}</div>
+                  </el-option>
                 </el-select>
               </el-input>
             </el-form-item>
-            <el-form-item label="" prop="email" v-else>
-              <el-input placeholder="请输入邮箱" maxlength="" v-model="regForm.email"></el-input>
+            <el-form-item prop="email" v-show="loginType === 'email'">
+              <el-input placeholder="请输入邮箱" v-model="regForm.email"></el-input>
             </el-form-item>
-            <el-form-item label="" prop="pwd">
+            <el-form-item prop="pwd">
               <el-input placeholder="请输入密码" maxlength="16" show-password v-model="regForm.pwd"></el-input>
             </el-form-item>
-            <el-form-item label="" prop="confirmPwd">
+            <el-form-item prop="confirmPwd">
               <el-input placeholder="请输入确认密码" maxlength="16" show-password v-model="regForm.confirmPwd"></el-input>
             </el-form-item>
-            <el-form-item label="" prop="captcha">
-              <el-input placeholder="请输入验证码" v-model="regForm.captcha" class="input-with-select">
+            <el-form-item prop="captcha">
+              <el-input placeholder="请输入验证码" v-model="regForm.captcha">
                 <el-button :disabled="disabled" slot="append" @click="getVerCode" style="width:80px">{{btnText}}</el-button>
               </el-input>
             </el-form-item>
-            <el-form-item label="" prop="inviteCode">
+            <el-form-item prop="inviteCode" style="margin-bottom: 0px">
               <el-input placeholder="请输入邀请码（选填）" maxlength="16" v-model="regForm.inviteCode"></el-input>
             </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('regForm')" class="" style="width:299px">立即注册</el-button>
-            </el-form-item>
-            <el-form-item prop="checked">
-              <div class="protocol flex flex-align-center">
-                <el-checkbox class="mb5" v-model="regForm.checked"> </el-checkbox>
-                <span class="ml5 flex flex-align-center">我已阅读并同意<el-link :underline="false" type="primary">《服务协议》</el-link>和<el-link :underline="false" type="primary">《隐私协议》</el-link></span>
+            <el-form-item prop="checked" style="margin-bottom: 20px">
+              <div class="flex_start_center">
+                <el-checkbox v-model="regForm.checked"> </el-checkbox>
+                <span class="mar_l5">我已阅读并同意</span>
+                <el-link :underline="false" type="primary">《服务协议》</el-link>
+                <span>和</span>
+                <el-link :underline="false" type="primary">《隐私协议》</el-link>
               </div>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitRegForm" class="" style="width:100%">立即注册</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -69,7 +75,7 @@
 }
 
 .login_form {
-  width: 1000px;
+  width: 1080px;
   height: calc(100vh-60px);
   position:absolute;
   left:0;
@@ -102,7 +108,7 @@
 }
 
 .l_form_cell {
-  width: 310px;
+  width: 330px;
   margin-right: 50px;
 }
 
@@ -130,5 +136,9 @@
   color: #0483EF;
   border-bottom: 4px solid #0483EF;
 }
+
+/deep/ .el-select .el-input {
+    width: 100px;
+  }
 </style>
 
