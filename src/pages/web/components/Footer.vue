@@ -50,6 +50,8 @@ export default {
   background: #001640;
   font-size: 14px;
   color: #fff;
+  position: relative;
+  z-index: 999;
 }
 
 .f_inner_box {

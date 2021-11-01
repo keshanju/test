@@ -6,15 +6,15 @@
       <div class="l_form_box flex_end_center">
         <div class="l_form_cell">
           <div class="l_title_font mar_b20">欢迎登录 SKIES</div>
-          <el-form ref="loginForm" label-width="0" class="mar_t50">
-            <el-form-item label="" prop="userName">
-              <el-input placeholder="邮箱或手机号"></el-input>
+          <el-form :model="loginForm" :rules="loginRules" ref="loginForm" class="mar_t50">
+            <el-form-item prop="userName">
+              <el-input v-model="loginForm.userName" placeholder="邮箱或手机号"></el-input>
             </el-form-item>
-            <el-form-item label="" prop="password">
-              <el-input show-password placeholder="登录密码"></el-input>
+            <el-form-item prop="password">
+              <el-input show-password v-model="loginForm.password" placeholder="登录密码"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button style="width: 100%" type="primary">立即登录</el-button>
+              <el-button style="width: 100%" type="primary" @click="submitLoginForm">立即登录</el-button>
             </el-form-item>
           </el-form>
           <div class="flex_sbe_center">
@@ -43,7 +43,7 @@
 }
 
 .login_form {
-  width: 1000px;
+  width: 1080px;
   height: calc(100vh-60px);
   position:absolute;
   left:0;
@@ -76,7 +76,7 @@
 }
 
 .l_form_cell {
-  width: 310px;
+  width: 330px;
   margin-right: 50px;
 }
 

@@ -23,6 +23,12 @@ export interface BaseModel<T> {
     data?: T
 }
 
+export class DataModel<T> implements BaseModel<T> {
+    public status = 200;
+    public message = '';
+    public data: any = null;
+}
+
 /**
  *返回列表模型
  *

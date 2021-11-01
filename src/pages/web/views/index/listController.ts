@@ -4,7 +4,7 @@ import my_file_list from "../../components/my_file_list.vue";
 import my_nav from '../../components/my_nav.vue';
 import BaseVue from '../../commons/BaseAdminVue';
 import { MarketsApi } from '../../apis/MarketApi'
-import { ProductOrderApi } from '../../apis/ProductApi';
+import { MarketsResModel } from '@/models/MarketModel';
 import { ProductOrderModel } from '@/models/ProductModel';
 @Component({
   components: {
@@ -92,9 +92,11 @@ export default class Layout extends BaseVue {
   }
   
   public async getMarketList() {
-    let backData = await new MarketsApi().getList()
+    const options = {}
+    let backData = await new MarketsApi().getList(options)
     if (backData.status === 200) {
-      backData.data.map(item => {
+      const loginM: MarketsResModel = backData.data;
+      backData.data.list.map(item => {
         this.symbol.push(`ticker:${item.sellCoinName}${item.buyCoinName}`)
       })
       this.getMarketWsData();
@@ -160,12 +162,11 @@ export default class Layout extends BaseVue {
   /**
    * 获取订单列表
    */
-  async getorderlist() {
-    let data = await new ProductOrderApi().getList();
-    if (data.code == 0) {
-      this.product_order_list = data.data.list;
-    }
-  }
-
+  // async getorderlist() {
+  //   let data = await new ProductOrderApi().getList();
+  //   if (data.code == 0) {
+  //     this.product_order_list = data.data.list;
+  //   }
+  // }
 
 }

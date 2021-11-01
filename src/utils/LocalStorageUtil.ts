@@ -1,3 +1,5 @@
+
+import { UserToken } from "@/models/UserModel";
 /**
  * localstorage类
  */
@@ -53,6 +55,27 @@ export default class LocalStorageUtil {
         return ln;
     }
 
+    
+    /**
+     * 保存用户token
+     */
+     public static addUserToken(userInfo: UserToken) {
+        if (userInfo.token == '') return;
+        if (userInfo.token == null || userInfo.token == undefined) throw new Error('保存的token错误!');
+        LocalStorageUtil.setCookie(LocalStorageUtil.STORAGES_TOKEN, JSON.stringify(userInfo), 2, true);
+    }
+
+    /**
+     * 获取用户的token
+     */
+    public static getUserToken(): UserToken {
+        let info = LocalStorageUtil.getCookie(LocalStorageUtil.STORAGES_TOKEN);
+        if (info == '') return new UserToken();
+        let userInfo: UserToken = JSON.parse(info) as UserToken;
+        return userInfo;
+    }
+
+
     /**
      * 退出登录
      */
@@ -86,7 +109,6 @@ export default class LocalStorageUtil {
             // 域名
             if (isDomain) {
                 const domain = Util.getDomain();
-                // ProjectConfig.log('cookie设置的域名:' + domain);
                 cstr = cstr + '; domain=' + domain;
             }
         }

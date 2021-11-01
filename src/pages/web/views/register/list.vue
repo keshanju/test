@@ -7,8 +7,8 @@
         <div class="l_form_cell mar_t30">
           <div class="flex_sbe_center">
             <div class="flex_start_center">
-              <div @click="changeRegType('phone')" class="l_tab_cell" :class="loginType === 'phone'?'i_tab_active':''">手机</div>
-              <div @click="changeRegType('email')" class="l_tab_cell mar_l10" :class="loginType === 'email'?'i_tab_active':''">邮箱</div>
+              <div @click="changeRegType(1)" class="l_tab_cell" :class="loginType === 1?'i_tab_active':''">手机</div>
+              <div @click="changeRegType(2)" class="l_tab_cell mar_l10" :class="loginType === 2?'i_tab_active':''">邮箱</div>
             </div>
             <div class="flex_start_center">
               <div class="mar_r5">已有账号?</div>
@@ -16,9 +16,9 @@
             </div>
           </div>
           <el-form class="mar_t20" :model="regForm" :rules="regRules" ref="regForm">
-            <el-form-item prop="phoneNumber" v-show="loginType === 'phone'">
+            <el-form-item prop="phoneNumber" v-if="loginType === 1">
               <el-input placeholder="请输入电话号码" v-model="regForm.phoneNumber">
-                <el-select v-model="regForm.nationalCode" slot="prepend" placeholder="请选择">
+                <el-select prop="nationalCode" v-model="regForm.nationalCode" slot="prepend" placeholder="请选择">
                   <el-option class="flex_sbe_center" v-for="(item, index) in areaOptions" :key="index" :value="item.nationalCode">
                     <div>{{item.countryName}}</div>
                     <div>{{'+'+item.nationalCode}}</div>
@@ -26,7 +26,7 @@
                 </el-select>
               </el-input>
             </el-form-item>
-            <el-form-item prop="email" v-show="loginType === 'email'">
+            <el-form-item prop="email" v-else>
               <el-input placeholder="请输入邮箱" v-model="regForm.email"></el-input>
             </el-form-item>
             <el-form-item prop="pwd">
@@ -37,15 +37,15 @@
             </el-form-item>
             <el-form-item prop="captcha">
               <el-input placeholder="请输入验证码" v-model="regForm.captcha">
-                <el-button :disabled="disabled" slot="append" @click="getVerCode" style="width:80px">{{btnText}}</el-button>
+                <el-button :disabled="disabled" slot="append" @click="getCaptcha" style="width:80px">{{btnText}}</el-button>
               </el-input>
             </el-form-item>
             <el-form-item prop="inviteCode" style="margin-bottom: 0px">
               <el-input placeholder="请输入邀请码（选填）" maxlength="16" v-model="regForm.inviteCode"></el-input>
             </el-form-item>
-            <el-form-item prop="checked" style="margin-bottom: 20px">
+            <el-form-item prop="checkeAgreee" style="margin-bottom: 20px">
               <div class="flex_start_center">
-                <el-checkbox v-model="regForm.checked"> </el-checkbox>
+                <el-checkbox v-model="regForm.checkeAgreee"> </el-checkbox>
                 <span class="mar_l5">我已阅读并同意</span>
                 <el-link :underline="false" type="primary">《服务协议》</el-link>
                 <span>和</span>

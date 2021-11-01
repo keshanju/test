@@ -34,6 +34,10 @@ const constantRouterMap = [
           path: "/ad/list",
           component: () => import("./views/ad/list.vue")
         },
+        {
+          path: "/user_center",
+          component: () => import("./views/user_center/list.vue")
+        },
       ]
   }
 ];

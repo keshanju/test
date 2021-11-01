@@ -11,7 +11,7 @@ export default class Util {
 
 
   /**
-   * 获取dommain，格式示例：.bohe.com
+   * 获取dommain，格式示例：.baidu.com
    */
   public static getDomain() {
     const hostname = window.location.hostname;
