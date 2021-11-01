@@ -3,5 +3,5 @@
  * 登录成功返回参数
  */
  export class MarketsResModel {
-    public list: Array<any> = [];
+    public data: Array<any> = [];
 }

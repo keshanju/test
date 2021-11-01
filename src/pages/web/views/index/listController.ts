@@ -95,8 +95,8 @@ export default class Layout extends BaseVue {
     const options = {}
     let backData = await new MarketsApi().getList(options)
     if (backData.status === 200) {
-      const loginM: MarketsResModel = backData.data;
-      backData.data.list.map(item => {
+      let loginM = backData.data as any;
+      loginM.data.map(item => {
         this.symbol.push(`ticker:${item.sellCoinName}${item.buyCoinName}`)
       })
       this.getMarketWsData();
