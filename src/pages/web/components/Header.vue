@@ -73,8 +73,9 @@ export default {
       userInfo: {}
     }
   },
-  created() {
+  mounted() {
     this.checkLogin()
+    console.log(this.isLogin)
   },
   methods: {
     /**
@@ -82,7 +83,7 @@ export default {
      */
     checkLogin() {
       const info = LocalStorageUtil.getLoginInfo();
-      if (info !== null) {
+      if (info.token) {
           this.userInfo = info;
           this.isLogin = true;
       }

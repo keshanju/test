@@ -5,8 +5,8 @@ import areaCode from "../../assets/js/area_code";
 import { LoginReqModel } from "@/models/UserModel";
 import Header from "../../components/Header.vue";
 import BaseVue from "../../commons/BaseAdminVue";
-import MD5 from "md5";
-import message from "element-ui";
+// import MD5 from "md5";
+// import message from "element-ui";
 
 @Component({
   components: {

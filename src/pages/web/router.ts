@@ -75,7 +75,7 @@ let rr = new Router({
   routes
 });
 
-const noNeedLogin = ['Login', 'Register', 'Forgetpwd', 'Test', 'Exchange', 'Suanli', 'Quantization', 'Markets']
+const noNeedLogin = ['Login', 'Register', 'Forgetpwd', 'Test', 'Exchange', 'Suanli', 'Quantization', 'Markets', 'Index']
 
 rr.beforeEach((to, from, next) => {
   const checkLogin = LocalStorageUtil.getLoginInfo();
