@@ -2,7 +2,7 @@ import Util from './index'
 
 
 export class JumpUtil {
-  static hashVal = "#/"
+  static hashVal = "/#"
   static URL_REGISTER = "register";// 注册界面
   static URL_LOGIN = "login";// 登录界面
   static URL_FORGETPWD = "forgetPwd";// 忘记密码
@@ -11,8 +11,14 @@ export class JumpUtil {
   static URL_SUANLI = "suanli";// 算力超市
   static URL_QUANTIZATION = "quantization";// 量化专区
 
+  static URL_USERCENTER_SECURITY = "user_center/security";// 量化专区
+
   static backIndex() {
     window.location.href = Util.getOrigin() + this.hashVal;
+  }
+
+  static backUserCenter() {
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_USERCENTER_SECURITY;
   }
 
   static backRegister() {

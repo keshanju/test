@@ -6,6 +6,11 @@ Vue.use(Router);
 
 const constantRouterMap = [
   {
+    name: 'Index',
+    path: "/",
+    component: () => import("./views/index/list.vue")
+  },
+  {
     name: 'Login',
     path: "/login",
     component: () => import("./views/login/list.vue")
@@ -37,7 +42,7 @@ const constantRouterMap = [
   },
   {
     name: 'Suanli',
-    path: "/Suanli",
+    path: "/suanli",
     component: () => import("./views/suanli/list.vue")
   },
   {
@@ -50,18 +55,14 @@ const constantRouterMap = [
     redirect: '/'
   },
   {
-    path: "/",
+    path: "",
+    redirect: '/user_center/security',
     component: () => import("./views/index/layout.vue"),
     children:
       [
         {
-          name: 'Index',
-          path: "/",
-          component: () => import("./views/index/list.vue")
-        },
-        {
           name: 'UserCenter',
-          path: "/user_center",
+          path: "/user_center/security",
           component: () => import("./views/user_center/list.vue")
         },
       ]
@@ -83,7 +84,7 @@ rr.beforeEach((to, from, next) => {
     else next({name: 'Login'})
     next()
   } else {
-    if (checkLogin.token) next('/user_center')
+    if (checkLogin.token) next()
     else next()
     next()
   }

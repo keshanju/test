@@ -1,16 +1,14 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
-import my_photo from "../../components/my_photo.vue";
-import my_file_list from "../../components/my_file_list.vue";
-import my_nav from '../../components/my_nav.vue';
+import Header from "../../components/Header.vue";
+import Footer from "../../components/Footer.vue";
 import BaseVue from '../../commons/BaseAdminVue';
 import { MarketsApi } from '../../apis/MarketApi'
 import { MarketsResModel } from '@/models/MarketModel';
 import { ProductOrderModel } from '@/models/ProductModel';
 @Component({
   components: {
-    my_photo,
-    my_file_list,
-    my_nav
+    Header,
+    Footer,
   },
   
   filters: {

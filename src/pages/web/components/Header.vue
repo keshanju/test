@@ -27,7 +27,9 @@
         <div v-else>
           <el-popover popper-class='down-QRcode-url' placement="top-start" trigger="hover">
             <div class="h_user_box">
-              <div>{{userInfo.mobile || userInfo.email}}</div>
+              <div>
+                <a @click="goUserCenter">{{userInfo.mobile || userInfo.email}}</a>
+              </div>
               <div>{{userInfo.uid}}</div>
             </div>
             <i slot="reference" class="el-icon-download"></i>
@@ -84,6 +86,10 @@ export default {
           this.userInfo = info;
           this.isLogin = true;
       }
+    },
+
+    goUserCenter() {
+      JumpUtil.backUserCenter()
     },
 
     goIndex() {
