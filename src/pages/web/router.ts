@@ -31,11 +31,25 @@ const constantRouterMap = [
     component: () => import("./views/exchange/list.vue")
   },
   {
+    name: 'Markets',
+    path: "/markets",
+    component: () => import("./views/markets/list.vue")
+  },
+  {
+    name: 'Suanli',
+    path: "/Suanli",
+    component: () => import("./views/suanli/list.vue")
+  },
+  {
+    name: 'Quantization',
+    path: "/quantization",
+    component: () => import("./views/quantization/list.vue")
+  },
+  {
     path: '*',
     redirect: '/'
   },
   {
-    name: 'Index',
     path: "/",
     component: () => import("./views/index/layout.vue"),
     children:
@@ -50,10 +64,6 @@ const constantRouterMap = [
           path: "/user_center",
           component: () => import("./views/user_center/list.vue")
         },
-        // {
-        //   path: "/ad/list",
-        //   component: () => import("./views/ad/list.vue")
-        // },
       ]
   }
 ];
@@ -64,7 +74,7 @@ let rr = new Router({
   routes
 });
 
-const noNeedLogin = ['Login', 'Register', 'Forgetpwd']
+const noNeedLogin = ['Login', 'Register', 'Forgetpwd', 'Test', 'Exchange', 'Suanli', 'Quantization', 'Markets']
 
 rr.beforeEach((to, from, next) => {
   const checkLogin = LocalStorageUtil.getLoginInfo();

@@ -6,7 +6,7 @@ import { VerCodeModel } from '@/models/ToolsModel';
 export class MarketsApi extends BaseApi {
 
     public async getList(options?: {}){
-        let url = "/api_web/order/markets";
+        let url = "/order/markets";
         let d =  await AxiosUtil.get<any>(url, options);
         return d;
     }

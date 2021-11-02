@@ -1,23 +1,17 @@
 <template>
-  <div class="exchange_box">
+  <div class="index_box">
     <Header />
-    <div class="e_inner_box">
-      行情交易
-    </div>
+    量化交易
     <Footer />
   </div>
 </template>
 <script lang="ts" src="./listController.ts">
 </script>
 <style lang="less" scoped>
-.exchange_box {
+.index_box {
   width: 100%;
   margin: 0 auto;
   background-color: #fff;
-}
-
-.e_inner_box {
-  
 }
 
 </style>

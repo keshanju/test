@@ -1,8 +1,13 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import BaseVue from '../../commons/BaseAdminVue';
-import { MarketsApi } from '../../apis/MarketApi'
+import { MarketsApi } from '../../apis/MarketApi';
+import Header from '../../components/Header.vue'
+import Footer from '../../components/Footer.vue'
 @Component({
-  components: {},
+  components: {
+    Header,
+    Footer
+  },
   filters: {
     orderNoFilter: (ele) => {
       return ele
@@ -62,89 +67,8 @@ import { MarketsApi } from '../../apis/MarketApi'
 
 export default class Layout extends BaseVue {
   public activeName:string = 'top'
-  public tableTopData: Array<object> = []
-  public symbol:any = []
-  public tikerArr:[] = []
-  public $socketApi: any;
 
-  created() {
-    this.$socketApi.createWebSocket()
-  }
+  created() {}
 
-  mounted() {
-    this.initWidget()
-    this.getMarketList();
-  }
-  
-  beforeDestroy() {
-    this.$socketApi.closeWebSocket()
-  }
-  
-  public async getMarketList() {
-    const options = {}
-    let backData = await new MarketsApi().getList(options)
-    if (backData.status === 200) {
-      let loginM = backData.data as any;
-      loginM.data.map(item => {
-        this.symbol.push(`ticker:${item.sellCoinName}${item.buyCoinName}`)
-      })
-      this.getMarketWsData();
-    } else {
-      console.log(backData)
-    }
-  }
-
-  public handleRowClick(row, column, enent) {
-    alert('测试跳转')
-  }
-
-  public getMarketWsData() {
-    const tickerOptions = { 
-      "op": "subscribe",
-      "args": this.symbol
-    }
-    this.$socketApi.sendSock(tickerOptions, this.getResult);
-  }
-
-  getResult(res) {
-    this.tableTopData.push(res.data)
-  }
-
-  public initWidget() {
-    const script = document.createElement('script');
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-tickers.js'
-    script.async = true;
-    script.innerHTML = JSON.stringify({
-      "symbols": [
-        {
-          "proName": "BTCUSDT",
-          "title": "BTC/USDT"
-        },
-        {
-          "proName": "ETHUSDT",
-          "title": "ETH/USDT"
-        },
-        {
-          "proName": "ADAUSDT",
-          "title": "ADA/USDT"
-        },
-        {
-          "proName": "DOGEUSDT",
-          "title": "DOGE/USDT"
-        },
-        {
-          "proName": "FILUSDT",
-          "title": "FIL/USDT"
-        },
-      ],
-      "colorTheme": "dark",
-      "isTransparent": false,
-      "showSymbolLogo": true,
-      "locale": "zh_CN",
-      "height": "170px",
-      "style:": "height: 170px"
-    })
-    document.getElementById("myContainer").appendChild(script);
-  }
-
+  mounted() {}
 }

@@ -2,6 +2,7 @@ import Util from './index'
 
 
 export class JumpUtil {
+  static hashVal = "#/"
   static URL_REGISTER = "register";// 注册界面
   static URL_LOGIN = "login";// 登录界面
   static URL_FORGETPWD = "forgetPwd";// 忘记密码
@@ -11,31 +12,31 @@ export class JumpUtil {
   static URL_QUANTIZATION = "quantization";// 量化专区
 
   static backIndex() {
-    window.location.href = Util.getOrigin() + '/';
+    window.location.href = Util.getOrigin() + this.hashVal;
   }
 
   static backRegister() {
-    window.location.href = Util.getOrigin() + '/' + this.URL_REGISTER;
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_REGISTER;
   }
   
   static backLogin() {
-    window.location.href = Util.getOrigin() + '/' + this.URL_LOGIN;
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_LOGIN;
   }
 
   static backExchange() {
-    window.location.href = Util.getOrigin() + '/' + this.URL_EXCHANGE;
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_EXCHANGE;
   }
 
   static backMarkets() {
-    window.location.href = Util.getOrigin() + '/' + this.URL_MARKETS;
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_MARKETS;
   }
 
   static backSuanli() {
-    window.location.href = Util.getOrigin() + '/' + this.URL_SUANLI;
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_SUANLI;
   }
 
   static backQuantization() {
-    window.location.href = Util.getOrigin() + '/' + this.URL_QUANTIZATION;
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_QUANTIZATION;
   }
 
   /**

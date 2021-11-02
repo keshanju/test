@@ -4,7 +4,7 @@ import { OurPicListModel } from '@/models/ProductModel';
  * 全局配置文件
  */
 export class GlobalUtil {
-  private static _url = "/";
+  private static _url = "/api_web";
 
   /**
    * Api地址
@@ -12,7 +12,7 @@ export class GlobalUtil {
   public static get Url(): string {
     if (SITE_DEBUG) {
       if (process.env.NODE_ENV !== "production") {
-        return "";
+        return this._url;
       }
     }
     return SITE_API_URL;
