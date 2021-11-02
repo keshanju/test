@@ -2,76 +2,63 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { AdminApi } from "@/pages/admin/apis/AdminApi";
 import { ModuleApi } from "../../apis/ModuleApi";
 import { CommonAdminUtil } from "../../commons/CommonAdminUtil";
-import { ToolsApi } from "../../apis/ToolsApi";
-
-import { VerCodeModel } from "@/models/ToolsModel";
-import my_nav from '../../components/my_nav.vue';
+import { UserApi } from "../../apis/UserApi";
+import LocalStorageUtil from "@/utils/LocalStorageUtil";
+import { LoginModel } from "@/models/UserModel";
+import Header from '../../components/Header.vue';
 import BaseVue from '../../commons/BaseAdminVue';
 
 @Component({
   components: {
-    my_nav
+    Header
   }
 })
 export default class Layout extends BaseVue {
-  private SiteName = CommonAdminUtil.SiteName;
-  //表单
-  private ruleForm: any = {
-    username: "",
-    password: "",
-    vercode: ""
+  
+  public loginForm = {
+    userName: '',
+    password: ''
   };
 
-  private vercode: VerCodeModel = {
-    img: "#"
-  };
-  //匹配
-  private rules: any = {
-    admin_name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-    admin_pwd: [{ required: true, message: "请输入密码", trigger: "blur" }],
-    ver_code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+  public validatePass: Function = (rule, value, callback) => {
+    if (value === "") {
+      callback(new Error("请输入登录密码"));
+    } else {
+      callback();
+    }
   };
 
-  private module_api = new ModuleApi();
-  private loading: boolean = false;
+  public loginRules = {
+    userName: [{ required: true, message: "请输入邮箱或手机号", trigger: "blur" }],
+    password: [{ validator: this.validatePass, trigger: "blur" }],
+  };
 
-  async created() {
-    this.module_api = new ModuleApi();
-  }
 
-  async mounted() {
-    await this.getVerCode();
-  }
+  async created() {}
 
-  /**
-   * 提交表单
-   * @param formName 
-   */
-  public async submitForm(formName: string) {
-    (this.$refs[formName] as any).validate(async valid => {
+  async mounted() {}
+
+  public submitLoginForm() {
+    (this.$refs["loginForm"] as any).validate(async (valid) => {
       if (valid) {
-        this.loading = true;
-        let r = await new AdminApi().chkLogin(this.ruleForm);
-        if (r.code == 0) {
-          //保存获取到菜单
-          let d = await this.module_api.getAuthList();
-          CommonAdminUtil.setModule(d.data);
-          this.redirect("/admin/index");
+        const options = {
+          ...this.loginForm
+        };
+        const backData = await new UserApi().login(options);
+        if (backData.status === 200) {
+          const loginM: LoginModel = backData.data;
+          debugger
+          LocalStorageUtil.addLoginInfo(loginM);
+          this.$message.success("登录成功");
+          setTimeout(() => {
+            this.$router.push({
+              path: '/user_center'
+            })
+          }, 1000)
         } else {
-          this.$alert(r.msg);
+          this.$message.error("登录失败，请重试!");
         }
-        this.loading = false;
-      } else {
-        return false;
       }
     });
-  }
-
-  /**
-   * 获取验证码
-   */
-  public async getVerCode() {
-    let d = await new ToolsApi().vercode();
-    this.vercode = d.data;
   }
 }

@@ -46,7 +46,7 @@ function getBaseUrl() {
     return "/"
   }
   if (_config.is_template) {
-    return "./{{config.template_dir}}"
+    return "/user_web/"
   }
   return "./";
 }
@@ -54,7 +54,7 @@ function getBaseUrl() {
 // let pages = getEntry("./src/pages/" + _config.dir + "/**/!(_*).html", "./src/pages_" + _config.dir + "/");
 let pages = getEntry("./src/pages/" + _config.dir + "/**/*.html", "./src/pages_" + _config.dir + "/");
 module.exports = {
-  baseUrl: getBaseUrl(),
+  baseUrl: '/',
   pages,
   productionSourceMap: false,
   devServer: {
@@ -62,7 +62,7 @@ module.exports = {
     proxy: {
       //配置跨域
       '/api_web': {
-        target: "http://192.168.3.15:10707",
+        target: "http://192.168.3.15:10708",
         // ws:true,
         changOrigin: true,
         pathRewrite: {
@@ -73,7 +73,7 @@ module.exports = {
   },
   filenameHashing: debug,
   runtimeCompiler: true,
-  outputDir: "dist/" + _config.dir,
+  outputDir: "dist/user_web",
   chainWebpack: config => {
     //不压缩html
     for (const key in pages) {

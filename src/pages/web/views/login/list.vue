@@ -1,42 +1,30 @@
 <template>
-  <div class="login-page">
-    <div class="login-card">
-      <div class="login-main">
-        <div class="login-title">{{SiteName}}</div>
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="0px"
-          class="login-content"
-          v-loading="loading"
-        >
-          <el-form-item prop="admin_name">
-            <el-input v-model="ruleForm.admin_name" placeholder="请输入用户名">
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="admin_pwd">
-            <el-input
-              type="password"
-              placeholder="请输入密码"
-              v-model="ruleForm.admin_pwd"
-              @keyup.enter.native="submitForm('ruleForm')"
-            >
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="ver_code">
-            <el-col :span="16">
-              <el-input placeholder="请输入验证码" v-model="ruleForm.ver_code">
-              </el-input>
-            </el-col>
-            <el-col :span="8">
-              <img :src="vercode.img" @click="getVerCode" />
-            </el-col>
-          </el-form-item>
-          <div class="login-btn">
-            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+  <div class="login_box">
+    <Header />
+    <div class="login_form">
+      <img class="l_form_img" src="../../assets/img/login_bg_left.png" alt="" />
+      <div class="l_form_box flex_end_center">
+        <div class="l_form_cell">
+          <div class="l_title_font mar_b20">欢迎登录 SKIES</div>
+          <el-form :model="loginForm" :rules="loginRules" ref="loginForm" class="mar_t50">
+            <el-form-item prop="userName">
+              <el-input v-model="loginForm.userName" placeholder="邮箱或手机号"></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input show-password v-model="loginForm.password" placeholder="登录密码"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button style="width: 100%" type="primary" @click="submitLoginForm">立即登录</el-button>
+            </el-form-item>
+          </el-form>
+          <div class="flex_sbe_center">
+            <div class="flex_start_center">
+              <div class="mar_r5">没有账号?</div>
+              <el-link :underline="false" type="primary" href="#/register">注册</el-link>
+            </div>
+            <el-link type="primary" href="#/forgetpwd">忘记密码</el-link>
           </div>
-        </el-form>
+        </div>
       </div>
     </div>
   </div>
@@ -44,48 +32,57 @@
 <script lang="ts" src="./listController.ts">
 </script>
 <style lang="less" scoped>
-.login-page {
-  background: #fff;
+.login_box {
+  width: 100%;
   height: 100%;
-  position: absolute;
-  width: 100%;
+  font-size: 14px;
+  color: #333;
+  position: relative;
+  background-image: url("../../assets/img/login_bg.png");
+  background-size: cover;
 }
-.login-card {
-  width: 840px;
-  height: 482px;
-  margin: 100px auto;
-  border-radius: 3px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  line-height: 1;
-  background: url("../../assets/img/signup_bg-5ff4429982.jpg");
+
+.login_form {
+  width: 1080px;
+  height: calc(100vh-60px);
+  position:absolute;
+  left:0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
 }
-.login-main {
+
+.l_form_img {
+  // width: 595px;
   position: absolute;
-  left: 50%;
+  z-index: 2;
   top: 50%;
-  width: 350px;
-  margin: -190px 0 0 -175px;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.3);
-  overflow: hidden;
+  transform: translate(0, -50%);
 }
-.login-title {
-  width: 100%;
-  line-height: 50px;
-  text-align: center;
-  font-size: 20px;
-  border-bottom: 1px solid #ddd;
+
+.l_form_box {
+  // width: 1200px;
+  height: 500px;
+  background-color: #fff;
+  border-radius: 8px;
+  position:absolute;
+  left:0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  margin-left: 15%;
 }
-.login-btn {
-  text-align: center;
+
+.l_form_cell {
+  width: 330px;
+  margin-right: 50px;
 }
-.login-btn button {
-  width: 100%;
-  height: 36px;
-  margin-bottom: 10px;
-}
-.login-content {
-  padding: 30px 30px;
+
+.l_title_font {
+  color: #333333;
+  font-size: 22px;
 }
 </style>
 

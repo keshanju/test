@@ -1,177 +1,221 @@
 <template>
-  <div>
-    <!-- <my_nav title="概览"></my_nav> -->
-    <el-row :gutter="8" class="panel-group">
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-people">
-            <!-- <svg-icon icon-class="peoples" class-name="card-panel-icon"/> -->
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">文章数</div>
-            <!-- <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num"/> -->
+  <div class="index_box">
+    <div class="i_inner_box">
+      <div class="i_banner_box flex_start_center">
+        <div>
+          <div class="i_banner_title"> 全球领先的数字资产交易平台 </div>
+          <div class="i_banner_sub_title">海量策略 一站式交易</div>
+        </div>
+      </div>
+    </div>
+    <div id="myContainer">
+      <div className="tradingview-widget-container">
+        <div className="tradingview-widget-container__widget"></div>
+      </div>
+    </div>
+    <div class="i_market_box">
+      <div class="i_market_cell">
+        <el-tabs v-model="activeName" :stretch="true">
+          <el-tab-pane label="涨幅榜" name="top">
+            <el-table
+              @row-click="handleRowClick"
+              :data="tableTopData"
+              :default-sort = "{prop: 'close', order: 'descending'}"
+              style="width: 100%"
+              row-class-name="a_row_cursor">
+              <el-table-column
+                prop="symbol"
+                align="center"
+                label="交易对"
+                width="180">
+                <template slot-scope="scope">
+                  <span>{{scope.row.symbol.toUpperCase().substring(0, scope.row.symbol.length-4)+'/'+scope.row.symbol.toUpperCase().substr(-4)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="close"
+                sortable
+                align="center"
+                label="最新价"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="high"
+                sortable
+                align="center"
+                label="24h最高价">
+              </el-table-column>
+              <el-table-column
+                prop="low"
+                sortable
+                align="center"
+                label="24h最低价">
+              </el-table-column>
+              <el-table-column
+                prop="rate"
+                sortable
+                align="center"
+                label="涨幅">
+                <template slot-scope="scope">
+                  <span>{{(scope.row.rate * 100).toFixed(2)}}%</span>
+                </template>
+              </el-table-column>
+              <!-- <el-table-column
+                prop="address"
+                align="center"
+                label="行情">
+              </el-table-column> -->
+              <!-- <el-table-column
+                prop="address"
+                align="center"
+                label="操作">
+              </el-table-column> -->
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane label="新币榜" name="bottom">
+            <div class="text_center">敬请期待!</div>
+          </el-tab-pane>
+          <el-tab-pane label="成交额榜" name="volumn">
+            <div class="text_center">敬请期待!</div>  
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </div>
+    <div class="index_box">
+      <div class="i_info_inner">
+        <div class="i_info_box flex_center_center flex_column">
+          <div class="i_info_title mar_b50">关于我们</div>
+          <div class="i_info_font">
+            <div>Skies Exchange是一家来自美国的新生代全球生态型数字资产平台。平台致力于打造最具合规性的加密交易平台。团队成员 经验丰富，来自知名投资机构，跨国银行以及头部互联网公司，旗下拥有MSB牌照（Money Services Business）和MTL 牌 照（Money Transmission License ）等，合规手续齐全，保证平台用户的安全和发展。</div>
+            <div class="mar_t20">Skies2021年预计将服务300万会员，达成1亿日成交量。并计划在2022年登陆纳斯达克，剑指中国版Coinbase+币安。</div>
           </div>
         </div>
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-message">
-            <!-- <svg-icon icon-class="message" class-name="card-panel-icon"/> -->
+      </div>
+    </div>
+    <div class="index_box">
+      <div class="i_download_inner">
+        <div class="i_download_box flex_sbe_center">
+          <div class="mar_l50">
+            <div class="i_download_title">随时随地  快速交易</div>
+            <div class="flex_center_center mar_t50 mar_b50">
+              <div class="flex_center_center flex_column">
+                <img class="mr40" src="../../assets/img/icon_android.png" alt="">
+                <div class="mar_t10">iOS</div>
+              </div>
+              <div class="flex_center_center flex_column mar_l50">
+                <img class="mr40" src="../../assets/img/icon_ios.png" alt="">
+                <div class="mar_t10">Android</div>
+              </div>
+            </div>
+            <div class="flex_center_center flex_column">
+              <img src="../../assets/img/qr_code.png" alt="">
+              <div class="mar_t5">iOS&Android扫描下载</div>
+            </div>
           </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">消息数</div>
-            <!-- <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num"/> -->
-          </div>
-        </div>
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <!-- <svg-icon icon-class="money" class-name="card-panel-icon"/> -->
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">买入数</div>
-            <!-- <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num"/> -->
-          </div>
-        </div>
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-shopping">
-            <!-- <svg-icon icon-class="shopping" class-name="card-panel-icon"/> -->
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">订单数</div>
-            <!-- <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num"/> -->
+          <div class="">
+            <img src="../../assets/img/home_down_right.png" alt="">
           </div>
         </div>
-      </el-col>
-    </el-row>
-
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;"></el-row>
-
-    <el-row :gutter="8">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-        
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-         
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-         
-        </div>
-      </el-col>
-    </el-row>
-
-     <el-row :gutter="8">
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 24}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-       <el-table :data="product_order_list" style="width: 100%;padding-top: 15px;">
-        <el-table-column label="订单" min-width="200">
-          <template slot-scope="scope">
-            {{ scope.row.order_no | orderNoFilter }}
-          </template>
-        </el-table-column>
-        <el-table-column label="价格" width="195" align="center">
-          <template slot-scope="scope">
-            ¥{{ scope.row.total_price | toThousandFilter }}
-          </template>
-        </el-table-column>
-        <el-table-column label="状态" width="100" align="center">
-          <template slot-scope="{row}">
-            <el-tag :type="row.order_status|statusType">
-              {{ row.order_status | statusFilter }}
-            </el-tag>
-          </template>
-        </el-table-column>
-      </el-table>
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 12}" :xl="{span: 6}" style="margin-bottom:30px;">
-       
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 12}" :xl="{span: 6}" style="margin-bottom:30px;">
-        
-      </el-col>
-    </el-row>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts" src="./listController.ts">
 </script>
-<style lang="less">
-.panel-group {
-  margin-top: 18px;
-  .card-panel-col {
-    margin-bottom: 32px;
-  }
-  .card-panel {
-    height: 108px;
-    cursor: pointer;
-    font-size: 12px;
-    position: relative;
-    overflow: hidden;
-    color: #666;
-    background: #fff;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.05);
-    &:hover {
-      .card-panel-icon-wrapper {
-        color: #fff;
-      }
-      .icon-people {
-        background: #40c9c6;
-      }
-      .icon-message {
-        background: #36a3f7;
-      }
-      .icon-money {
-        background: #f4516c;
-      }
-      .icon-shopping {
-        background: #34bfa3;
-      }
-    }
-    .icon-people {
-      color: #40c9c6;
-    }
-    .icon-message {
-      color: #36a3f7;
-    }
-    .icon-money {
-      color: #f4516c;
-    }
-    .icon-shopping {
-      color: #34bfa3;
-    }
-    .card-panel-icon-wrapper {
-      float: left;
-      margin: 14px 0 0 14px;
-      padding: 16px;
-      transition: all 0.38s ease-out;
-      border-radius: 6px;
-    }
-    .card-panel-icon {
-      float: left;
-      font-size: 48px;
-    }
-    .card-panel-description {
-      float: right;
-      font-weight: bold;
-      margin: 26px;
-      margin-left: 0px;
-      .card-panel-text {
-        line-height: 18px;
-        color: rgba(0, 0, 0, 0.45);
-        font-size: 16px;
-        margin-bottom: 12px;
-      }
-      .card-panel-num {
-        font-size: 20px;
-      }
-    }
-  }
+<style lang="less" scoped>
+.index_box {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #fff;
 }
+
+.i_inner_box {
+  position: relative;
+  background-image: url(../../assets/img/home_banner.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+}
+
+.i_info_inner {
+  position: relative;
+  background-image: url(../../assets/img/home_bg_about.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+}
+
+.i_info_box {
+  width: 1200px;
+  margin: 0 auto;
+  height: 560px;
+  // text-align: center;
+}
+
+.i_info_font {
+  font-size: 18px;
+  color: #FFF;
+}
+
+.i_info_title {
+  font-size: 32px;
+  color: #FFF;
+}
+
+.i_banner_box {
+  width: 1200px;
+  margin: 0 auto;
+  height: 540px;
+}
+
+.i_download_box {
+  width: 1200px;
+  margin: 150px auto 100px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 26px 0px rgba(0, 0, 0, 0.08);
+  font-size: 16px;
+  font-weight: 400;
+  color: #333333;
+}
+
+.i_download_title {
+  color: #333333;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.i_banner_title {
+  font-size: 52px;
+  color: #FFF;
+  font-weight: bold;
+  margin-bottom: 48px;
+}
+
+.i_banner_sub_title {
+  font-size: 36px;
+  color: #FFF;
+  width: 540px;
+  height: 70px;
+  line-height: 70px;
+  text-align: center;
+  background: linear-gradient(90deg, #2465ff, #24b1ef);
+  border-radius: 2em;
+}
+
+.i_market_box {
+  width: 100%;
+  margin: 70px auto;
+  background: #F9F9F9;
+}
+
+.i_market_cell {
+  width: 1200px;
+  height: 725px;
+  margin: 0 auto;
+}
+
+/deep/ .el-table__row {
+  cursor: pointer;
+}
+
 </style>

@@ -3,9 +3,9 @@ import my_photo from "../../components/my_photo.vue";
 import my_file_list from "../../components/my_file_list.vue";
 import my_nav from '../../components/my_nav.vue';
 import BaseVue from '../../commons/BaseAdminVue';
-import { ProductOrderApi } from '../../apis/ProductApi';
+import { MarketsApi } from '../../apis/MarketApi'
+import { MarketsResModel } from '@/models/MarketModel';
 import { ProductOrderModel } from '@/models/ProductModel';
-
 @Component({
   components: {
     my_photo,
@@ -71,17 +71,102 @@ import { ProductOrderModel } from '@/models/ProductModel';
 
 })
 export default class Layout extends BaseVue {
-  public product_order_list: ProductOrderModel[] = [];//订单列表
+  public product_order_list: ProductOrderModel[] = [];
+  public activeName:string = 'top'
+  public tableTopData: Array<object> = []
+  public symbol:any = []
+  public tikerArr:[] = []
+  public $socketApi: any;
+
   created() {
-    this.getorderlist();
+    this.$socketApi.createWebSocket()
   }
+
+  mounted() {
+    this.initWidget()
+    this.getMarketList();
+  }
+  
+  beforeDestroy() {
+    this.$socketApi.closeWebSocket()
+  }
+  
+  public async getMarketList() {
+    const options = {}
+    let backData = await new MarketsApi().getList(options)
+    if (backData.status === 200) {
+      let loginM = backData.data as any;
+      loginM.data.map(item => {
+        this.symbol.push(`ticker:${item.sellCoinName}${item.buyCoinName}`)
+      })
+      this.getMarketWsData();
+    } else {
+      console.log(backData)
+    }
+  }
+
+  public handleRowClick(row, column, enent) {
+    alert('测试跳转')
+  }
+
+  public getMarketWsData() {
+    const tickerOptions = { 
+      "op": "subscribe",
+      "args": this.symbol
+    }
+    this.$socketApi.sendSock(tickerOptions, this.getResult);
+  }
+
+  getResult(res) {
+    this.tableTopData.push(res.data)
+  }
+
+  public initWidget() {
+    const script = document.createElement('script');
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-tickers.js'
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      "symbols": [
+        {
+          "proName": "BTCUSDT",
+          "title": "BTC/USDT"
+        },
+        {
+          "proName": "ETHUSDT",
+          "title": "ETH/USDT"
+        },
+        {
+          "proName": "ADAUSDT",
+          "title": "ADA/USDT"
+        },
+        {
+          "proName": "DOGEUSDT",
+          "title": "DOGE/USDT"
+        },
+        {
+          "proName": "FILUSDT",
+          "title": "FIL/USDT"
+        },
+      ],
+      "colorTheme": "dark",
+      "isTransparent": false,
+      "showSymbolLogo": true,
+      "locale": "zh_CN",
+      "height": "170px",
+      "style:": "height: 170px"
+    })
+    document.getElementById("myContainer").appendChild(script);
+  }
+
+
   /**
    * 获取订单列表
    */
-  async getorderlist() {
-    let data = await new ProductOrderApi().getList();
-    if (data.code == 0) {
-      this.product_order_list = data.data.list;
-    }
-  }
+  // async getorderlist() {
+  //   let data = await new ProductOrderApi().getList();
+  //   if (data.code == 0) {
+  //     this.product_order_list = data.data.list;
+  //   }
+  // }
+
 }

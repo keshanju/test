@@ -3,11 +3,11 @@ import { CommonAdminUtil } from "../../commons/CommonAdminUtil";
 import { ModuleModel } from "@/models/ModuleModel";
 import { MarketsApi } from '../../apis/MarketApi'
 import BaseVue from '../../commons/BaseAdminVue';
-import Navbar from '../../components/Navbar.vue'
+import Header from '../../components/Header.vue'
 import Footer from '../../components/Footer.vue'
 @Component({
   components: {
-    Navbar,
+    Header,
     Footer
   }
 })
@@ -22,7 +22,7 @@ export default class Layout extends BaseVue {
 
   public mounted() {
     this.init_items = CommonAdminUtil.getModule();
-    this.getMarketList();
+    // this.getMarketList();
   }
 
   public async getMarketList() {
