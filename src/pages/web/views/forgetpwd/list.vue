@@ -9,16 +9,16 @@
           <div class="l_title_tpis mar_b20" v-if="isNextStep">提示：重置密码成功后，24小时内不可提现资产</div>
           <div class="flex_sbe_center" v-if="isNextStep">
             <div class="flex_start_center">
-              <div @click="changeRegType('phone')" class="l_tab_cell" :class="loginType === 'phone'?'i_tab_active':''">手机</div>
-              <div @click="changeRegType('email')" class="l_tab_cell mar_l10" :class="loginType === 'email'?'i_tab_active':''">邮箱</div>
+              <div @click="changeRegType(1)" class="l_tab_cell" :class="loginType === 1?'i_tab_active':''">手机</div>
+              <div @click="changeRegType(2)" class="l_tab_cell mar_l10" :class="loginType === 2?'i_tab_active':''">邮箱</div>
             </div>
             <div class="flex_start_center">
               <div class="mar_r5">已有账号?</div>
               <el-link :underline="false" type="primary" href="#/login">登录</el-link>
             </div>
           </div>
-          <el-form ref="regForm" label-width="0" class="mar_t30">
-            <el-form-item prop="phoneNumber" v-show="loginType === 'phone' && isNextStep">
+          <el-form :model="regForm" :rules="regRules" ref="regForm" class="mar_t20">
+            <el-form-item prop="phoneNumber" v-if="loginType === 1 && isNextStep">
               <el-input placeholder="请输入电话号码" v-model="regForm.phoneNumber">
                 <el-select v-model="regForm.nationalCode" slot="prepend" placeholder="请选择">
                   <el-option class="flex_sbe_center" v-for="(item, index) in areaOptions" :key="index" :value="item.nationalCode">
@@ -29,21 +29,21 @@
               </el-input>
             </el-form-item>
 
-            <el-form-item prop="email" v-show="loginType === 'email' && isNextStep">
+            <el-form-item prop="email" v-if="loginType === 2 && isNextStep">
               <el-input placeholder="请输入邮箱" v-model="regForm.email"></el-input>
             </el-form-item>
 
-            <el-form-item prop="captcha" v-if="isNextStep">
+            <el-form-item prop="captcha" v-show="isNextStep">
               <el-input placeholder="请输入验证码" v-model="regForm.captcha">
-                <el-button slot="append" @click="getVerCode" style="width:80px">{{btnText}}</el-button>
+                <el-button slot="append" @click="getCaptcha" style="width:80px">{{btnText}}</el-button>
               </el-input>
             </el-form-item>
 
-            <el-form-item prop="oldPwd" v-if="!isNextStep">
-              <el-input placeholder="请输入新密码" maxlength="16" show-password v-model="regForm.pwd"></el-input>
+            <el-form-item prop="newPwd" v-show="!isNextStep">
+              <el-input placeholder="请输入新密码" maxlength="16" show-password v-model="regForm.newPwd"></el-input>
             </el-form-item>
 
-            <el-form-item prop="newPwd" v-if="!isNextStep">
+            <el-form-item prop="confirmPwd" v-show="!isNextStep">
               <el-input placeholder="请确认新密码" maxlength="16" show-password v-model="regForm.confirmPwd"></el-input>
             </el-form-item>
 

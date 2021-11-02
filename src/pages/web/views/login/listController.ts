@@ -47,7 +47,8 @@ export default class Layout extends BaseVue {
         const backData = await new UserApi().login(options);
         if (backData.status === 200) {
           const loginM: LoginModel = backData.data;
-          LocalStorageUtil.addUserToken(loginM.login_info);
+          debugger
+          LocalStorageUtil.addLoginInfo(loginM);
           this.$message.success("登录成功");
           setTimeout(() => {
             this.$router.push({

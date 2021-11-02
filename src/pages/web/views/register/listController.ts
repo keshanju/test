@@ -37,7 +37,7 @@ export default class Register extends BaseVue {
       callback(new Error("请输入密码"));
     } else {
       if (this.regForm.confirmPwd !== "") {
-        (this.$refs.regForm as any).validateField("checkPass");
+        (this.$refs["regForm"] as any).validateField("checkPass");
       }
       callback();
     }

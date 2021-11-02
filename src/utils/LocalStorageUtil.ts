@@ -1,5 +1,5 @@
 
-import { UserToken } from "@/models/UserModel";
+import { LoginModel } from "@/models/UserModel";
 /**
  * localstorage类
  */
@@ -59,20 +59,20 @@ export default class LocalStorageUtil {
     /**
      * 保存用户token
      */
-     public static addUserToken(userInfo: UserToken) {
-        if (userInfo.token == '') return;
-        if (userInfo.token == null || userInfo.token == undefined) throw new Error('保存的token错误!');
-        LocalStorageUtil.setCookie(LocalStorageUtil.STORAGES_TOKEN, JSON.stringify(userInfo), 2, true);
+     public static addLoginInfo(loginInfo: LoginModel) {
+        if (loginInfo.token == '') return;
+        if (loginInfo.token == null || loginInfo.token == undefined) throw new Error('保存的token错误!');
+        LocalStorageUtil.setCookie(LocalStorageUtil.STORAGES_TOKEN, JSON.stringify(loginInfo), 2, true);
     }
 
     /**
      * 获取用户的token
      */
-    public static getUserToken(): UserToken {
+    public static getLoginInfo(): LoginModel {
         let info = LocalStorageUtil.getCookie(LocalStorageUtil.STORAGES_TOKEN);
-        if (info == '') return new UserToken();
-        let userInfo: UserToken = JSON.parse(info) as UserToken;
-        return userInfo;
+        if (info == '') return new LoginModel();
+        let loginInfo: LoginModel = JSON.parse(info) as LoginModel;
+        return loginInfo;
     }
 
 

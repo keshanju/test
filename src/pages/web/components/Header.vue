@@ -20,17 +20,26 @@
         </div>
       </div>
       <div style="width: 15%" class="h_nav_other flex_sar_center">
-        <div class="h_nav_login">
-          <a class="h_login_font mar_r15">登录</a>
-          <el-button size="medium" type="primary">注册</el-button>
+        <div class="h_nav_login" v-if="!isLogin">
+          <a @click="toLogin" class="h_login_font mar_r15">登录</a>
+          <el-button size="medium" type="primary" @click="toRegister">注册</el-button>
+        </div>
+        <div v-else>
+          <el-popover popper-class='down-QRcode-url' placement="top-start" trigger="hover">
+            <div class="h_user_box">
+              <div>{{userInfo.mobile || userInfo.email}}</div>
+              <div>{{userInfo.uid}}</div>
+            </div>
+            <i slot="reference" class="el-icon-download"></i>
+          </el-popover>
         </div>
         <el-popover popper-class='down-QRcode-url' placement="top-start" trigger="hover">
           <img src="../assets/img/qr_code.png" alt="">
           <i slot="reference" class="el-icon-download"></i>
         </el-popover>
         <el-popover popper-class='down-QRcode-url' placement="top-start" trigger="hover">
-          <div class="">
-            ds
+          <div class="h_lang_box">
+            语言选择
           </div>
           <i slot="reference" class="el-icon-discover"></i>
         </el-popover>
@@ -40,7 +49,7 @@
 </template>
 
 <script>
-import { mapActions,mapGetters,mapState } from 'vuex'
+import LocalStorageUtil from '@/utils/LocalStorageUtil'
 export default {
   props: {
     opcity: {
@@ -57,25 +66,33 @@ export default {
         value: 'en',
         label: 'English'
       }],
+      isLogin: false,
+      userInfo: {}
     }
   },
-  computed: {
-    ...mapGetters({
-      isLogin: 'user/token',
-      userInfo: 'user/userInfo'
-    }),
-    // ...mapState({
-    //   userInfo: state => state.user.userInfo
-    // }),
-    lang() {
-      return localStorage.getItem('locale')
-    },
-  },
   created() {
-    
+    this.checkLogin()
   },
   methods: {
-    
+    /**
+     * 检测是否登录
+     */
+    checkLogin() {
+      const info = LocalStorageUtil.getLoginInfo();
+      console.log(info)
+      if (info !== null) {
+          this.userInfo = info;
+          this.isLogin = true;
+      }
+    },
+
+    toRegister() {
+      this.$router.push('/register')
+    },
+
+    toLogin() {
+      this.$router.push('/login')
+    }
   }
 }
 </script>
