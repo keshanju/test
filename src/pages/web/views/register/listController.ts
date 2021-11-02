@@ -1,6 +1,4 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { AdminApi } from "@/pages/admin/apis/AdminApi";
-import { ModuleApi } from "../../apis/ModuleApi";
 import { CommonAdminUtil } from "../../commons/CommonAdminUtil";
 import { UserApi } from "../../apis/UserApi";
 import areaCode from "../../assets/js/area_code";

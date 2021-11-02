@@ -26,6 +26,11 @@ const constantRouterMap = [
     component: () => import("./views/test/index.vue")
   },
   {
+    name: 'Exchange',
+    path: "/exchange",
+    component: () => import("./views/exchange/list.vue")
+  },
+  {
     path: '*',
     redirect: '/'
   },
@@ -45,10 +50,10 @@ const constantRouterMap = [
           path: "/user_center",
           component: () => import("./views/user_center/list.vue")
         },
-        {
-          path: "/ad/list",
-          component: () => import("./views/ad/list.vue")
-        },
+        // {
+        //   path: "/ad/list",
+        //   component: () => import("./views/ad/list.vue")
+        // },
       ]
   }
 ];
@@ -64,15 +69,13 @@ const noNeedLogin = ['Login', 'Register', 'Forgetpwd']
 rr.beforeEach((to, from, next) => {
   const checkLogin = LocalStorageUtil.getLoginInfo();
   if(!noNeedLogin.includes(to.name)) {
-    if (checkLogin.token) {
-      next()
-    } else {
-      next('/')
-    }
+    if (checkLogin.token) next() 
+    else next({name: 'Login'})
+    next()
   } else {
-    if (checkLogin.token) {
-      next('/user_center')
-    }
+    if (checkLogin.token) next('/user_center')
+    else next()
+    next()
   }
 })
 

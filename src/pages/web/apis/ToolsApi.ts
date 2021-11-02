@@ -18,11 +18,12 @@ export class ToolsApi extends BaseApi {
      */
     public async vercode(){
         let url = "/api/client/tools/vercode";
-        let d =  await AxiosUtil.get<BaseModel<VerCodeModel>>(url);
+        let d =  await AxiosUtil.get<any>(url, {});
         return d;
     }
 
     public sendsms(){
 
     }
+    
 }

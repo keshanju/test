@@ -1,28 +1,28 @@
 <template>
   <div class="header_box">
     <div class="flex_sbe_center" style="height: 60px">
-      <div class="h_logo" style="width: 10%">
+      <div class="h_logo" @click="goIndex" style="width: 10%">
         <img src="../assets/img/logo1.png" alt="" class="mar_r5">
         <img src="../assets/img/logo_txt.png" alt="">
       </div>
       <div style="width: 75%" class="h_nav_box flex_start_center">
-        <div class="h_nav_cell">
+        <div class="h_nav_cell"  @click="goExchange">
           币币交易
         </div>
-        <div class="h_nav_cell">
+        <div class="h_nav_cell"  @click="goMarkets">
           行情
         </div>
-        <div class="h_nav_cell">
+        <div class="h_nav_cell"  @click="goSuanli">
           算力超市
         </div>
-        <div class="h_nav_cell">
+        <div class="h_nav_cell"  @click="goQuantization">
           量化专区
         </div>
       </div>
       <div style="width: 15%" class="h_nav_other flex_sar_center">
         <div class="h_nav_login" v-if="!isLogin">
-          <a @click="toLogin" class="h_login_font mar_r15">登录</a>
-          <el-button size="medium" type="primary" @click="toRegister">注册</el-button>
+          <a @click="goLogin" class="h_login_font mar_r15">登录</a>
+          <el-button size="medium" type="primary" @click="goRegister">注册</el-button>
         </div>
         <div v-else>
           <el-popover popper-class='down-QRcode-url' placement="top-start" trigger="hover">
@@ -50,6 +50,7 @@
 
 <script>
 import LocalStorageUtil from '@/utils/LocalStorageUtil'
+import { JumpUtil } from '@/utils/JumpUtil'
 export default {
   props: {
     opcity: {
@@ -79,20 +80,39 @@ export default {
      */
     checkLogin() {
       const info = LocalStorageUtil.getLoginInfo();
-      console.log(info)
       if (info !== null) {
           this.userInfo = info;
           this.isLogin = true;
       }
     },
 
-    toRegister() {
-      this.$router.push('/register')
+    goIndex() {
+      JumpUtil.backIndex()
     },
 
-    toLogin() {
-      this.$router.push('/login')
-    }
+    goExchange() {
+      JumpUtil.backExchange()
+    },
+    
+    goMarkets() {
+      JumpUtil.backMarkets()
+    },
+    
+    goSuanli() {
+      JumpUtil.backSuanli()
+    },
+    
+    goQuantization() {
+      JumpUtil.backQuantization()
+    },
+
+    goLogin() {
+      JumpUtil.backLogin()
+    },
+
+    goRegister() {
+      JumpUtil.backRegister()
+    },
   }
 }
 </script>
@@ -112,6 +132,7 @@ export default {
 
 .h_logo {
   margin-left: 8px;
+  cursor: pointer;
 }
 
 .h_login_font {

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { BaseResult, BaseModel, BaseArray, BasePager } from '@/models/BaseModel';
 import Qs from "qs";
 import { GlobalUtil } from "@/common/GlobalUtil";
-import { BaseApi } from '@/pages/admin/apis/BaseApi';
+import { BaseApi } from '@/pages/web/apis/BaseApi';
 
 export class AxiosUtil {
   /**

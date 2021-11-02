@@ -2,34 +2,49 @@ import Util from './index'
 
 
 export class JumpUtil {
-  static URL_HOME = "home";// 申请模拟交易账号界面
   static URL_REGISTER = "register";// 注册界面
+  static URL_LOGIN = "login";// 登录界面
+  static URL_FORGETPWD = "forgetPwd";// 忘记密码
+  static URL_EXCHANGE = "exchange";// 币币交易
+  static URL_MARKETS = "markets";// 行情页面
+  static URL_SUANLI = "suanli";// 算力超市
+  static URL_QUANTIZATION = "quantization";// 量化专区
 
-  /**
-   * @Author Wings Ke 2020-07-24
-   * @Desc 回到到注册界面
-   * @Param None
-  */
+  static backIndex() {
+    window.location.href = Util.getOrigin() + '/';
+  }
+
   static backRegister() {
     window.location.href = Util.getOrigin() + '/' + this.URL_REGISTER;
   }
+  
+  static backLogin() {
+    window.location.href = Util.getOrigin() + '/' + this.URL_LOGIN;
+  }
 
-  /**
-   * @Author Wings Ke 2020-07-27
-   * @Desc 回到首页
-   * @Param None
-  */
-  static backHome() {
-    window.location.href = Util.getOrigin() + '/' + this.URL_HOME;
+  static backExchange() {
+    window.location.href = Util.getOrigin() + '/' + this.URL_EXCHANGE;
+  }
+
+  static backMarkets() {
+    window.location.href = Util.getOrigin() + '/' + this.URL_MARKETS;
+  }
+
+  static backSuanli() {
+    window.location.href = Util.getOrigin() + '/' + this.URL_SUANLI;
+  }
+
+  static backQuantization() {
+    window.location.href = Util.getOrigin() + '/' + this.URL_QUANTIZATION;
   }
 
   /**
-   * @Author Wings Ke 2020-07-27
+   * @Author Wings Ke
    * @Desc 重定向到任何可匹配的界面
-   * @Param None
+   * @Param pageName
   */
- static backMatchingPage(page) {
-  window.location.href = Util.getOrigin() + '/' + page;
+ static backMatchingPage(pageName: string) {
+  window.location.href = Util.getOrigin() + '/' + pageName;
  }
 
 }
