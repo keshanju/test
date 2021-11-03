@@ -1,5 +1,4 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { CommonAdminUtil } from "../../commons/CommonAdminUtil";
 import { UserApi } from "../../apis/UserApi";
 import areaCode from "../../assets/js/area_code";
 import { LoginReqModel } from "@/models/UserModel";
