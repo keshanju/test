@@ -9,7 +9,7 @@ export class AxiosUtil {
    * http get
    * @param url
    */
-  public static async get<T>(url: string, params: any) {
+  public static async get<T>(url: string, params?: any) {
     url = GlobalUtil.Url + url;
     // params = {params};
     try {

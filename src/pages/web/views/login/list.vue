@@ -14,13 +14,13 @@
               <el-input show-password v-model="loginForm.password" placeholder="登录密码"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button style="width: 100%" type="primary" @click="submitLoginForm">立即登录</el-button>
+              <el-button style="width: 100%" type="primary" :loading="loginLoading" @click="submitLoginForm">立即登录</el-button>
             </el-form-item>
           </el-form>
           <div class="flex_sbe_center">
             <div class="flex_start_center">
               <div class="mar_r5">没有账号?</div>
-              <el-link :underline="false" type="primary" href="#/register">注册</el-link>
+              <el-link :underline="false" type="primary" @click="goRegister">注册</el-link>
             </div>
             <el-link type="primary" href="#/forgetpwd">忘记密码</el-link>
           </div>

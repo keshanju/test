@@ -40,4 +40,11 @@ export class UserApi extends BaseApi {
         let d =  await AxiosUtil.post<any>(url, options);
         return d;
     }
+
+    public async getuserdetail(options) {
+        let url = "/user/details";
+        let d = await AxiosUtil.get<any>(url, options)
+    }
+
+
 }

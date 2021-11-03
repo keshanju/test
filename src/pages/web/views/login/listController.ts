@@ -1,5 +1,5 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { CommonAdminUtil } from "../../commons/CommonAdminUtil";
+import { JumpUtil } from '@/utils/JumpUtil'
 import { UserApi } from "../../apis/UserApi";
 import LocalStorageUtil from "@/utils/LocalStorageUtil";
 import { LoginModel } from "@/models/UserModel";
@@ -31,21 +31,26 @@ export default class Layout extends BaseVue {
     password: [{ validator: this.validatePass, trigger: "blur" }],
   };
 
+  public loginLoading: boolean = false
 
   async created() {}
 
   async mounted() {}
 
+  public goRegister() {
+    JumpUtil.backRegister()
+  }
+
   public submitLoginForm() {
     (this.$refs["loginForm"] as any).validate(async (valid) => {
       if (valid) {
+        this.loginLoading = true
         const options = {
           ...this.loginForm
         };
         const backData = await new UserApi().login(options);
         if (backData.status === 200) {
           const loginM: LoginModel = backData.data;
-          debugger
           LocalStorageUtil.addLoginInfo(loginM);
           this.$message.success("登录成功");
           setTimeout(() => {
@@ -54,6 +59,7 @@ export default class Layout extends BaseVue {
             })
           }, 1000)
         } else {
+          this.loginLoading = false
           this.$message.error("登录失败，请重试!");
         }
       }

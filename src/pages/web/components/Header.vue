@@ -5,7 +5,7 @@
         <img src="../assets/img/logo1.png" alt="" class="mar_r5">
         <img src="../assets/img/logo_txt.png" alt="">
       </div>
-      <div style="width: 75%" class="h_nav_box flex_start_center">
+      <div style="width: 65%" class="h_nav_box flex_start_center">
         <div class="h_nav_cell"  @click="goExchange">
           币币交易
         </div>
@@ -19,31 +19,58 @@
           量化专区
         </div>
       </div>
-      <div style="width: 15%" class="h_nav_other flex_sar_center">
+      <div style="width: 25%" class="h_nav_other flex_end_center">
         <div class="h_nav_login" v-if="!isLogin">
           <a @click="goLogin" class="h_login_font mar_r15">登录</a>
           <el-button size="medium" type="primary" @click="goRegister">注册</el-button>
         </div>
-        <div v-else>
-          <el-popover popper-class='down-QRcode-url' placement="top-start" trigger="hover">
+        <div class="flex_end_center" v-else>
+          <el-popover class="mar_l20" placement="top-start" trigger="hover">
+            <div class="h_assets_list">
+              资产总览
+            </div>
+            <div slot="reference">
+              资产
+            </div>
+          </el-popover>
+
+          <el-popover class="mar_l20" placement="top-start" trigger="hover">
+            <div class="h_order_list">
+              法币订单
+            </div>
+            <div slot="reference">
+              订单
+            </div>
+          </el-popover>
+
+          <el-popover class="mar_l20" placement="top-start" trigger="hover">
             <div class="h_user_box">
               <div>
                 <a @click="goUserCenter">{{userInfo.mobile || userInfo.email}}</a>
               </div>
               <div>{{userInfo.uid}}</div>
             </div>
-            <i slot="reference" class="el-icon-download"></i>
+            <div slot="reference">
+              <i  class="el-icon-user"></i>
+            </div>
           </el-popover>
         </div>
-        <el-popover popper-class='down-QRcode-url' placement="top-start" trigger="hover">
+
+        <el-popover class="mar_l20" placement="top-start" trigger="hover">
           <img src="../assets/img/qr_code.png" alt="">
-          <i slot="reference" class="el-icon-download"></i>
+          <div slot="reference">
+            <span>下载</span>
+            <i  class="el-icon-download"></i>
+          </div>
         </el-popover>
-        <el-popover popper-class='down-QRcode-url' placement="top-start" trigger="hover">
+        <el-popover class="mar_l20" placement="top-start" trigger="hover">
           <div class="h_lang_box">
             语言选择
           </div>
-          <i slot="reference" class="el-icon-discover"></i>
+          <div slot="reference">
+            <span>语言</span>
+            <i class="el-icon-discover"></i>
+          </div>
         </el-popover>
       </div>
     </div>
