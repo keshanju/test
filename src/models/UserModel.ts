@@ -5,9 +5,22 @@
  * @interface UserModel
  */
 
-/**
- * 登录成功返回参数
- */
+ export class UserDetailModle {
+    public id: number = 0;
+    public userName: string = '';
+    public mobile: string = '';
+    public email: string = '';
+    public realName: string = '';
+    public level: string = '';
+    public area: string = '';
+    public bindMobile: boolean = false;
+    public bindEmail: boolean = false;
+    public bindGA: boolean = false;
+    public bindTradePwd: boolean = false;
+    public registerType: number = 1;
+    public verifyStatus: number = 0;
+    public cardId: string = '';
+}
  export class LoginModel {
     public email: string = "";
     public mobile: string = "";
@@ -17,7 +30,10 @@
     public uid: string = "";
     public userName: string = "";
 }
-
+export interface LoginReqModel {
+    userName: string;
+    password: string;
+}
 export interface RegReqModel {
     type: string;
     mobile: string;
@@ -29,15 +45,6 @@ export interface RegReqModel {
 }
 
 export class RegModel {
-
-}
-
-export interface LoginReqModel {
-    userName: string;
-    password: string;
-}
-
-export class LoginModle {
 
 }
 

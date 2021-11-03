@@ -1,7 +1,8 @@
-import axios, { AxiosResponse } from "axios";
-import { BaseResult, BaseModel, BaseArray, BasePager } from '@/models/BaseModel';
+import axios, { AxiosRequestConfig } from "axios";
+import { BaseModel } from '@/models/BaseModel';
 import Qs from "qs";
 import { GlobalUtil } from "@/common/GlobalUtil";
+import LocalStorageUtil from "./LocalStorageUtil";
 import { BaseApi } from '@/pages/web/apis/BaseApi';
 
 export class AxiosUtil {
@@ -11,17 +12,22 @@ export class AxiosUtil {
    */
   public static async get<T>(url: string, params?: any) {
     url = GlobalUtil.Url + url;
-    // params = {params};
+    const LoginInfo = LocalStorageUtil.getLoginInfo()
+    const _config:AxiosRequestConfig = {
+      params: {...params},
+      headers: {
+        Authorization: LoginInfo.token?LoginInfo.token:''
+      }
+    }
     try {
-        let backData = await axios.get(url, params);
+        let backData = await axios.get(url, _config);
         let backData1 = backData.data as BaseModel<T>;
         return backData1;
     } catch (e) {
-        // const errorData = new BaseModel();
-        // errorData.code = HttpClient.HTTP_ERROR_NEW_CODE;
-        // errorData.msg = "网络错误!";
-
-        // return errorData;
+        const errorData = e as BaseModel<T>;
+        errorData.status = 500;
+        errorData.message = "网络错误!";
+        return errorData;
     }
   }
 
@@ -32,16 +38,15 @@ export class AxiosUtil {
    */
   public static async post<T>(url: string, params: any) {
     url = GlobalUtil.Url + url;
-    // params = {params};
     try {
         let backData = await axios.post(url, params);
         let backData1 = backData.data as BaseModel<T>;
         return backData1;
     } catch (e) {
-        // const errorData = new BaseModel();
-        // errorData.code = HttpClient.HTTP_ERROR_NEW_CODE;
-        // errorData.msg = "网络错误!";
-        // return errorData;
+        const errorData = e as BaseModel<T>;
+        errorData.status = 500;
+        errorData.message = "网络错误!";
+        return errorData;
     }
   }
 

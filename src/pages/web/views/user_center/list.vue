@@ -4,11 +4,8 @@
       <div class="u_header_box flex_start_center">
         <div class="u_avtar_box"></div>
         <div class="flex_start_start flex_column">
-          <div class="flex_start_center">
-            <div>Hi, 15165645621</div>
-            <div>UID: 183787630</div>
-          </div>
-          <div class="">最后登录时间: 2021-11-03 10:08:21 IP:103.135.251.46 </div>
+          <div>Hi, {{userDetailInfo.mobile}}</div>
+          <div>UID: {{userDetailInfo.id}}</div>
         </div>
       </div>
     </div>
@@ -23,7 +20,6 @@
       <el-card class="u_card_box" shadow="hover">
         <div slot="header" class="u_card_title">
           <span>安全认证</span>
-          <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
         </div>
         <div class="u_card_cell flex_sbe_center">
           <div class="flex_start_center">
@@ -38,8 +34,9 @@
             </div>
           </div>
           <div class="flex_start_center">
-            <div class="mar_r10">15172400950</div>
-            <el-link :underline="false">验证</el-link>
+            <div class="mar_r10">{{userDetailInfo.mobile}}</div>
+            <el-link :underline="false" @click="editUserPhone" v-if="userDetailInfo.bindMobile">修改</el-link>
+            <el-link :underline="false" @click="bindUserPhone" v-else>绑定</el-link>
           </div>
         </div>
         <div class="u_card_cell flex_sbe_center">
@@ -55,12 +52,10 @@
             </div>
           </div>
           <div class="flex_start_center">
-            <div class="mar_r10">key****@gmail.com</div>
-            <el-link :underline="false">验证</el-link>
+            <div class="mar_r10">{{userDetailInfo.email}}</div>
+            <el-link :underline="false" @click="editUserEmail" v-if="userDetailInfo.bindEmail">修改</el-link>
+            <el-link :underline="false" @click="bindUserEmail" v-else>绑定</el-link>
           </div>
-        </div>
-        <div class="u_card_cell flex_sbe_center">
-          
         </div>
       </el-card>
 
@@ -84,11 +79,118 @@
             <el-link :underline="false">修改</el-link>
           </div>
         </div>
-        <div class="u_card_cell　flex_sbe_center">
-          
+        <div class="u_card_cell flex_sbe_center">
+          <div class="flex_start_center">
+            <div class="mar_r20">
+              <img class="u_icon_box" src="../../assets/img/user_center/lock_icon.png" alt="">
+            </div>
+            <div>
+              <div class="mar_b5">资金密码</div>
+              <div>
+                资金密码 用于交易、提现时的验证
+              </div>
+            </div>
+          </div>
+          <div class="flex_start_center">
+            <el-link :underline="false" v-if="!userDetailInfo.bindTradePwd">设置</el-link>
+            <el-link :underline="false" v-else>修改</el-link>
+          </div>
         </div>
       </el-card>
 
+      <!-- 手机验证弹框 -->
+      <el-dialog
+        width="30%"
+        :title="isEditOrBind===1?'修改手机号':'绑定手机号'"
+        :visible.sync="phoneDialog"
+        :before-close="handleClose"
+      >
+        <div>
+          <el-form class="mar_t20" :model="authPhoneForm" :rules="authPhoneRules" ref="authPhoneForm">
+            <!-- 修改手机号 -->
+            <div v-if="isEditOrBind===1">
+              <el-form-item prop="moneyPwd">
+                <el-input placeholder="请填写资金密码" show-password v-model="authPhoneForm.moneyPwd"></el-input>
+              </el-form-item>
+              <el-form-item prop="newMobile">
+                <el-input placeholder="请填写新手机号" show-password v-model="authPhoneForm.newMobile"></el-input>
+              </el-form-item>
+              <el-form-item prop="code">
+                <el-input placeholder="请填写验证码" v-model="authPhoneForm.code">
+                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                </el-input>
+              </el-form-item>
+            </div>
+            <!-- 绑定手机号 -->
+            <div v-else>
+              <el-form-item prop="newMobile">
+                <el-input placeholder="请填写新手机号" show-password v-model="authPhoneForm.newMobile"></el-input>
+              </el-form-item>
+              <el-form-item prop="emailCode">
+                <el-input placeholder="请填写邮箱验证码" v-model="authPhoneForm.emailCode">
+                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">{{btnText}}</el-button>
+                </el-input>
+              </el-form-item>
+              <el-form-item prop="phoneCode">
+                <el-input placeholder="请填写手机验证码" v-model="authPhoneForm.phoneCode">
+                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                </el-input>
+              </el-form-item>
+            </div>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="phoneDialog = false">取 消</el-button>
+          <el-button type="primary" @click="phoneDialog = false">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <!-- 邮箱验证弹框 -->
+      <el-dialog
+        width="30%"
+        :title="isEditOrBind===1?'修改邮箱号':'绑定邮箱号'"
+        :visible.sync="emailDialog"
+        :before-close="handleClose"
+      >
+        <div>
+          <el-form class="mar_t20" :model="authEmailForm" :rules="authPhoneRules" ref="authEmailForm">
+            <!-- 修改邮箱号 -->
+            <div v-if="isEditOrBind===1">
+              <el-form-item prop="moneyPwd">
+                <el-input placeholder="请填写资金密码" show-password v-model="authEmailForm.moneyPwd"></el-input>
+              </el-form-item>
+              <el-form-item prop="newMobile">
+                <el-input placeholder="请填写新邮箱号" show-password v-model="authEmailForm.newEmail"></el-input>
+              </el-form-item>
+              <el-form-item prop="code">
+                <el-input placeholder="请填写验证码" v-model="authEmailForm.code">
+                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                </el-input>
+              </el-form-item>
+            </div>
+            <!-- 绑定邮箱号 -->
+            <div v-else>
+              <el-form-item prop="phoneCode">
+                <el-input placeholder="请填写手机验证码" v-model="authEmailForm.phoneCode">
+                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                </el-input>
+              </el-form-item>
+              <el-form-item prop="newMobile">
+                <el-input placeholder="请填写邮箱号" show-password v-model="authEmailForm.newEmail"></el-input>
+              </el-form-item>
+              <el-form-item prop="emailCode">
+                <el-input placeholder="请填写邮箱验证码" v-model="authEmailForm.emailCode">
+                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">{{btnText}}</el-button>
+                </el-input>
+              </el-form-item>
+            </div>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="emailDialog = false">取 消</el-button>
+          <el-button type="primary" @click="emailDialog = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -148,6 +250,10 @@
   padding: 24px;
   border-bottom: 1px solid #e6ecf2;
   
+}
+
+.u_card_cell:last-child {
+  border-bottom: none;
 }
 
 .u_icon_box {
