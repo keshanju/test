@@ -17,6 +17,7 @@ export default class LocalStorageUtil {
     public static STORAGES_PHONE_PW = 'phonePassword';
     public static STORAGES_EMAIL_PW = 'emailPassword';
     public static STORAGES_TOKEN = 'account_token';
+    public static STORAGES_SKYTOKEN = 'skies-token';
     public static STORAGES_USER_INFO = 'user_info';
     public static STORAGES_URL_TARGET = 'url_target'; //记录登录后需要跳转的页面
     public static STORAGES_LANGUAGE_TYPE = 'language_type'; //语言
@@ -62,7 +63,7 @@ export default class LocalStorageUtil {
      public static addLoginInfo(loginInfo: LoginModel) {
         if (loginInfo.token == '') return;
         if (loginInfo.token == null || loginInfo.token == undefined) throw new Error('保存的token错误!');
-        LocalStorageUtil.setCookie(LocalStorageUtil.STORAGES_TOKEN, JSON.stringify(loginInfo), 2, true);
+        LocalStorageUtil.setCookie(LocalStorageUtil.STORAGES_TOKEN, JSON.stringify(loginInfo), 24, true);
     }
 
     /**

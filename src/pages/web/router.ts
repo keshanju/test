@@ -65,6 +65,11 @@ const constantRouterMap = [
           path: "/user_center/security",
           component: () => import("./views/user_center/list.vue")
         },
+        {
+          name: 'UCAUTH',
+          path: "/user_center/uc_auth",
+          component: () => import("./views/user_center/uc_auth/list.vue")
+        },
       ]
   }
 ];

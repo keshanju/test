@@ -18,7 +18,7 @@
           <div class="mar_b5">个人认证</div>
           <div class="mar_b10">完成个人认证有助于保护账户安全，提高提现额度及交易权限</div>
         </div>
-        <el-button type="primary" size="small">身份认证</el-button>
+        <el-button type="primary" size="small" @click=goUcAuth>身份认证</el-button>
       </div>
       <el-card class="u_card_box" shadow="hover">
         <div slot="header" class="u_card_title">

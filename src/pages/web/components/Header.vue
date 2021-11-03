@@ -59,7 +59,7 @@
         <el-popover class="mar_l20" placement="top-start" trigger="hover">
           <img src="../assets/img/qr_code.png" alt="">
           <div slot="reference">
-            <span>下载</span>
+            <!-- <span>下载</span> -->
             <i  class="el-icon-download"></i>
           </div>
         </el-popover>
@@ -68,7 +68,7 @@
             语言选择
           </div>
           <div slot="reference">
-            <span>语言</span>
+            <!-- <span>语言</span> -->
             <i class="el-icon-discover"></i>
           </div>
         </el-popover>
@@ -165,7 +165,7 @@ export default {
 }
 
 .h_logo {
-  margin-left: 8px;
+  margin-left: 24px;
   cursor: pointer;
 }
 
@@ -185,7 +185,7 @@ export default {
 }
 
 .h_nav_other {
-  margin-right: 8px;
+  margin-right: 24px;
 }
 
 .h_nav_login {

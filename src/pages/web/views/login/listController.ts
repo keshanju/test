@@ -55,7 +55,7 @@ export default class Layout extends BaseVue {
           this.$message.success("登录成功");
           setTimeout(() => {
             this.$router.push({
-              path: '/user_center'
+              path: '/user_center/security'
             })
           }, 1000)
         } else {

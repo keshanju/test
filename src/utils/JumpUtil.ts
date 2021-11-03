@@ -11,7 +11,8 @@ export class JumpUtil {
   static URL_SUANLI = "suanli";// 算力超市
   static URL_QUANTIZATION = "quantization";// 量化专区
 
-  static URL_USERCENTER_SECURITY = "user_center/security";// 量化专区
+  static URL_USERCENTER_SECURITY = "user_center/security";// 账户&安全
+  static URL_USERCENTER_UCAUTH = "user_center/uc_auth";// 身份认证
 
   static backIndex() {
     window.location.href = Util.getOrigin() + this.hashVal;
@@ -19,6 +20,10 @@ export class JumpUtil {
 
   static backUserCenter() {
     window.location.href = Util.getOrigin() + this.hashVal + this.URL_USERCENTER_SECURITY;
+  }
+
+  static backUcAuth() {
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_USERCENTER_UCAUTH;
   }
 
   static backRegister() {
@@ -44,6 +49,7 @@ export class JumpUtil {
   static backQuantization() {
     window.location.href = Util.getOrigin() + this.hashVal + this.URL_QUANTIZATION;
   }
+
 
   /**
    * @Author Wings Ke
