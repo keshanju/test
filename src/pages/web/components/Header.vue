@@ -49,6 +49,7 @@
                 <a @click="goUserCenter">{{userInfo.mobile || userInfo.email}}</a>
               </div>
               <div>{{userInfo.uid}}</div>
+              <div @click="logOut">退出登录</div>
             </div>
             <div slot="reference">
               <i  class="el-icon-user"></i>
@@ -114,6 +115,11 @@ export default {
           this.userInfo = info;
           this.isLogin = true;
       }
+    },
+
+    logOut() {
+      LocalStorageUtil.removeCookie(LocalStorageUtil.STORAGES_TOKEN)
+      this.goLogin()
     },
 
     goUserCenter() {
