@@ -167,7 +167,7 @@
           </el-form>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="phoneDialog = false">取 消</el-button>
+          <el-button @click="cancelPhoneDialog">取 消</el-button>
           <el-button type="primary" @click="confirmPhoneSubmit">确 定</el-button>
         </span>
       </el-dialog>
@@ -180,41 +180,41 @@
         :before-close="handleClose"
       >
         <div>
-          <el-form class="mar_t20" :model="authEmailForm" :rules="authPhoneRules" ref="authEmailForm">
+          <el-form class="mar_t20" :model="authEmailForm" :rules="authEmailRules" ref="authEmailForm">
             <!-- 修改邮箱号 -->
             <div v-if="isEditOrBind===1">
               <el-form-item prop="moneyPwd">
                 <el-input placeholder="请填写资金密码" show-password v-model="authEmailForm.moneyPwd"></el-input>
               </el-form-item>
-              <el-form-item prop="newMobile">
-                <el-input placeholder="请填写新邮箱号" show-password v-model="authEmailForm.newEmail"></el-input>
+              <el-form-item prop="newEmail">
+                <el-input placeholder="请填写新邮箱号" v-model="authEmailForm.newEmail"></el-input>
               </el-form-item>
               <el-form-item prop="code">
                 <el-input placeholder="请填写验证码" v-model="authEmailForm.code">
-                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">{{btnText}}</el-button>
                 </el-input>
               </el-form-item>
             </div>
             <!-- 绑定邮箱号 -->
             <div v-else>
-              <el-form-item prop="phoneCode">
-                <el-input placeholder="请填写手机验证码" v-model="authEmailForm.phoneCode">
-                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
-                </el-input>
-              </el-form-item>
-              <el-form-item prop="newMobile">
-                <el-input placeholder="请填写邮箱号" show-password v-model="authEmailForm.newEmail"></el-input>
+              <el-form-item prop="newEmail">
+                <el-input placeholder="请填写邮箱号" v-model="authEmailForm.newEmail"></el-input>
               </el-form-item>
               <el-form-item prop="emailCode">
                 <el-input placeholder="请填写邮箱验证码" v-model="authEmailForm.emailCode">
                   <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">{{btnText}}</el-button>
                 </el-input>
               </el-form-item>
+              <el-form-item prop="phoneCode">
+                <el-input placeholder="请填写手机验证码" v-model="authEmailForm.phoneCode">
+                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                </el-input>
+              </el-form-item>
             </div>
           </el-form>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="emailDialog = false">取 消</el-button>
+          <el-button @click="cancelEmailDialog">取 消</el-button>
           <el-button type="primary" @click="confirmEmailSubmit">确 定</el-button>
         </span>
       </el-dialog>

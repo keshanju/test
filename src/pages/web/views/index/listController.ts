@@ -3,14 +3,11 @@ import Header from "../../components/Header.vue";
 import Footer from "../../components/Footer.vue";
 import BaseVue from '../../commons/BaseAdminVue';
 import { MarketsApi } from '../../apis/MarketApi'
-import { MarketsResModel } from '@/models/MarketModel';
-import { ProductOrderModel } from '@/models/ProductModel';
 @Component({
   components: {
     Header,
     Footer,
   },
-  
   filters: {
     orderNoFilter: (ele) => {
       return ele
@@ -66,10 +63,8 @@ import { ProductOrderModel } from '@/models/ProductModel';
       return flag;
     }
   }
-
 })
 export default class Layout extends BaseVue {
-  public product_order_list: ProductOrderModel[] = [];
   public activeName:string = 'top'
   public tableTopData: Array<object> = []
   public symbol:any = []
@@ -93,13 +88,10 @@ export default class Layout extends BaseVue {
     const options = {}
     let backData = await new MarketsApi().getList(options)
     if (backData.status === 200) {
-      let loginM = backData.data as any;
-      loginM.data.map(item => {
+      backData.data.map(item => {
         this.symbol.push(`ticker:${item.sellCoinName}${item.buyCoinName}`)
       })
       this.getMarketWsData();
-    } else {
-      console.log(backData)
     }
   }
 
@@ -112,6 +104,7 @@ export default class Layout extends BaseVue {
       "op": "subscribe",
       "args": this.symbol
     }
+    console.log(tickerOptions)
     this.$socketApi.sendSock(tickerOptions, this.getResult);
   }
 
@@ -155,16 +148,5 @@ export default class Layout extends BaseVue {
     })
     document.getElementById("myContainer").appendChild(script);
   }
-
-
-  /**
-   * 获取订单列表
-   */
-  // async getorderlist() {
-  //   let data = await new ProductOrderApi().getList();
-  //   if (data.code == 0) {
-  //     this.product_order_list = data.data.list;
-  //   }
-  // }
 
 }

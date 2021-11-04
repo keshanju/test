@@ -17,6 +17,7 @@ export default class List extends BaseVue {
   public btnText: string = "验证码";
   public verifyType: number = 1 // 1手机 2邮箱
   public isEditOrBind: number = 1; // 1是编辑 2是绑定
+
   public authPhoneForm = {
     moneyPwd: '',
     newMobile: '',
@@ -27,6 +28,7 @@ export default class List extends BaseVue {
     emailCode: '',
     phoneCode: '',
   }
+
   public authEmailForm = {
     moneyPwd: '',
     newEmail: '',
@@ -37,7 +39,6 @@ export default class List extends BaseVue {
     emailCode: '',
     phoneCode: '',
   }
-
   public authTradepwdForm = {
     moneyPwd: '',
     confirmMoneyPwd: '',
@@ -71,6 +72,14 @@ export default class List extends BaseVue {
     emailCode: [{ required: true, message: "请输入邮箱验证码", trigger: "blur" }],
   }
 
+  public authEmailRules = {
+    newEmail: [{ required: true, message: "请输入邮箱号", trigger: "blur" }],
+    moneyPwd: [{ validator: this.validatePass, trigger: "blur" }],
+    code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
+    phoneCode: [{ required: true, message: "请输入手机验证码", trigger: "blur" }],
+    emailCode: [{ required: true, message: "请输入邮箱验证码", trigger: "blur" }],
+  }
+
   public authTradepwdRules = {
     moneyPwd: [{ validator: this.validatePass, trigger: "blur" }],
     confirmMoneyPwd: [{ validator: this.validatePass2, trigger: "blur" }],
@@ -81,7 +90,10 @@ export default class List extends BaseVue {
     this.getUserDetail()
   }
 
-  async getUserDetail() {
+  /**
+   * 获取用户详细信息
+   */
+  public async getUserDetail() {
     const backData = await new UserApi().getuserdetail()
     if (backData.status === 200) {
       this.userDetailInfo = backData.data
@@ -93,7 +105,7 @@ export default class List extends BaseVue {
   /**
    * 确定变更手机号、绑定手机号
    */
-  confirmPhoneSubmit() {
+  public confirmPhoneSubmit() {
     (this.$refs.authPhoneForm as any).validate(async (verify, values) => {
       console.log(values)
       if (verify) {
@@ -110,12 +122,10 @@ export default class List extends BaseVue {
           emailRequestId: this.authPhoneForm.emailRequestId, //邮箱验证码ID
           phoneRequestId: this.authPhoneForm.phoneRequestId //手机验证码ID
         }
-        console.log(optionsSet)
-        // console.log(optionsBind)
-        return
         const backData = this.isEditOrBind===1 ? await new UserApi().setmobile(optionsSet) : await new UserApi().bindmobile(optionsBind)
         if (backData.status === 200) {
           this.isEditOrBind===1 ? this.$message.success('手机号修改成功') : this.$message.success('手机号绑定成功')
+          this.getUserDetail()
           this.phoneDialog = false
         } else {
           this.$message.error(backData.message)
@@ -125,10 +135,34 @@ export default class List extends BaseVue {
   }
 
   /**
-   * 确定变更邮箱号
+   * 确定变更邮箱号、绑定邮箱号
    */
-  async confirmEmailSubmit() {
-    
+  public async confirmEmailSubmit() {
+    (this.$refs.authEmailForm as any).validate(async (verify, values) => {
+      if (verify) {
+        const optionsSet = {
+          moneyPwd: this.authEmailForm.moneyPwd, //资金密码
+          newEmail: this.authEmailForm.newEmail, //新手机号
+          requestId: this.authEmailForm.requestId, //验证码ID
+          code: this.authEmailForm.code //验证码code
+        }
+        const optionsBind = {
+          newEmail: this.authEmailForm.newEmail, //邮箱号
+          emailCode: this.authEmailForm.emailCode, //邮箱code
+          phoneCode: this.authEmailForm.phoneCode, //手机code
+          emailRequestId: this.authEmailForm.emailRequestId, //邮箱验证码ID
+          phoneRequestId: this.authEmailForm.phoneRequestId //手机验证码ID
+        }
+        const backData = this.isEditOrBind===1 ? await new UserApi().setemail(optionsSet) : await new UserApi().bindemail(optionsBind)
+        if (backData.status === 200) {
+          this.isEditOrBind===1 ? this.$message.success('邮箱号修改成功') : this.$message.success('邮箱号绑定成功')
+          this.getUserDetail()
+          this.emailDialog = false
+        } else {
+          this.$message.error(backData.message)
+        }
+      }
+    })
   }
 
   /**
@@ -148,13 +182,11 @@ export default class List extends BaseVue {
       this.$message.error('设置失败!请重试')
     }
   }
-
-  cancelSetTradePassword() {
-    this.tradePwdDialog = false;
-    (this.$refs['authTradepwdForm'] as any).resetFields()
-  }
-
-  async getVerifyCode() {
+  
+  /**
+   * 
+   */
+  public async getVerifyCode() {
     if(this.userDetailInfo.bindEmail && !this.userDetailInfo.bindMobile) {
       this.verifyType = 2
       this.getEmailCode()
@@ -171,18 +203,40 @@ export default class List extends BaseVue {
       mobileArea: '86'
     }
     // 1代表修改手机号，用新手机发送验证码， 2代表绑定手机号，用已有手机号发送验证码
-    const backData = this.isEditOrBind===1 ? await new UserApi().sendnmobilecode(options) : await new UserApi().sendmobilecode(options) 
+    const backData = (this.isEditOrBind===1 || this.userDetailInfo.bindEmail) ? await new UserApi().sendnmobilecode(options) : await new UserApi().sendmobilecode(options) 
     if (backData.status === 200) {
-      this.authPhoneForm.requestId = this.authPhoneForm.newMobile?backData.data.requestId:''
+      this.authPhoneForm.requestId = this.isEditOrBind===1?backData.data.requestId:''
+
+      this.authPhoneForm.phoneRequestId = this.isEditOrBind===2?backData.data.requestId:''
+      this.authEmailForm.phoneRequestId = this.isEditOrBind===2?backData.data.requestId:''
+
       this.authTradepwdForm.requestId = this.authTradepwdForm.moneyPwd?backData.data.requestId:''
     } else {
-      this.$message.error('验证码获取失败')
+      this.$message.error('短信验证码获取失败')
     }
   }
 
-  public getEmailCode() {
+  public async getEmailCode() {
+    const options = {
+      email: this.authEmailForm.newEmail || this.userDetailInfo.email,
+    }
+    // 1代表修改邮箱，用新邮箱发送验证码， 2代表绑定邮箱号，用已有邮箱号发送验证码
+    const backData = (this.isEditOrBind===1 || this.userDetailInfo.bindMobile) ? await new UserApi().sendnemailcode(options) : await new UserApi().sendemailcode(options) 
+    if (backData.status === 200) {
+      this.authEmailForm.requestId = this.isEditOrBind===1?backData.data.requestId:''
 
+      this.authPhoneForm.emailRequestId = this.isEditOrBind===2?backData.data.requestId:''
+      this.authEmailForm.emailRequestId = this.isEditOrBind===2?backData.data.requestId:''
+
+      this.authTradepwdForm.requestId = this.authTradepwdForm.moneyPwd?backData.data.requestId:''
+    } else {
+      this.$message.error('邮箱验证码获取失败')
+    }
   }
+
+  /************以上为接口请求 */
+  
+  /************以下为页面操作 */
 
   public handleClose() {
 
@@ -191,6 +245,22 @@ export default class List extends BaseVue {
   public goUcAuth() {
     JumpUtil.backUcAuth()
   }
+
+  public cancelSetTradePassword() {
+    this.tradePwdDialog = false;
+    (this.$refs['authTradepwdForm'] as any).resetFields()
+  }
+
+  public cancelEmailDialog() {
+    this.emailDialog = false;
+    (this.$refs['authEmailForm'] as any).resetFields()
+  }
+
+  public cancelPhoneDialog() {
+    this.phoneDialog = false;
+    (this.$refs['authPhoneForm'] as any).resetFields()
+  }
+
 
   public setTradePwd() {
     this.tradePwdDialog = true
