@@ -26,15 +26,17 @@ let reConnect = () => {
     createWebSocket();
   }, 5000);
 };
+
 //设置关闭连接
 let closeWebSocket = () => {
   console.log('close socket')
   heartCheck.timeoutObj = null
   websock.close();
 };
+
 //心跳设置
 var heartCheck = {
-  timeout: 3000, //每段时间发送一次心跳包 这里设置为20s
+  timeout: 3000, //每段时间发送一次心跳包 这里设置为1s
   timeoutObj: null, //延时发送消息对象（启动心跳新建这个对象，收到消息后重置对象）
   start: function() {
     this.timeoutObj = setInterval(function() {
@@ -75,18 +77,18 @@ function initWebSocket() {
 function sendSock(agentData, callback) {
   globalCallback = callback;
   if (websock.readyState === websock.OPEN) {
-    // 若是ws开启状态
+    // 若是 ws开启状态
     websocketsend(agentData);
   } else if (websock.readyState === websock.CONNECTING) {
     // 若是 正在开启状态，则等待1s后重新调用
     setTimeout(function() {
       sendSock(agentData, callback);
-    }, 5000);
+    }, 1000);
   } else {
     // 若未开启 ，则等待1s后重新调用
     setTimeout(function() {
       sendSock(agentData, callback);
-    }, 5000);
+    }, 1000);
   }
 }
 
@@ -121,7 +123,6 @@ function websocketonmessage(e) {
 
 // 数据发送
 function websocketsend(agentData) {
-//   console.log(JSON.stringify(agentData));
   websock.send(JSON.stringify(agentData));
 }
 
