@@ -92,11 +92,38 @@
             </div>
           </div>
           <div class="flex_start_center">
-            <el-link :underline="false" v-if="!userDetailInfo.bindTradePwd">设置</el-link>
-            <el-link :underline="false" v-else>修改</el-link>
+            <el-link :underline="false" @click="tradePwdDialog = true" v-if="!userDetailInfo.bindTradePwd">设置</el-link>
+            <el-link :underline="false" @click="tradePwdDialog = true" v-else>重置</el-link>
           </div>
         </div>
       </el-card>
+
+      <!-- 资金密码设置重置弹框 -->
+      <el-dialog
+        :title="!userDetailInfo.bindTradePwd?'设置资金密码':'重置资金密码'"
+        :visible.sync="tradePwdDialog"
+        width="30%"
+        :before-close="handleClose">
+        <div>
+          <el-form class="mar_t20" :model="authTradepwdForm" :rules="authTradepwdRules" ref="authTradepwdForm">
+            <el-form-item prop="moneyPwd">
+              <el-input placeholder="资金密码" show-password v-model="authTradepwdForm.moneyPwd"></el-input>
+            </el-form-item>
+            <el-form-item prop="confirmMoneyPwd">
+              <el-input placeholder="确定资金密码" show-password v-model="authTradepwdForm.confirmMoneyPwd"></el-input>
+            </el-form-item>
+            <el-form-item prop="code">
+              <el-input placeholder="验证码" v-model="authTradepwdForm.code">
+                <el-button :disabled="disabled" slot="append" @click="getVerifyCode" style="width:80px">{{btnText}}</el-button>
+              </el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="cancelSetTradePassword">取 消</el-button>
+          <el-button type="primary" @click="confirmSetTradePassword">确 定</el-button>
+        </span>
+      </el-dialog>
 
       <!-- 手机验证弹框 -->
       <el-dialog
@@ -124,16 +151,16 @@
             <!-- 绑定手机号 -->
             <div v-else>
               <el-form-item prop="newMobile">
-                <el-input placeholder="请填写新手机号" show-password v-model="authPhoneForm.newMobile"></el-input>
-              </el-form-item>
-              <el-form-item prop="emailCode">
-                <el-input placeholder="请填写邮箱验证码" v-model="authPhoneForm.emailCode">
-                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">{{btnText}}</el-button>
-                </el-input>
+                <el-input placeholder="请填写手机号" show-password v-model="authPhoneForm.newMobile"></el-input>
               </el-form-item>
               <el-form-item prop="phoneCode">
                 <el-input placeholder="请填写手机验证码" v-model="authPhoneForm.phoneCode">
                   <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                </el-input>
+              </el-form-item>
+              <el-form-item prop="emailCode">
+                <el-input placeholder="请填写邮箱验证码" v-model="authPhoneForm.emailCode">
+                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">{{btnText}}</el-button>
                 </el-input>
               </el-form-item>
             </div>
@@ -141,7 +168,7 @@
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="phoneDialog = false">取 消</el-button>
-          <el-button type="primary" @click="phoneDialog = false">确 定</el-button>
+          <el-button type="primary" @click="confirmPhoneSubmit">确 定</el-button>
         </span>
       </el-dialog>
 
@@ -188,7 +215,7 @@
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="emailDialog = false">取 消</el-button>
-          <el-button type="primary" @click="emailDialog = false">确 定</el-button>
+          <el-button type="primary" @click="confirmEmailSubmit">确 定</el-button>
         </span>
       </el-dialog>
     </div>

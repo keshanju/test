@@ -38,8 +38,14 @@ export class AxiosUtil {
    */
   public static async post<T>(url: string, params: any) {
     url = GlobalUtil.Url + url;
+    const LoginInfo = LocalStorageUtil.getLoginInfo()
+    const _config:AxiosRequestConfig = {
+      headers: {
+        Authorization: LoginInfo.token?LoginInfo.token:''
+      }
+    }
     try {
-        let backData = await axios.post(url, params);
+        let backData = await axios.post(url, params, _config);
         let backData1 = backData.data as BaseModel<T>;
         return backData1;
     } catch (e) {

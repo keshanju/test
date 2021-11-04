@@ -85,31 +85,31 @@ export class UserApi extends BaseApi {
 
   public async setmoneypwd(options?: {}) {
     let url = "/user/set_moneypwd";
-    let d = await AxiosUtil.get<any>(url, options);
+    let d = await AxiosUtil.post<any>(url, options);
     return d;
   }
 
-  public async sendmodilecode(options?: {}) {
+  public async sendmobilecode(options?: {}) {
     let url = "/user/moble_code";
-    let d = await AxiosUtil.get<any>(url, options);
+    let d = await AxiosUtil.post<any>(url, options);
     return d;
   }
 
   public async sendemailcode(options?: {}) {
     let url = "/user/email_code";
-    let d = await AxiosUtil.get<any>(url, options);
+    let d = await AxiosUtil.post<any>(url, options);
     return d;
   }
   
-  public async sendnmodilecode(options?: {}) {
+  public async sendnmobilecode(options?: {}) {
     let url = "/user/nmoble_code";
-    let d = await AxiosUtil.get<any>(url, options);
+    let d = await AxiosUtil.post<any>(url, options);
     return d;
   }
 
   public async sendnemailcode(options?: {}) {
     let url = "/user/nemail_code";
-    let d = await AxiosUtil.get<any>(url, options);
+    let d = await AxiosUtil.post<any>(url, options);
     return d;
   }
 
