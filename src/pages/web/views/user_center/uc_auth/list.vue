@@ -28,71 +28,68 @@
         <div class="auth_form_box">
           <el-card class="auth_form_cell" shadow="hover">
             <el-form :model="authForm" :rules="authRules" label-width="100px" label-position="left" ref="authForm" class="mar_t20">
-                <el-form-item prop="phoneNumber" label="国籍:" v-if="stepNum === 1">
+              <div v-show="stepNum === 1">
+                <el-form-item prop="citizenship" label="国籍:">
                   <el-select style="width: 100%" v-model="authForm.citizenship" placeholder="请选择">
-                    <el-option class="flex_sbe_center" v-for="(item, index) in areaOptions" :key="index" :value="item.nationalCode">
+                    <el-option class="flex_sbe_center" v-for="(item, index) in areaOptions" :key="index" :value="item.nationalCode" :label="item.countryName">
                       <div>{{item.countryName}}</div>
-                      <div>{{'+'+item.nationalCode}}</div>
                     </el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item prop="captcha" label="证件类型:" v-if="stepNum === 1">
+                <el-form-item prop="idType" label="证件类型:">
                   <el-select style="width: 100%" v-model="authForm.idType" placeholder="请选择">
                     <el-option label="身份证" value="1"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item prop="idNumber" label="证件号码:" v-if="stepNum === 1">
-                  <el-input placeholder="请输入" show-password v-model="authForm.idNumber"></el-input>
+                <el-form-item prop="idNumber" label="证件号码:">
+                  <el-input placeholder="请输入" v-model="authForm.idNumber"></el-input>
                 </el-form-item>
-                <el-form-item prop="name" label="姓名:" v-if="stepNum === 1">
-                  <el-input placeholder="请输入" show-password v-model="authForm.name"></el-input>
+                <el-form-item prop="name" label="姓名:">
+                  <el-input placeholder="请输入" v-model="authForm.name"></el-input>
                 </el-form-item>
-
-                
-                <el-form-item prop="cardFront" v-if="stepNum === 2">
+              </div>
+              <div v-show="stepNum === 2">
+                <el-form-item prop="cardFront">
                   <el-upload
-                    drag
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    multiple>
+                   drag 
+                   action="/api_web/storage/putfile" 
+                   :headers=header
+                  >
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                    <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
                   </el-upload>
                 </el-form-item>
-                
-                <el-form-item prop="cardReverse" v-if="stepNum === 2">
+                <el-form-item prop="cardReverse">
                   <el-upload
-                    drag
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    multiple>
+                   drag 
+                   action="/api_web/storage/putfile"
+                   :headers=header
+                  >
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                    <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
                   </el-upload>
                 </el-form-item>
-                
-                <el-form-item prop="cardholdCardFront" v-if="stepNum === 2">
+                <el-form-item prop="holdCard">
                   <el-upload
-                    drag
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    multiple>
+                   drag 
+                   action="/api_web/storage/putfile"
+                   :headers=header
+                  >
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                    <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
                   </el-upload>
                 </el-form-item>
-              </el-form>
-
+              </div>
               <div class="text_center">
                 <el-button type="primary" @click="goNextStep" v-if="stepNum === 1">下一步</el-button>
                 <el-button type="primary" @click="confirmSubmit" v-if="stepNum === 2">提交</el-button>
               </div>
-
-              <div class="flex_center_center flex_column" v-if="stepNum === 3">
-                <img width="142" src="../../../assets/img/user_center/auth_success_img.png" alt="">
-                <div class="auth_success_font">提交成功</div>
-                <div>身份认证信息提交成功，平台将尽快审核，请您耐心等待......</div>
-              </div>
+            </el-form>
+            <div class="flex_center_center flex_column" v-if="stepNum === 3">
+              <img width="142" src="../../../assets/img/user_center/auth_success_img.png" alt="">
+              <div class="auth_success_font">提交成功</div>
+              <div>身份认证信息提交成功，平台将尽快审核，请您耐心等待......</div>
+            </div>
           </el-card>
         </div>
       </div>
@@ -102,15 +99,13 @@
 <script lang="ts" src="./listController.ts">
 </script>
 <style lang="less" scoped>
-
 .user_header {
   width: 100%;
   background-color: #062786;
   margin: auto;
   font-size: 12px;
-  color: #FFF;
+  color: #fff;
 }
-
 
 .u_header_box {
   width: 1200px;
@@ -123,9 +118,8 @@
   width: 1200px;
   margin: 24px auto 120px;
   font-size: 12px;
-  color: #FFF;
+  color: #fff;
 }
-
 
 .u_avtar_box {
   width: 38px;
@@ -143,12 +137,12 @@
 
 .auth_title {
   font-size: 26px;
-  color: #FFF;
+  color: #fff;
 }
 
 .auth_sub_title {
   font-size: 16px;
-  color: #0483EF;
+  color: #0483ef;
 }
 
 .auth_form_box {
@@ -164,7 +158,6 @@
 .auth_success_font {
   margin: 50px auto;
   font-size: 24px;
-  color: #0483EF;
+  color: #0483ef;
 }
-
 </style>

@@ -3,7 +3,7 @@ import BaseVue from "@/common/BaseVue";
 import { JumpUtil } from "@/utils/JumpUtil";
 import { UserApi } from "../../apis/UserApi";
 import { UserDetailModle } from "@/models/UserModel";
-import { Message } from "element-ui";
+import LocalStorageUtil from "@/utils/LocalStorageUtil";
 @Component({
   components: {}
 })
@@ -17,6 +17,7 @@ export default class List extends BaseVue {
   public btnText: string = "验证码";
   public verifyType: number = 1 // 1手机 2邮箱
   public isEditOrBind: number = 1; // 1是编辑 2是绑定
+  public refreshToken: string = ''
 
   public authPhoneForm = {
     moneyPwd: '',
@@ -39,9 +40,16 @@ export default class List extends BaseVue {
     emailCode: '',
     phoneCode: '',
   }
+
   public authTradepwdForm = {
     moneyPwd: '',
     confirmMoneyPwd: '',
+    code: '',
+    requestId: ''
+  }
+
+  public loginpwdForm = {
+    pwd: '',
     code: '',
     requestId: ''
   }
@@ -86,7 +94,12 @@ export default class List extends BaseVue {
     code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
   }
 
+  public loginpwdRules = {
+
+  }
+
   async mounted() {
+    this.refreshToken = LocalStorageUtil.getLoginInfo().refreshToken
     this.getUserDetail()
   }
 
@@ -182,11 +195,69 @@ export default class List extends BaseVue {
       this.$message.error('设置失败!请重试')
     }
   }
-  
+
   /**
-   * 
+   * 确定重置登录密码
    */
-  public async getVerifyCode() {
+  public async confirmResetLoginPassword() {
+    const options = {
+      ...this.loginpwdForm,
+      type: this.verifyType,
+      refreshToken: this.refreshToken,
+    }
+    const backData = await new UserApi().resetpwd(options)
+    if(backData.status === 200) {
+      this.$message.success('登录密码设置成功!')
+      LocalStorageUtil.removeCookie(LocalStorageUtil.STORAGES_TOKEN)
+      JumpUtil.backLogin()
+      this.loginPwdDialog = false
+    } else {
+      this.$message.error('密码修改失败!请重试')
+    }
+  }
+
+  /**
+   * 修改登录密码获取验证码
+   */
+  public async getLogVerifyCode() {
+    if(this.userDetailInfo.bindEmail && !this.userDetailInfo.bindMobile) {
+      this.verifyType = 2
+      this.getLogEmailCode()
+    } else {
+      this.verifyType = 1
+      this.getLogPhoneCode()
+    }
+  }
+
+  public async getLogEmailCode() {
+    const options = {
+      email: this.userDetailInfo.email,
+    }
+    const backData = await new UserApi().sendemailcode(options) 
+    if (backData.status === 200) {
+      this.loginpwdForm.requestId = backData.data.requestId
+    } else {
+      this.$message.error('短信验证码获取失败')
+    }
+  }
+
+  public async getLogPhoneCode() {
+    const options = {
+      mobile: this.userDetailInfo.mobile,
+      mobileArea: '86'
+    }
+    const backData = await new UserApi().sendmobilecode(options) 
+    if (backData.status === 200) {
+      this.loginpwdForm.requestId = this.isEditOrBind===2?backData.data.requestId:''
+    } else {
+      this.$message.error('短信验证码获取失败')
+    }
+  }
+
+  /**
+   * 获取验证码
+   */
+   public async getVerifyCode() {
     if(this.userDetailInfo.bindEmail && !this.userDetailInfo.bindMobile) {
       this.verifyType = 2
       this.getEmailCode()
@@ -211,6 +282,7 @@ export default class List extends BaseVue {
       this.authEmailForm.phoneRequestId = this.isEditOrBind===2?backData.data.requestId:''
 
       this.authTradepwdForm.requestId = this.authTradepwdForm.moneyPwd?backData.data.requestId:''
+
     } else {
       this.$message.error('短信验证码获取失败')
     }
@@ -229,6 +301,7 @@ export default class List extends BaseVue {
       this.authEmailForm.emailRequestId = this.isEditOrBind===2?backData.data.requestId:''
 
       this.authTradepwdForm.requestId = this.authTradepwdForm.moneyPwd?backData.data.requestId:''
+
     } else {
       this.$message.error('邮箱验证码获取失败')
     }
@@ -244,6 +317,11 @@ export default class List extends BaseVue {
 
   public goUcAuth() {
     JumpUtil.backUcAuth()
+  }
+  
+  public cancelResetLoginPassword() {
+    this.loginPwdDialog = false;
+    (this.$refs['loginpwdForm'] as any).resetFields()
   }
 
   public cancelSetTradePassword() {
@@ -261,8 +339,8 @@ export default class List extends BaseVue {
     (this.$refs['authPhoneForm'] as any).resetFields()
   }
 
-
   public setTradePwd() {
+    this.isEditOrBind = 2
     this.tradePwdDialog = true
   }
 

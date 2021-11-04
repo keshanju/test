@@ -71,12 +71,12 @@
             <div>
               <div class="mar_b5">登录密码</div>
               <div>
-                通过设置登陆密码，您将可以使用账号和登陆密码直接登陆
+                通过设置登陆密码，您将可以使用账号和登陆密码直接登录
               </div>
             </div>
           </div>
           <div class="flex_start_center">
-            <el-link :underline="false">修改</el-link>
+            <el-link :underline="false" @click="loginPwdDialog = true">修改</el-link>
           </div>
         </div>
         <div class="u_card_cell flex_sbe_center">
@@ -97,6 +97,30 @@
           </div>
         </div>
       </el-card>
+
+      <!-- 已登录用户修改密码弹框 -->
+      <el-dialog
+        title="修改登录密码"
+        :visible.sync="loginPwdDialog"
+        width="30%"
+        :before-close="handleClose">
+        <div>
+          <el-form class="mar_t20" :model="loginpwdForm" :rules="loginpwdRules" ref="loginpwdForm">
+            <el-form-item prop="pwd">
+              <el-input placeholder="新密码" show-password v-model="loginpwdForm.pwd"></el-input>
+            </el-form-item>
+            <el-form-item prop="code">
+              <el-input placeholder="验证码" v-model="loginpwdForm.code">
+                <el-button :disabled="disabled" slot="append" @click="getLogVerifyCode" style="width:80px">{{btnText}}</el-button>
+              </el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="cancelResetLoginPassword">取 消</el-button>
+          <el-button type="primary" @click="confirmResetLoginPassword">确 定</el-button>
+        </span>
+      </el-dialog>
 
       <!-- 资金密码设置重置弹框 -->
       <el-dialog
