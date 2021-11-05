@@ -6,93 +6,102 @@ Vue.use(Router);
 
 const constantRouterMap = [
   {
-    name: 'Index',
+    name: "Index",
     path: "/",
-    component: () => import("./views/index/list.vue")
+    component: () => import("./views/index/list.vue"),
   },
   {
-    name: 'Login',
+    name: "Login",
     path: "/login",
-    component: () => import("./views/login/list.vue")
+    component: () => import("./views/login/list.vue"),
   },
   {
-    name: 'Register',
+    name: "Register",
     path: "/register",
-    component: () => import("./views/register/list.vue")
+    component: () => import("./views/register/list.vue"),
   },
   {
-    name: 'Forgetpwd',
+    name: "Forgetpwd",
     path: "/forgetpwd",
-    component: () => import("./views/forgetpwd/list.vue")
+    component: () => import("./views/forgetpwd/list.vue"),
   },
   {
-    name: 'Test',
+    name: "Test",
     path: "/test",
-    component: () => import("./views/test/index.vue")
+    component: () => import("./views/test/index.vue"),
   },
   {
-    name: 'Exchange',
+    name: "Exchange",
     path: "/exchange",
-    component: () => import("./views/exchange/list.vue")
+    component: () => import("./views/exchange/list.vue"),
   },
   {
-    name: 'Markets',
+    name: "Markets",
     path: "/markets",
-    component: () => import("./views/markets/list.vue")
+    component: () => import("./views/markets/list.vue"),
   },
   {
-    name: 'Suanli',
+    name: "Suanli",
     path: "/suanli",
-    component: () => import("./views/suanli/list.vue")
+    component: () => import("./views/suanli/list.vue"),
   },
   {
-    name: 'Quantization',
+    name: "Quantization",
     path: "/quantization",
-    component: () => import("./views/quantization/list.vue")
+    component: () => import("./views/quantization/list.vue"),
   },
   {
-    path: '*',
-    redirect: '/'
+    path: "*",
+    redirect: "/",
   },
   {
     path: "",
-    redirect: '/user_center/security',
+    redirect: "/user_center/security",
     component: () => import("./views/index/layout.vue"),
-    children:
-      [
-        {
-          name: 'UserCenter',
-          path: "/user_center/security",
-          component: () => import("./views/user_center/list.vue")
-        },
-        {
-          name: 'UCAUTH',
-          path: "/user_center/uc_auth",
-          component: () => import("./views/user_center/uc_auth/list.vue")
-        },
-      ]
-  }
+    children: [
+      {
+        name: "UserCenter",
+        path: "/user_center/security",
+        component: () => import("./views/user_center/list.vue"),
+      },
+      {
+        name: "UCAUTH",
+        path: "/user_center/uc_auth",
+        component: () => import("./views/user_center/uc_auth/list.vue"),
+      },
+    ],
+  },
 ];
 
 let routes: any = constantRouterMap;
 
 let rr = new Router({
-  routes
+  routes,
 });
 
-const noNeedLogin = ['Login', 'Register', 'Forgetpwd', 'Test', 'Exchange', 'Suanli', 'Quantization', 'Markets', 'Index']
+const noNeedLogin = [
+  "Login",
+  "Register",
+  "Forgetpwd",
+  "Test",
+  "Exchange",
+  "Suanli",
+  "Quantization",
+  "Markets",
+  "Index",
+];
 
 rr.beforeEach((to, from, next) => {
   const checkLogin = LocalStorageUtil.getLoginInfo();
-  if(!noNeedLogin.includes(to.name)) {
-    if (checkLogin.token) next() 
-    else next({name: 'Login'})
-    next()
+  if (!noNeedLogin.includes(to.name)) {
+    if (checkLogin.token) next();
+    else next({ name: "Login" });
+    next();
   } else {
-    if (checkLogin.token) next()
-    else next()
-    next()
+    if (checkLogin.token) next();
+    else next();
+    next();
   }
-})
+});
 
 export default rr;
