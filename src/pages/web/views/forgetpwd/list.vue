@@ -19,7 +19,7 @@
           </div>
           <el-form :model="regForm" :rules="regRules" ref="regForm" class="mar_t20">
             <el-form-item prop="phoneNumber" v-if="loginType === 1 && isNextStep">
-              <el-input placeholder="请输入电话号码" v-model="regForm.phoneNumber">
+              <el-input @keyup.enter.native="comfirmResetPwd" placeholder="请输入电话号码" v-model="regForm.phoneNumber">
                 <el-select v-model="regForm.nationalCode" slot="prepend" placeholder="请选择">
                   <el-option class="flex_sbe_center" v-for="(item, index) in areaOptions" :key="index" :value="item.nationalCode">
                     <div>{{item.countryName}}</div>
@@ -30,21 +30,21 @@
             </el-form-item>
 
             <el-form-item prop="email" v-if="loginType === 2 && isNextStep">
-              <el-input placeholder="请输入邮箱" v-model="regForm.email"></el-input>
+              <el-input @keyup.enter.native="comfirmResetPwd" placeholder="请输入邮箱" v-model="regForm.email"></el-input>
             </el-form-item>
 
             <el-form-item prop="captcha" v-show="isNextStep">
-              <el-input placeholder="请输入验证码" v-model="regForm.captcha">
+              <el-input @keyup.enter.native="comfirmResetPwd" placeholder="请输入验证码" v-model="regForm.captcha">
                 <el-button slot="append" @click="getCaptcha" style="width:80px">{{btnText}}</el-button>
               </el-input>
             </el-form-item>
 
             <el-form-item prop="newPwd" v-show="!isNextStep">
-              <el-input placeholder="请输入新密码" maxlength="16" show-password v-model="regForm.newPwd"></el-input>
+              <el-input @keyup.enter.native="comfirmResetPwd" placeholder="请输入新密码" maxlength="16" show-password v-model="regForm.newPwd"></el-input>
             </el-form-item>
 
             <el-form-item prop="confirmPwd" v-show="!isNextStep">
-              <el-input placeholder="请确认新密码" maxlength="16" show-password v-model="regForm.confirmPwd"></el-input>
+              <el-input @keyup.enter.native="comfirmResetPwd" placeholder="请确认新密码" maxlength="16" show-password v-model="regForm.confirmPwd"></el-input>
             </el-form-item>
 
             <el-form-item>

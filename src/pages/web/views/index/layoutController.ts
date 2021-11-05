@@ -14,7 +14,8 @@ import Footer from '../../components/Footer.vue'
 export default class Layout extends BaseVue {
   public items: ModuleModel[] = [];
   public init_items: ModuleModel[] = [];
-  public markets: Array<object> = []
+  public markets: Array<object> = [];
+  public transitionName:string = 'slide-fade';
 
   created() {
     

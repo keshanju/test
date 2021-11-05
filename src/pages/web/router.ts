@@ -69,6 +69,16 @@ const constantRouterMap = [
         path: "/user_center/uc_auth",
         component: () => import("./views/user_center/uc_auth/list.vue"),
       },
+      {
+        name: "OTCUSERAPPLY",
+        path: "/otcuser/apply",
+        component: () => import("./views/user_center/otc_user/list.vue"),
+      },
+      {
+        name: "OTCUSERAPPLYFORM",
+        path: "/otcuser/applyform",
+        component: () => import("./views/user_center/otc_user/form.vue"),
+      },
     ],
   },
 ];

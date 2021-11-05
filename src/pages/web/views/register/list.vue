@@ -17,7 +17,7 @@
           </div>
           <el-form class="mar_t20" :model="regForm" :rules="regRules" ref="regForm">
             <el-form-item prop="phoneNumber" v-if="loginType === 1">
-              <el-input placeholder="请输入电话号码" v-model="regForm.phoneNumber">
+              <el-input @keyup.enter.native="submitRegForm" placeholder="请输入电话号码" v-model="regForm.phoneNumber">
                 <el-select prop="nationalCode" v-model="regForm.nationalCode" slot="prepend" placeholder="请选择">
                   <el-option class="flex_sbe_center" v-for="(item, index) in areaOptions" :key="index" :value="item.nationalCode">
                     <div>{{item.countryName}}</div>
@@ -27,16 +27,16 @@
               </el-input>
             </el-form-item>
             <el-form-item prop="email" v-else>
-              <el-input placeholder="请输入邮箱" v-model="regForm.email"></el-input>
+              <el-input @keyup.enter.native="submitRegForm" placeholder="请输入邮箱" v-model="regForm.email"></el-input>
             </el-form-item>
             <el-form-item prop="pwd">
-              <el-input placeholder="请输入密码" maxlength="16" show-password v-model="regForm.pwd"></el-input>
+              <el-input @keyup.enter.native="submitRegForm" placeholder="请输入密码" maxlength="16" show-password v-model="regForm.pwd"></el-input>
             </el-form-item>
             <el-form-item prop="confirmPwd">
-              <el-input placeholder="请输入确认密码" maxlength="16" show-password v-model="regForm.confirmPwd"></el-input>
+              <el-input @keyup.enter.native="submitRegForm" placeholder="请输入确认密码" maxlength="16" show-password v-model="regForm.confirmPwd"></el-input>
             </el-form-item>
             <el-form-item prop="captcha">
-              <el-input placeholder="请输入验证码" v-model="regForm.captcha">
+              <el-input @keyup.enter.native="submitRegForm" placeholder="请输入验证码" v-model="regForm.captcha">
                 <el-button :disabled="disabled" slot="append" @click="getCaptcha" style="width:80px">{{btnText}}</el-button>
               </el-input>
             </el-form-item>

@@ -11,6 +11,9 @@ export class JumpUtil {
   static URL_SUANLI = "suanli";// 算力超市
   static URL_QUANTIZATION = "quantization";// 量化专区
 
+  static URL_OTCUSERAPPLY = "otcuser/apply";// 商家申请页
+  static URL_OTCUSERAPPLYFORM = "otcuser/applyform";// 商家申请页
+
   static URL_USERCENTER_SECURITY = "user_center/security";// 账户&安全
   static URL_USERCENTER_UCAUTH = "user_center/uc_auth";// 身份认证
 
@@ -20,6 +23,14 @@ export class JumpUtil {
 
   static backUserCenter() {
     window.location.href = Util.getOrigin() + this.hashVal + this.URL_USERCENTER_SECURITY;
+  }
+
+  static backOtcUserApplyForm() {
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_OTCUSERAPPLYFORM;
+  }
+
+  static backOtcUserApply() {
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_OTCUSERAPPLY;
   }
 
   static backUcAuth() {

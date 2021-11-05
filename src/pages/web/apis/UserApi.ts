@@ -113,4 +113,10 @@ export class UserApi extends BaseApi {
     return d;
   }
 
+  public async usercertification(options?: {}) {
+    let url = "/user/certification";
+    let d = await AxiosUtil.post<any>(url, options);
+    return d;
+  }
+
 }
