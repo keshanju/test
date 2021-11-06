@@ -8,10 +8,10 @@
           <div class="l_title_font mar_b20">欢迎登录 SKIES</div>
           <el-form :model="loginForm" :rules="loginRules" ref="loginForm" class="mar_t50">
             <el-form-item prop="userName">
-              <el-input v-model="loginForm.userName" placeholder="邮箱或手机号"></el-input>
+              <el-input @keyup.enter.native="submitLoginForm" v-model="loginForm.userName" placeholder="邮箱或手机号"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-              <el-input show-password v-model="loginForm.password" placeholder="登录密码"></el-input>
+              <el-input @keyup.enter.native="submitLoginForm" show-password v-model="loginForm.password" placeholder="登录密码"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button style="width: 100%" type="primary" :loading="loginLoading" @click="submitLoginForm">立即登录</el-button>

@@ -23,9 +23,7 @@
         </div>
         <div style="width: 25%" class="flex_start_end flex_column">
           <el-link class="f_link_font" :underline="false">隐私条款</el-link>
-          <router-link to="/business">
-            <el-link class="f_link_font" :underline="false">成为商家</el-link>
-          </router-link>
+          <el-link class="f_link_font" :underline="false" @click="goApplyOtcUser">成为商家</el-link>
         </div>
       </div>
     </div>
@@ -33,13 +31,34 @@
 </template>
 
 <script>
+import LocalStorageUtil from "@/utils/LocalStorageUtil";
+import { JumpUtil } from "@/utils/JumpUtil";
 export default {
   data() {
     return {
+      isLogin: false,
     };
   },
-}
-
+  created() {
+    this.checkLogin();
+  },
+  mounted() {},
+  methods: {
+    goApplyOtcUser() {
+      if (this.isLogin) JumpUtil.backOtcUserApply()
+      else JumpUtil.backLogin()
+    },
+    /**
+     * 检测是否登录
+     */
+    checkLogin() {
+      const info = LocalStorageUtil.getLoginInfo();
+      if (info.token) {
+        this.isLogin = true;
+      }
+    },
+  },
+};
 </script>
 <style lang='less' scoped>
 .footer_box {
@@ -57,12 +76,11 @@ export default {
 .f_inner_box {
   width: 1200px;
   margin: 0 auto;
-  height: 226px
+  height: 226px;
 }
 
 .f_link_font {
   font-size: 14px;
-  color: #FFF;
+  color: #fff;
 }
-
 </style>

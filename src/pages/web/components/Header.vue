@@ -103,7 +103,6 @@ export default {
   },
   mounted() {
     this.checkLogin()
-    console.log(this.isLogin)
   },
   methods: {
     /**

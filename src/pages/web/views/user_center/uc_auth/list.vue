@@ -27,7 +27,7 @@
         </el-steps>
         <div class="auth_form_box">
           <el-card class="auth_form_cell" shadow="hover">
-            <el-form :model="authForm" :rules="authRules" label-width="100px" label-position="left" ref="authForm" class="mar_t20">
+            <el-form :model="authForm" :rules="authRules" label-width="100px" label-position="left" ref="authForm" class="mar_b20">
               <div v-show="stepNum === 1">
                 <el-form-item prop="citizenship" label="国籍:">
                   <el-select style="width: 100%" v-model="authForm.citizenship" placeholder="请选择">
@@ -49,47 +49,79 @@
                 </el-form-item>
               </div>
               <div v-show="stepNum === 2">
-                <el-form-item prop="cardFront">
+                <el-form-item class="mar_b50 text_center upload_card_box" label-width="0" prop="cardFront">
                   <el-upload
-                   drag 
+                   list-type="picture-card"
                    action="/api_web/storage/putfile" 
+                   :show-file-list="false"
+                   :on-preview="handlePictureCardPreview"
+                   :on-remove="handleRemove"
+                   :limit=uploadLimit
                    :headers=header
+                   :on-success="(res, file) => {
+                     onFileChange(res, file, 'cardFront')
+                   }"
                   >
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <img v-if=cardFUrl :src=cardFUrl class="auth_avatar">
+                    <div v-else class="auth_upload_box flex_center_center flex_column">
+                      <i class="el-icon-plus"></i>
+                      <div class="auth_upload_title">上传身份证正面</div>
+                      <div class="auth_upload_desc">级别保密，请放心上传</div>
+                    </div>
                   </el-upload>
                 </el-form-item>
-                <el-form-item prop="cardReverse">
+                <el-form-item class="mar_b50 text_center upload_card_box" label-width="0" prop="cardReverse">
                   <el-upload
-                   drag 
+                   list-type="picture-card"
                    action="/api_web/storage/putfile"
+                   :show-file-list="false"
+                   :limit=uploadLimit
                    :headers=header
+                   :on-success="(res, file) => {
+                     onFileChange(res, file, 'cardReverse')
+                   }"
                   >
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <img v-if=cardRUrl :src=cardRUrl class="auth_avatar">
+                    <div v-else class="auth_upload_box flex_center_center flex_column">
+                      <i class="el-icon-plus"></i>
+                      <div class="auth_upload_title">上传身份证反面</div>
+                      <div class="auth_upload_desc">级别保密，请放心上传</div>
+                    </div>
                   </el-upload>
                 </el-form-item>
-                <el-form-item prop="holdCard">
+                <el-form-item class="mar_b50 text_center upload_card_box" label-width="0" prop="holdCard">
                   <el-upload
-                   drag 
+                   list-type="picture-card"
                    action="/api_web/storage/putfile"
+                   :show-file-list="false"
+                   :limit=uploadLimit
                    :headers=header
+                   :on-success="(res, file) => {
+                     onFileChange(res, file, 'holdCard')
+                   }"
                   >
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <img v-if=holdCUrl :src=holdCUrl class="auth_avatar">
+                    <div v-else class="auth_upload_box flex_center_center flex_column">
+                      <i class="el-icon-plus"></i>
+                      <div class="auth_upload_title">上传手持身份证</div>
+                      <div class="auth_upload_desc">级别保密，请放心上传</div>
+                    </div>
                   </el-upload>
                 </el-form-item>
-              </div>
-              <div class="text_center">
-                <el-button type="primary" @click="goNextStep" v-if="stepNum === 1">下一步</el-button>
-                <el-button type="primary" @click="confirmSubmit" v-if="stepNum === 2">提交</el-button>
               </div>
             </el-form>
+            <div class="text_center">
+              <el-button type="primary" @click="goNextStep" v-if="stepNum === 1">下一步</el-button>
+              <el-button type="primary" @click="confirmSubmit" v-if="stepNum === 2">提交</el-button>
+            </div>
             <div class="flex_center_center flex_column" v-if="stepNum === 3">
               <img width="142" src="../../../assets/img/user_center/auth_success_img.png" alt="">
               <div class="auth_success_font">提交成功</div>
               <div>身份认证信息提交成功，平台将尽快审核，请您耐心等待......</div>
             </div>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
           </el-card>
         </div>
       </div>
@@ -159,5 +191,44 @@
   margin: 50px auto;
   font-size: 24px;
   color: #0483ef;
+}
+
+.auth_upload_box {
+  height: 100%;
+}
+
+.el-icon-plus {
+  font-size: 46px;
+}
+.auth_upload_title {
+  font-size: 18px;
+  margin-top: 15px;
+  font-weight: bold;
+  line-height: normal;
+  color: #393838;
+}
+
+.auth_upload_desc {
+  font-size: 12px;
+  line-height: normal;
+  color: #393838;
+}
+
+.auth_avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.upload_card_box {
+  /deep/ .el-form-item__error {
+    left: 28%;
+  }
+}
+
+
+ /deep/ .el-upload--picture-card {
+  width: 245px;
+  height: 160px;
+  line-height: normal;
 }
 </style>

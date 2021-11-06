@@ -25,13 +25,17 @@ export default class List extends BaseVue {
   public holdCUrl: string = ''
 
   public authForm = {
-    citizenship: "",
-    idType: "",
-    idNumber: "",
-    name: "",
-    cardFront: "",
-    cardReverse: "",
-    holdCard: "",
+    realName: "",
+    mobile: "",
+    mobileArea: "",
+    email: "",
+    wechatId: "",
+    emergencyContact: "",
+    emergencyContactNumber: "",
+    planAssets: '3000',
+    videoIntro: "",
+    assetPrint: "1",
+    assetIntro: "",
   };
 
   async mounted() {
@@ -41,34 +45,33 @@ export default class List extends BaseVue {
     }
   }
 
-  validateIDNumber(rule, value, callback) {
-    if (value === '') {
-      callback(new Error('请输入身份证号'));
-    } else {
-      const isOK = CheckUtil.checkIDNumber(value)
-      if (!isOK) {
-        callback(new Error('身份证格式不正确!'));
-      }
-      callback();
-    }
-
-  }
-
   public authRules = {
-    citizenship: [{ required: true, message: "请选择国籍", trigger: "change" }],
-    idType: [{ required: true, message: "请选择证件类型", trigger: "change" }],
-    idNumber: [
-      { required: true, validator: this.validateIDNumber, trigger: "blur" },
+    realName: [{ required: true, message: "申请人姓名", trigger: "blur" }],
+    mobile: [{ required: true, message: "申请人电话", trigger: "blur" }],
+    mobileArea: [{ required: true, message: "所属地区", trigger: "change" }],
+    email: [
+      { required: true, message: "邮箱地址", trigger: "change" },
     ],
-    name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-    cardFront: [
-      { required: true, message: "请上传身份证正面", trigger: "change" },
+    wechatId: [
+      { required: true, message: "微信号", trigger: "change" },
     ],
-    cardReverse: [
-      { required: true, message: "请上传身份证反面", trigger: "change" },
+    emergencyContact: [
+      { required: true, message: "紧急联系人", trigger: "change" },
     ],
-    holdCard: [
-      { required: true, message: "请上传手持身份证", trigger: "change" },
+    emergencyContactNumber: [
+      { required: true, message: "紧急联系人电话", trigger: "change" },
+    ],
+    planAssets: [
+      { required: true, message: "预投入资产", trigger: "change" },
+    ],
+    videoIntro: [
+      { required: true, message: "申请类别", trigger: "change" },
+    ],
+    assetPrint: [
+      { required: true, message: "申请类别", trigger: "change" },
+    ],
+    assetIntro: [
+      { required: false, message: "个人申明", trigger: "change" },
     ],
   };
 
