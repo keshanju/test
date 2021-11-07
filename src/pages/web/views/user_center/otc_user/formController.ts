@@ -134,17 +134,17 @@ export default class List extends BaseVue {
       switch (type) {
         case 'cardFront':
           this.cardFUrl = URL.createObjectURL(file.raw)
-          this.authForm.cardFront = file.response.data.fid
+          // this.authForm.cardFront = file.response.data.fid
           this.$message.success('上传身份证正面成功!')
           break;
         case 'cardReverse':
           this.cardRUrl = URL.createObjectURL(file.raw)
-          this.authForm.cardReverse = file.response.data.fid
+          // this.authForm.cardReverse = file.response.data.fid
           this.$message.success('上传身份证反面成功!')
           break;
         case 'holdCard':
           this.holdCUrl = URL.createObjectURL(file.raw)
-          this.authForm.holdCard = file.response.data.fid
+          // this.authForm.holdCard = file.response.data.fid
           this.$message.success('上传手持身份证成功!')
           break;
       }

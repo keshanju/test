@@ -1,4 +1,4 @@
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import Header from "../../components/Header.vue";
 import Footer from "../../components/Footer.vue";
 import BaseVue from '../../commons/BaseAdminVue';
@@ -67,9 +67,19 @@ import { MarketsApi } from '../../apis/MarketApi'
 export default class Layout extends BaseVue {
   public activeName:string = 'top'
   public tableTopData: Array<object> = []
+  public tableBackData: Array<any> = []
   public symbol:any = []
   public tikerArr:[] = []
   public $socketApi: any;
+
+  @Watch('tableBackData', { immediate: true, deep: true })
+  onMarketDataChanged(newVal, oldVal) {
+    if(newVal.length > 0)  {
+      this.tableTopData = newVal
+      return
+    }
+    this.tableTopData = this.tableBackData
+  }
 
   created() {
     this.$socketApi.createWebSocket()
@@ -109,7 +119,7 @@ export default class Layout extends BaseVue {
   }
 
   getResult(res) {
-    this.tableTopData.push(res.data)
+    if (res.data.length> 0) this.tableBackData = res.data
   }
 
   public initWidget() {
