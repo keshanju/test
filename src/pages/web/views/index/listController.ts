@@ -66,7 +66,7 @@ import { MarketsApi } from '../../apis/MarketApi'
 })
 export default class Layout extends BaseVue {
   public activeName:string = 'top'
-  public tableTopData: Array<object> = []
+  public tableTopData: Array<any> = []
   public tableBackData: Array<any> = []
   public symbol:any = []
   public tikerArr:[] = []
@@ -114,12 +114,11 @@ export default class Layout extends BaseVue {
       "op": "subscribe",
       "args": this.symbol
     }
-    console.log(tickerOptions)
     this.$socketApi.sendSock(tickerOptions, this.getResult);
   }
 
   getResult(res) {
-    if (res.data.length> 0) this.tableBackData = res.data
+    if (res.data) this.tableBackData.push(res.data)
   }
 
   public initWidget() {

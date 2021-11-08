@@ -11,6 +11,7 @@ import { JumpUtil } from "@/utils/JumpUtil";
 })
 export default class List extends BaseVue {
   public token: string = ''
+  public checked:boolean = false
   public header: object = {}
   public showConfirmSteps: boolean = false;
   public isNextStep: boolean = false;
@@ -20,9 +21,10 @@ export default class List extends BaseVue {
   public dialogVisible : boolean = false;
   public areaOptions: Array<object> = areaCode;
 
-  public cardFUrl: string = ''
-  public cardRUrl: string = ''
-  public holdCUrl: string = ''
+  // 认证视频上传参数
+  public showVideoPath: string = ''
+  public videoFlag: boolean = false //是否显示进度条
+  public videoUploadPercent: number = 0 //进度条的进度
 
   public authForm = {
     realName: "",
@@ -50,33 +52,33 @@ export default class List extends BaseVue {
     mobile: [{ required: true, message: "申请人电话", trigger: "blur" }],
     mobileArea: [{ required: true, message: "所属地区", trigger: "change" }],
     email: [
-      { required: true, message: "邮箱地址", trigger: "change" },
+      { required: true, message: "邮箱地址", trigger: "blur" },
     ],
     wechatId: [
-      { required: true, message: "微信号", trigger: "change" },
+      { required: true, message: "微信号", trigger: "blur" },
     ],
     emergencyContact: [
-      { required: true, message: "紧急联系人", trigger: "change" },
+      { required: true, message: "紧急联系人", trigger: "blur" },
     ],
     emergencyContactNumber: [
-      { required: true, message: "紧急联系人电话", trigger: "change" },
+      { required: true, message: "紧急联系人电话", trigger: "blur" },
     ],
     planAssets: [
-      { required: true, message: "预投入资产", trigger: "change" },
+      { required: true, message: "预投入资产", trigger: "blur" },
     ],
     videoIntro: [
-      { required: true, message: "申请类别", trigger: "change" },
+      { required: true, message: "认证视频", trigger: "change" },
     ],
     assetPrint: [
       { required: true, message: "申请类别", trigger: "change" },
     ],
     assetIntro: [
-      { required: false, message: "个人申明", trigger: "change" },
+      { required: false, message: "个人申明", trigger: "blur" },
     ],
   };
 
   public goNextStep() {
-    const fieldsArr = ["citizenship", "idType", "idNumber", "name"];
+    const fieldsArr = ["realName", "mobile", "mobileArea", "email", "wechatId", "emergencyContact", "emergencyContactNumber", "planAssets", "assetPrint", "assetIntro"];
     Promise.all(
       fieldsArr.map((item) => {
         return new Promise((resolve, reject) => {
@@ -94,10 +96,11 @@ export default class List extends BaseVue {
         this.stepNum = 2;
       }
     });
+    // this.stepNum = 2;
   }
 
   public confirmSubmit() {
-    const fieldsArr = ["cardFront", "cardReverse", "holdCard"];
+    const fieldsArr = ["videoIntro"];
     Promise.all(
       fieldsArr.map((item) => {
         return new Promise((resolve, reject) => {
@@ -112,16 +115,20 @@ export default class List extends BaseVue {
         return res != "";
       });
       if (!msg) {
-        this.readyUserCertification()
+        if (!this.checked) {
+          this.$message.error('请先勾选质押保证金条款')
+          return false
+        }
+        this.readyToOtcUserApply()
       }
     });
   }
 
-  public async readyUserCertification() {
+  public async readyToOtcUserApply() {
     const options = {
       ...this.authForm
     }
-    const backData = await new UserApi().usercertification(options)
+    const backData = await new UserApi().otcuserapply(options)
     if (backData.status === 200) {
       this.$message.success('资料提交成功，请等待系统审核!')
       this.stepNum = 3;
@@ -129,37 +136,34 @@ export default class List extends BaseVue {
     }
   }
 
-  public onFileChange(res, file, type) {
-    if(res.status === 200) {
-      switch (type) {
-        case 'cardFront':
-          this.cardFUrl = URL.createObjectURL(file.raw)
-          // this.authForm.cardFront = file.response.data.fid
-          this.$message.success('上传身份证正面成功!')
-          break;
-        case 'cardReverse':
-          this.cardRUrl = URL.createObjectURL(file.raw)
-          // this.authForm.cardReverse = file.response.data.fid
-          this.$message.success('上传身份证反面成功!')
-          break;
-        case 'holdCard':
-          this.holdCUrl = URL.createObjectURL(file.raw)
-          // this.authForm.holdCard = file.response.data.fid
-          this.$message.success('上传手持身份证成功!')
-          break;
-      }
-    } else {
-      this.$message.error('图片上传失败，请重试!')
+  beforeUploadVideo(file) {
+    const fileSize = file.size / 1024 / 1024 < 5;
+    const arr = ['video/mp4', 'video/ogg', 'video/flv', 'video/avi', 'video/wmv', 'video/rmvb', 'video/mov']
+    if (arr.indexOf(file.type) == -1) {
+      this.$message.error("请上传正确的视频格式");
+      return false;
+    }
+    if (!fileSize) {
+      this.$message.error("视频大小不能超过50MB");
+      return false;
     }
   }
 
-  public handlePictureCardPreview(file) {
-    this.dialogImageUrl = file.url;
-    this.dialogVisible = true;
+  public onFileChange(res, file) {
+    this.videoFlag = false;
+    this.videoUploadPercent = 0;
+    if(res.status === 200) {
+      this.showVideoPath = URL.createObjectURL(file.raw)
+      this.authForm.videoIntro = file.response.data.fid
+    } else {
+      this.$message.error('视频上传失败，请重试!')
+    }
   }
-
-  public handleRemove() {
-
+  
+  public uploadVideoProcess(event, file, fileList) {
+    debugger
+    this.videoFlag = true;
+    this.videoUploadPercent = file.percentage.toFixed(0) * 1;
   }
 
   public goVerify() {

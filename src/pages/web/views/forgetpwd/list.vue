@@ -35,7 +35,8 @@
 
             <el-form-item prop="captcha" v-show="isNextStep">
               <el-input @keyup.enter.native="comfirmResetPwd" placeholder="请输入验证码" v-model="regForm.captcha">
-                <el-button slot="append" @click="getCaptcha" style="width:80px">{{btnText}}</el-button>
+                <el-button slot="append" v-if="smsCountDownNum <= 0" @click="getCaptcha" style="width:80px">验证码</el-button>
+                <el-button :disabled="true" slot="append" v-else style="width:80px">{{smsCountDownNum}}s</el-button>
               </el-input>
             </el-form-item>
 

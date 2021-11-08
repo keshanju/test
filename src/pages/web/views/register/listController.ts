@@ -2,6 +2,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { UserApi } from "../../apis/UserApi";
 import areaCode from "../../assets/js/area_code";
 import { LoginReqModel } from "@/models/UserModel";
+import Utils from "@/utils/index";
 import Header from "../../components/Header.vue";
 import BaseVue from "../../commons/BaseAdminVue";
 // import MD5 from "md5";
@@ -15,8 +16,7 @@ import BaseVue from "../../commons/BaseAdminVue";
 export default class Register extends BaseVue {
   public loginType: number = 1;
   public areaOptions: Array<object> = areaCode;
-  public btnText: string = "验证码";
-  public disabled: boolean = false;
+  public smsCountDownNum: number = 0;
 
   public regForm = {
     nationalCode: null,
@@ -79,14 +79,19 @@ export default class Register extends BaseVue {
 
   getCaptcha() {
     if (this.loginType === 1 && !this.regForm.phoneNumber) {
-      this.$message.info('请先输入手机号!')
+      this.$message.error('请先输入手机号!')
       return
     }
     
     if (this.loginType === 2 && !this.regForm.email) {
-      this.$message.info('请先输入邮箱号!')
+      this.$message.error('请先输入邮箱号!')
       return
     }
+
+    if (this.smsCountDownNum > 0) {
+      this.$message.error('请稍后重试!')
+    }
+
     const config = {
       enableDarkMode: true,
       bizState: Math.random(),
@@ -98,10 +103,9 @@ export default class Register extends BaseVue {
       function(res) {
         // TODO: 极验次数限制
         if (res.ret === 0) {
-          console.log(res)
           _this.getVerCode(res);
         }
-        _this.getVerCode(res);
+        // _this.getVerCode(res);
       },
       config
     );
@@ -123,9 +127,14 @@ export default class Register extends BaseVue {
     };
     const backData = await new UserApi().sendsms(options);
     if (backData.status === 200) {
-      this.$message.success("验证码发送成功");
+      this.$message.success("验证码发送成功");//倒计时
+      this.smsCountDownNum = 60;
+      const sefl = this;
+      Utils.countDown(this.smsCountDownNum, 1, (n: number) => {
+          sefl.smsCountDownNum = n;
+      });
     } else {
-      this.$message.error("验证码发送失败，请重试!");
+      this.$message.error(backData.message);
     }
   }
 

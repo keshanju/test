@@ -4,6 +4,7 @@ import { ToolsApi } from "../../apis/ToolsApi";
 import { UserApi } from "../../apis/UserApi";
 import areaCode from '../../assets/js/area_code'
 import { VerCodeModel } from "@/models/ToolsModel";
+import Utils from "@/utils/index";
 import Header from '../../components/Header.vue';
 import BaseVue from '../../commons/BaseAdminVue';
 
@@ -23,8 +24,7 @@ export default class Layout extends BaseVue {
     captcha: '',
   }
   public areaOptions = areaCode
-  public vercode: number = 0
-  public btnText:string = '验证码'
+  public smsCountDownNum: number = 0;
   public smsRequestID: string = ''
   public isNextStep: boolean = true
 
@@ -81,6 +81,11 @@ export default class Layout extends BaseVue {
       this.$message.info('请先输入邮箱号!')
       return
     }
+
+    if (this.smsCountDownNum > 0) {
+      this.$message.error('请稍后重试!')
+    }
+
     const config = {
       enableDarkMode: true,
       bizState: Math.random(),
@@ -95,7 +100,7 @@ export default class Layout extends BaseVue {
           console.log(res)
           _this.getVerCode(res);
         }
-        _this.getVerCode(res);
+        // _this.getVerCode(res);
       },
       config
     );
@@ -116,9 +121,14 @@ export default class Layout extends BaseVue {
     };
     const backData = await new UserApi().sendsms2(options);
     if (backData.status === 200) {
-      this.$message.success("验证码发送成功");
+      this.$message.success("验证码发送成功");//倒计时
+      this.smsCountDownNum = 60;
+      const sefl = this;
+      Utils.countDown(this.smsCountDownNum, 1, (n: number) => {
+          sefl.smsCountDownNum = n;
+      });
     } else {
-      this.$message.error("验证码发送失败，请重试!");
+      this.$message.error(backData.message);
     }
   }
 

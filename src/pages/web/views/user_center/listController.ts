@@ -4,6 +4,7 @@ import { JumpUtil } from "@/utils/JumpUtil";
 import { UserApi } from "../../apis/UserApi";
 import { UserDetailModle } from "@/models/UserModel";
 import LocalStorageUtil from "@/utils/LocalStorageUtil";
+import Utils from "@/utils/index";
 @Component({
   components: {}
 })
@@ -13,11 +14,12 @@ export default class List extends BaseVue {
   public emailDialog: boolean = false;
   public loginPwdDialog: boolean = false;
   public tradePwdDialog: boolean = false;
-  public disabled: boolean = false;
-  public btnText: string = "验证码";
-  public verifyType: number = 1 // 1手机 2邮箱
+  public verifyType: number = 1; // 1手机 2邮箱
   public isEditOrBind: number = 1; // 1是编辑 2是绑定
-  public refreshToken: string = ''
+  public refreshToken: string = '';
+  public smsCountDownNum: number = 0;
+  public phoneCountDownNum: number = 0;
+  public emailCountDownNum: number = 0;
 
   public authPhoneForm = {
     moneyPwd: '',
@@ -235,6 +237,12 @@ export default class List extends BaseVue {
     }
     const backData = await new UserApi().sendemailcode(options) 
     if (backData.status === 200) {
+      this.$message.success('验证码发送成功!')
+      this.smsCountDownNum = 60;
+      const sefl = this;
+      Utils.countDown(this.smsCountDownNum, 1, (n: number) => {
+          sefl.smsCountDownNum = n;
+      });
       this.loginpwdForm.requestId = backData.data.requestId
     } else {
       this.$message.error('短信验证码获取失败')
@@ -248,6 +256,12 @@ export default class List extends BaseVue {
     }
     const backData = await new UserApi().sendmobilecode(options) 
     if (backData.status === 200) {
+      this.$message.success('验证码发送成功!')
+      this.smsCountDownNum = 60;
+      const sefl = this;
+      Utils.countDown(this.smsCountDownNum, 1, (n: number) => {
+          sefl.smsCountDownNum = n;
+      });
       this.loginpwdForm.requestId = this.isEditOrBind===2?backData.data.requestId:''
     } else {
       this.$message.error('短信验证码获取失败')
@@ -257,7 +271,7 @@ export default class List extends BaseVue {
   /**
    * 获取验证码
    */
-   public async getVerifyCode() {
+  public async getVerifyCode() {
     if(this.userDetailInfo.bindEmail && !this.userDetailInfo.bindMobile) {
       this.verifyType = 2
       this.getEmailCode()
@@ -276,6 +290,13 @@ export default class List extends BaseVue {
     // 1代表修改手机号，用新手机发送验证码， 2代表绑定手机号，用已有手机号发送验证码
     const backData = (this.isEditOrBind===1 || this.userDetailInfo.bindEmail) ? await new UserApi().sendnmobilecode(options) : await new UserApi().sendmobilecode(options) 
     if (backData.status === 200) {
+      this.$message.success('验证码发送成功!')
+      this.smsCountDownNum = 60;
+      const sefl = this;
+      Utils.countDown(this.smsCountDownNum, 1, (n: number) => {
+          sefl.smsCountDownNum = n;
+      });
+
       this.authPhoneForm.requestId = this.isEditOrBind===1?backData.data.requestId:''
 
       this.authPhoneForm.phoneRequestId = this.isEditOrBind===2?backData.data.requestId:''
@@ -295,6 +316,13 @@ export default class List extends BaseVue {
     // 1代表修改邮箱，用新邮箱发送验证码， 2代表绑定邮箱号，用已有邮箱号发送验证码
     const backData = (this.isEditOrBind===1 || this.userDetailInfo.bindMobile) ? await new UserApi().sendnemailcode(options) : await new UserApi().sendemailcode(options) 
     if (backData.status === 200) {
+      this.$message.success('验证码发送成功!')
+      this.smsCountDownNum = 60;
+      const sefl = this;
+      Utils.countDown(this.smsCountDownNum, 1, (n: number) => {
+          sefl.smsCountDownNum = n;
+      });
+
       this.authEmailForm.requestId = this.isEditOrBind===1?backData.data.requestId:''
 
       this.authPhoneForm.emailRequestId = this.isEditOrBind===2?backData.data.requestId:''
