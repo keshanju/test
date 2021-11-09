@@ -1,16 +1,22 @@
 <template>
   <div class="user_center_box">
     <el-card class="u_card_box" shadow="hover">
-      <div class="u_card_cell flex_sbe_center">
-        <div class="flex_start_center">
-          <div class="mar_r20">
-            <img class="u_icon_box" src="../../assets/img/user_center/phone_icon.png" alt="">
-          </div>
+      <div class="u_card_cell">
+        <div class="flex_sbe_center">
+          <div>总资产折合(BTC)</div>
           <div>
-            <div class="mar_b5">手机验证</div>
-            <div>
-              用于登陆、提现、修改密码、安全设置时收取验证短信
-            </div>
+            <el-button class="mar_r10" type="default">划转</el-button>
+            <el-button class="mar_r10" type="default">提币</el-button>
+            <el-button class="mar_r10" type="primary">充币</el-button>
+          </div>
+        </div>
+        <div class="flex_sbe_center mar_t20">
+          <div class="">
+            <div>{{financeData.balance || '--'}}</div>
+            <a href="#">盈亏分析</a>
+          </div>
+          <div class="">
+            
           </div>
         </div>
       </div>
@@ -95,7 +101,9 @@
 }
 
 .u_card_cell {
+  width: 100%;
   padding: 24px;
+  box-sizing: border-box;
   border-bottom: 1px solid #e6ecf2;
   
 }

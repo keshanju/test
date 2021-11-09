@@ -29,9 +29,9 @@
             <div class="h_assets_list">
               <div class="h_assets_cell" @click="goFinanceCenter">资产总览</div>
 
-              <div class="h_assets_cell">币币账户</div>
+              <div class="h_assets_cell" @click="goFinanceSpot">币币账户</div>
 
-              <div class="h_assets_cell">法币账户</div>
+              <div class="h_assets_cell" @click="goFinanceOtc">法币账户</div>
 
             </div>
             <div slot="reference">
@@ -132,6 +132,14 @@ export default {
 
     goFinanceCenter() {
       JumpUtil.backFinanceCenter()
+    },
+
+    goFinanceSpot() {
+      JumpUtil.backFinanceSpot()
+    },
+
+    goFinanceOtc() {
+      JumpUtil.backFinanceOtc()
     },
 
     goUserCenter() {

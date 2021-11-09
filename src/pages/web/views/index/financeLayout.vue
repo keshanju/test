@@ -3,11 +3,11 @@
     <Header />
     <div class="lay_page">
       <div class="lay_sidebar">
-        <el-scrollbar wrap-class="scrollbar-wrapper">
+        <!-- <el-scrollbar wrap-class="scrollbar-wrapper"> -->
           <div class="sidebar_icon_box">
             <i class="el-icon-s-fold"></i>
           </div>
-          <el-menu default-active="/finance/account" @open="handleOpen" @close="handleClose" :collapse="isCollapse" :router="true">
+          <el-menu :default-active="activeMenu" @open="handleOpen" @close="handleClose" :collapse="isCollapse" :router="true">
             <el-menu-item index="/finance/account">
               <i class="el-icon-bank-card"></i>
               <span slot="title">资产总览</span>
@@ -29,7 +29,7 @@
               <span slot="title">算力账户</span>
             </el-menu-item>
           </el-menu>
-        </el-scrollbar>
+        <!-- </el-scrollbar> -->
       </div>
       <div class="lay_content_box">
         <transition :name=transitionName  mode="out-in">
@@ -92,6 +92,10 @@
 /* .slide-fade-leave-active for below version 2.1.8 */ {
   transform: translateX(10px);
   opacity: 0;
+}
+
+/deep/ .el-menu {
+  border: none;
 }
 
 </style>

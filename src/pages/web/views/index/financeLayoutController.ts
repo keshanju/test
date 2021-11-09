@@ -26,6 +26,12 @@ export default class Layout extends BaseVue {
     this.markets = backData.data
   }
 
+  get activeMenu() {
+    const route = this.$route
+    const { path } = route
+    return path
+  }
+
   handleClose() {
 
   }
