@@ -17,12 +17,18 @@ export class JumpUtil {
   static URL_USERCENTER_SECURITY = "user_center/security";// 账户&安全
   static URL_USERCENTER_UCAUTH = "user_center/uc_auth";// 身份认证
 
+  static URL_FINANCECENTER = "finance/account";// 身份认证
+
   static backIndex() {
     window.location.href = Util.getOrigin() + this.hashVal;
   }
 
   static backUserCenter() {
     window.location.href = Util.getOrigin() + this.hashVal + this.URL_USERCENTER_SECURITY;
+  }
+
+  static backFinanceCenter() {
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_FINANCECENTER;
   }
 
   static backOtcUserApplyForm() {
