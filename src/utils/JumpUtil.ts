@@ -2,7 +2,7 @@ import Util from './index'
 
 
 export class JumpUtil {
-  static hashVal = "/#"
+  static hashVal = "/#/"
   static URL_REGISTER = "register";// 注册界面
   static URL_LOGIN = "login";// 登录界面
   static URL_FORGETPWD = "forgetPwd";// 忘记密码
