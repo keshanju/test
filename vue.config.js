@@ -4,7 +4,7 @@
  * html 中vue中SEO优化 预编译 prerender-spa-plugin
  */
 let _config = {
-  dir: "web", //模板目录 default qimiao bohe admin product
+  dir: "app", //模板目录 default qimiao bohe admin product
   is_template: true//是否模板 如果是 替换模板规则
 };
 
@@ -61,19 +61,17 @@ module.exports = {
     index: "index.html",
     proxy: {
       //配置跨域
-      '/api_web': {
-        target: "http://192.168.3.15:10708",
-        // ws:true,
+      '/': {
+        // target: "http://192.168.3.15:10708",
+        target: "http://43.132.253.188",
+        ws: false,
         changOrigin: true,
-        pathRewrite: {
-          '^/api_web': ''
-        }
       },
     }
   },
   filenameHashing: debug,
   runtimeCompiler: true,
-  outputDir: "dist/user_web",
+  outputDir: "dist/user_app",
   chainWebpack: config => {
     //不压缩html
     for (const key in pages) {

@@ -4,7 +4,7 @@ import { OurPicListModel } from '@/models/ProductModel';
  * 全局配置文件
  */
 export class GlobalUtil {
-  private static _url = "/api_web";
+  private static _url = "";
 
   /**
    * Api地址
