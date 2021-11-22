@@ -141,4 +141,21 @@ export default class Util {
       setTimeout(resolve, timeout);
     });
   }
+
+  /**
+   * 倒计时
+   * @param num
+   * @param interval 间隔，单位:秒
+   * @param backFun
+   */
+    public static countDown(num: number, interval: number, backFun: any) {
+    let updateInvoiceTimer = setInterval(function () {
+        num--;
+        if (num <= 0) num = 0;
+        backFun(num);
+        if (num == 0) {
+            clearInterval(updateInvoiceTimer);
+        }
+    }, interval * 1000);
+}
 }

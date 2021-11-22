@@ -118,5 +118,12 @@ export class UserApi extends BaseApi {
     let d = await AxiosUtil.post<any>(url, options);
     return d;
   }
+  
+  public async otcuserapply(options?: {}) {
+    let url = "/otc/user/apply";
+    let d = await AxiosUtil.post<any>(url, options);
+    return d;
+  }
+
 
 }

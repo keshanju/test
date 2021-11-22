@@ -111,7 +111,8 @@
             </el-form-item>
             <el-form-item prop="code">
               <el-input placeholder="验证码" v-model="loginpwdForm.code">
-                <el-button :disabled="disabled" slot="append" @click="getLogVerifyCode" style="width:80px">{{btnText}}</el-button>
+                <el-button slot="append" @click="getLogVerifyCode" v-if="smsCountDownNum <= 0" style="width:80px">验证码</el-button>
+                <el-button :disabled='true' slot="append" v-else style="width:80px">{{smsCountDownNum}}s</el-button>
               </el-input>
             </el-form-item>
           </el-form>
@@ -138,7 +139,8 @@
             </el-form-item>
             <el-form-item prop="code">
               <el-input placeholder="验证码" v-model="authTradepwdForm.code">
-                <el-button :disabled="disabled" slot="append" @click="getVerifyCode" style="width:80px">{{btnText}}</el-button>
+                <el-button slot="append" @click="getVerifyCode" v-if="smsCountDownNum <= 0" style="width:80px">验证码</el-button>
+                <el-button :disabled='true' slot="append" v-else style="width:80px">{{smsCountDownNum}}s</el-button>
               </el-input>
             </el-form-item>
           </el-form>
@@ -168,7 +170,8 @@
               </el-form-item>
               <el-form-item prop="code">
                 <el-input placeholder="请填写验证码" v-model="authPhoneForm.code">
-                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                  <el-button slot="append" @click="getPhoneCode" v-if="smsCountDownNum <= 0" style="width:80px">验证码</el-button>
+                  <el-button :disabled='true' slot="append" v-else style="width:80px">{{smsCountDownNum}}s</el-button>
                 </el-input>
               </el-form-item>
             </div>
@@ -179,12 +182,12 @@
               </el-form-item>
               <el-form-item prop="phoneCode">
                 <el-input placeholder="请填写手机验证码" v-model="authPhoneForm.phoneCode">
-                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">验证码</el-button>
                 </el-input>
               </el-form-item>
               <el-form-item prop="emailCode">
                 <el-input placeholder="请填写邮箱验证码" v-model="authPhoneForm.emailCode">
-                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">{{btnText}}</el-button>
+                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">验证码</el-button>
                 </el-input>
               </el-form-item>
             </div>
@@ -215,7 +218,7 @@
               </el-form-item>
               <el-form-item prop="code">
                 <el-input placeholder="请填写验证码" v-model="authEmailForm.code">
-                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">{{btnText}}</el-button>
+                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">验证码</el-button>
                 </el-input>
               </el-form-item>
             </div>
@@ -226,12 +229,12 @@
               </el-form-item>
               <el-form-item prop="emailCode">
                 <el-input placeholder="请填写邮箱验证码" v-model="authEmailForm.emailCode">
-                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">{{btnText}}</el-button>
+                  <el-button :disabled="disabled" slot="append" @click="getEmailCode" style="width:80px">验证码</el-button>
                 </el-input>
               </el-form-item>
               <el-form-item prop="phoneCode">
                 <el-input placeholder="请填写手机验证码" v-model="authEmailForm.phoneCode">
-                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">{{btnText}}</el-button>
+                  <el-button :disabled="disabled" slot="append" @click="getPhoneCode" style="width:80px">验证码</el-button>
                 </el-input>
               </el-form-item>
             </div>

@@ -97,7 +97,6 @@ function getSock(callback) {
 }
 // 数据接收
 function websocketonmessage(e) {
-  // console.log(e)
   let O_o = JSON.parse(decodeUnicode(e.data));
   if (!O_o) {
     heartCheck.reset();

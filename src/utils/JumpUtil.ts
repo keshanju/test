@@ -2,7 +2,7 @@ import Util from './index'
 
 
 export class JumpUtil {
-  static hashVal = "/#"
+  static hashVal = "/#/"
   static URL_REGISTER = "register";// 注册界面
   static URL_LOGIN = "login";// 登录界面
   static URL_FORGETPWD = "forgetPwd";// 忘记密码
@@ -17,12 +17,28 @@ export class JumpUtil {
   static URL_USERCENTER_SECURITY = "user_center/security";// 账户&安全
   static URL_USERCENTER_UCAUTH = "user_center/uc_auth";// 身份认证
 
+  static URL_FINANCECENTER = "finance/account";// 资产总览
+  static URL_FINANCECENTER_SPOT = "finance/account/spot";// 币币账户
+  static URL_FINANCECENTER_OTC = "finance/account/otc";// 法币账户
+
   static backIndex() {
     window.location.href = Util.getOrigin() + this.hashVal;
   }
 
   static backUserCenter() {
     window.location.href = Util.getOrigin() + this.hashVal + this.URL_USERCENTER_SECURITY;
+  }
+
+  static backFinanceCenter() {
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_FINANCECENTER;
+  }
+
+  static backFinanceSpot() {
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_FINANCECENTER_SPOT;
+  }
+
+  static backFinanceOtc() {
+    window.location.href = Util.getOrigin() + this.hashVal + this.URL_FINANCECENTER_OTC;
   }
 
   static backOtcUserApplyForm() {

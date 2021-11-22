@@ -65,20 +65,47 @@ const constantRouterMap = [
         component: () => import("./views/user_center/list.vue"),
       },
       {
-        name: "UCAUTH",
+        name: "UCAuth",
         path: "/user_center/uc_auth",
         component: () => import("./views/user_center/uc_auth/list.vue"),
       },
       {
-        name: "OTCUSERAPPLY",
+        name: "OTCUserApply",
         path: "/otcuser/apply",
         component: () => import("./views/user_center/otc_user/list.vue"),
       },
       {
-        name: "OTCUSERAPPLYFORM",
+        name: "OTCUserApplyForm",
         path: "/otcuser/applyform",
         component: () => import("./views/user_center/otc_user/form.vue"),
       },
+    ],
+  },
+  {
+    path: "/finance/account",
+    redirect: "/finance/account",
+    component: () => import("./views/index/financeLayout.vue"),
+    children: [
+      {
+        name: "FinanceAccount",
+        path: "/finance/account",
+        component: () => import("./views/finance_center/list.vue"),
+      },
+      {
+        name: "FinanceAccountSpot",
+        path: "/finance/account/spot",
+        component: () => import("./views/finance_center/spot/list.vue"),
+      },
+      {
+        name: "FinanceAccountOtc",
+        path: "/finance/account/otc",
+        component: () => import("./views/finance_center/otc/list.vue"),
+      },
+      // {
+      //   name: "OTCUserApplyForm",
+      //   path: "/otcuser/applyform",
+      //   component: () => import("./views/user_center/otc_user/form.vue"),
+      // },
     ],
   },
 ];

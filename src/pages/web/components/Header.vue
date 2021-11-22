@@ -25,16 +25,21 @@
           <el-button size="medium" type="primary" @click="goRegister">注册</el-button>
         </div>
         <div class="flex_end_center" v-else>
-          <el-popover class="mar_l20" placement="top-start" trigger="hover">
+          <el-popover class="mar_l20" placement="top-start" trigger="hover" :visible-arrow="false">
             <div class="h_assets_list">
-              资产总览
+              <div class="h_assets_cell" @click="goFinanceCenter">资产总览</div>
+
+              <div class="h_assets_cell" @click="goFinanceSpot">币币账户</div>
+
+              <div class="h_assets_cell" @click="goFinanceOtc">法币账户</div>
+
             </div>
             <div slot="reference">
               资产
             </div>
           </el-popover>
 
-          <el-popover class="mar_l20" placement="top-start" trigger="hover">
+          <el-popover class="mar_l20" placement="top-start" trigger="hover" :visible-arrow="false">
             <div class="h_order_list">
               法币订单
             </div>
@@ -43,12 +48,12 @@
             </div>
           </el-popover>
 
-          <el-popover class="mar_l20" placement="top-start" trigger="hover">
+          <el-popover class="mar_l20" placement="top-start" trigger="hover" :visible-arrow="false">
             <div class="h_user_box">
               <div>
-                <a @click="goUserCenter">{{userInfo.mobile || userInfo.email}}</a>
+                <a @click="goUserCenter">HI，{{userInfo.mobile || userInfo.email}}</a>
               </div>
-              <div>{{userInfo.uid}}</div>
+              <div>UID：{{userInfo.uid}}</div>
               <div @click="logOut">退出登录</div>
             </div>
             <div slot="reference">
@@ -57,19 +62,23 @@
           </el-popover>
         </div>
 
-        <el-popover class="mar_l20" placement="top-start" trigger="hover">
+        <el-popover class="mar_l20" placement="top-start" trigger="hover" :visible-arrow="false">
           <img src="../assets/img/qr_code.png" alt="">
           <div slot="reference">
-            <!-- <span>下载</span> -->
-            <i  class="el-icon-download"></i>
+            <i class="el-icon-download"></i>
           </div>
         </el-popover>
-        <el-popover class="mar_l20" placement="top-start" trigger="hover">
+
+        <el-popover class="mar_l20" placement="top-start" trigger="hover" :visible-arrow="false">
           <div class="h_lang_box">
-            语言选择
+            <div class="mar_b10">语言选择</div>
+            <div>
+              <div class="h_lang_text">中文简体</div>
+              <div class="h_lang_text">中文繁體</div>
+              <div class="h_lang_text">ENGLISH</div>
+            </div>
           </div>
           <div slot="reference">
-            <!-- <span>语言</span> -->
             <i class="el-icon-discover"></i>
           </div>
         </el-popover>
@@ -119,6 +128,18 @@ export default {
     logOut() {
       LocalStorageUtil.removeCookie(LocalStorageUtil.STORAGES_TOKEN)
       this.goLogin()
+    },
+
+    goFinanceCenter() {
+      JumpUtil.backFinanceCenter()
+    },
+
+    goFinanceSpot() {
+      JumpUtil.backFinanceSpot()
+    },
+
+    goFinanceOtc() {
+      JumpUtil.backFinanceOtc()
     },
 
     goUserCenter() {
@@ -197,30 +218,70 @@ export default {
 
 }
 
-.h_nav_lang {
-
+.h_lang_box {
+  // width: 92px;
+  // margin: auto;
 }
 
-.el-icon-download {
+.h_lang_text {
+  width: 100%;
+  box-sizing: border-box;
+  color: #333;
+  font-weight: 500;
   font-size: 14px;
+  padding: 10px;
   cursor: pointer;
 }
 
-// .el-icon-download::before {
-//   content: "";
-//   position: absolute;
-//   left: 0;
-//   top: 50%;
-//   margin-top: -12px;
-//   background: rgba(97,105,138,.3);
-//   height: 24px;
-//   width: 1px;
-//   overflow: hidden;
-// } 
+.h_lang_text:hover {
+  color: #409EFF;
+  background-color: #ecf5ff;
+  border-radius: 2px;
+}
+
+.h_assets_cell {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.h_assets_cell:hover {
+  color: #409EFF;
+  background-color: #ecf5ff;
+  border-radius: 2px;
+}
+
+
+.h_popover_box {
+  margin-top: 20px;
+}
+
+.el-icon-download {
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+} 
+
+.el-icon-discover {
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.el-icon-user {
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
 
 /deep/ .el-button--medium {
   font-size: 14px;
   padding: 8px 16px;
+}
+
+/deep/ .el-popper[x-placement^=bottom] {
+  margin-top: 20px;
 }
 </style>
 
