@@ -1,7 +1,7 @@
 import * as echarts from 'echarts';
 import {Vue, Component} from 'vue-property-decorator'
 import { ToolsApi } from '../../apis/ToolsApi';
-import EchartsData from '../../assets/json/response.json'
+// import EchartsData from '../../assets/json/response.json'
 
 @Component({
   components:  {}
@@ -10,7 +10,7 @@ export default class Index extends Vue {
   public lineData: any  = []
 
   async  mounted() {
-    this.lineData = JSON.parse(EchartsData.data)
+    // this.lineData = JSON.parse(EchartsData.data)
     console.log(this.lineData)
     // await this.getSignalData()
     this.initChart()

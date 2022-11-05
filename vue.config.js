@@ -4,7 +4,7 @@
  * html 中vue中SEO优化 预编译 prerender-spa-plugin
  */
 let _config = {
-  dir: "app", //模板目录 default qimiao bohe admin product
+  dir: "web", //模板目录 default qimiao bohe admin product
   is_template: true//是否模板 如果是 替换模板规则
 };
 

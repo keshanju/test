@@ -12,7 +12,7 @@ let createWebSocket = () => {
     initWebSocket(); //初始化websocket连接
   } catch (e) {
     console.log("尝试创建连接失败");
-    reConnect(); //如果无法连接上webSocket 那么重新连接！可能会因为服务器重新部署，或者短暂断网等导致无法创建连接
+    // reConnect(); //如果无法连接上webSocket 那么重新连接！可能会因为服务器重新部署，或者短暂断网等导致无法创建连接
   }
 };
 

@@ -13,7 +13,7 @@ export default class List extends BaseVue {
   }
   
   mounted() {
-    this.getAssetsAcount()
+    // this.getAssetsAcount()
   }
 
   public async getAssetsAcount() {
@@ -23,7 +23,7 @@ export default class List extends BaseVue {
     const backData = await new FinanceApi().getassetaccount(options)
     if (backData.status === 200) {
       console.log(backData.data)
-      this.financeData = backData.data as AccountAssetsModle
+      // this.financeData = backData.data as AccountAssetsModle
     }
   }
 }
